@@ -9,10 +9,12 @@ export const AppRoute = {
 
 export const APIRoute = {
   Cameras: '/cameras',
+  Promo: '/promo',
 } as const;
 
 export const NameSpace = {
   Cameras: 'CAMERAS',
+  Promo: 'PROMO',
 } as const;
 
 export const LoadingStatus = {

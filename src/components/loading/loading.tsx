@@ -17,6 +17,7 @@ export function Loading({
 }: TLoadingProps) {
   const isLoading = loadingStatus === LoadingStatus.Loading;
 
+  //FIXME: Переделать на красивые скелеты?
   if (isLoading || !isDataLoaded) {
     return (
       <div
