@@ -1,3 +1,7 @@
+import { AsyncImage } from 'loadable-image';
+
+import './camera-card.css';
+
 import { TCamera } from '../../types/camera';
 import { CardRating } from '../card-rating/card-rating';
 
@@ -20,19 +24,18 @@ export function CameraCard({ cameraData }: TCameraCardProps) {
   return (
     <div className="product-card">
       <div className="product-card__img">
-        <picture>
-          <source
-            type="image/webp"
-            srcSet={`${previewImgWebp}, ${previewImgWebp2x} 2x`}
-          />
-          <img
-            src={previewImg}
-            srcSet={`${previewImg2x} 2x`}
-            width={280}
-            height={240}
-            alt={name}
-          />
-        </picture>
+        <AsyncImage
+          src={previewImg}
+          srcSet={`${previewImg2x} 2x`}
+          alt={name}
+          style={{ width: 280, height: 240 }}
+          sources={[
+            {
+              type: 'image/webp',
+              srcSet: `${previewImgWebp}, ${previewImgWebp2x} 2x`,
+            },
+          ]}
+        />
       </div>
       <div className="product-card__info">
         <div className="rate product-card__rate">
