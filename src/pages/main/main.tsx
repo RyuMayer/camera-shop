@@ -30,6 +30,7 @@ export function Main() {
               </ul>
             </div>
           </div>
+          {/* TODO: Убрать в каталог! */}
           <section className="catalog">
             <div className="container">
               <h1 className="title title--h2">Каталог фото- и видеотехники</h1>

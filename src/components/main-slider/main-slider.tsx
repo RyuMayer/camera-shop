@@ -60,6 +60,7 @@ export function MainSlider() {
                 <span className="banner__text">
                   Профессиональная камера от&nbsp;известного производителя
                 </span>
+                {/* TODO: Не забыть перенаправление! */}
                 <a className="btn" href="#">
                   Подробнее
                 </a>
