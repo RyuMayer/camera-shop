@@ -15,7 +15,7 @@ export function CatalogList() {
     <h1>Нет доступных товаров.</h1>
   ) : (
     <>
-      {currentPage <= totalPage && cameras.length > CARDS_PER_PAGE && (
+      {cameras.length > CARDS_PER_PAGE && (
         <Pagination
           key={currentPage}
           currentPage={currentPage}

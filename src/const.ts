@@ -18,6 +18,7 @@ export const APIRoute = {
 export const NameSpace = {
   Cameras: 'CAMERAS',
   Promo: 'PROMO',
+  CardPopup: 'CARD_POPUP',
 } as const;
 
 export const LoadingStatus = {
