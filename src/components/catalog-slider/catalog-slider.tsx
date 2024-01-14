@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 import 'swiper/css';
 import 'swiper/css/pagination';
-import './main-slider.css';
+import './catalog-slider.css';
 
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { fetchPromo } from '../../store/promo/promo.action';
@@ -16,7 +16,7 @@ import {
 } from '../../store/promo/promo.selector';
 import { Loading } from '../loading/loading';
 
-export function MainSlider() {
+export function CatalogSlider() {
   const dispatch = useAppDispatch();
 
   const promos = useAppSelector(selectPromos);

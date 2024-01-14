@@ -5,7 +5,7 @@ type TCardRatingProps = {
   rating: TCamera['rating'];
 };
 
-export function CardRating({ rating }: TCardRatingProps) {
+export function Rating({ rating }: TCardRatingProps) {
   return (
     <>
       {Array.from({ length: TOTAL_RATING_COUNT }, (_, idx) => (

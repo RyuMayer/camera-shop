@@ -7,7 +7,8 @@ export const PAGINATION_URL_PARAM = 'page';
 export const CARDS_PER_PAGE = 9;
 
 export const AppRoute = {
-  Main: '/',
+  Catalog: '/',
+  Product: '/product',
 } as const;
 
 export const APIRoute = {
@@ -17,6 +18,7 @@ export const APIRoute = {
 
 export const NameSpace = {
   Cameras: 'CAMERAS',
+  Camera: 'CAMERA',
   Promo: 'PROMO',
 } as const;
 

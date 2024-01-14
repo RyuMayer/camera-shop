@@ -8,9 +8,9 @@ import {
   selectLoadedStatus,
   selectLoadingStatus,
 } from '../../store/cameras/cameras.selector';
-import { CatalogList } from '../catalog-list/catalog-list';
+import { CatalogContent } from '../catalog-content/catalog-content';
 
-export function MainCatalog() {
+export function CatalogLoader() {
   const dispatch = useAppDispatch();
 
   const camerasLoadingStatus = useAppSelector(selectLoadingStatus);
@@ -25,7 +25,7 @@ export function MainCatalog() {
       loadingStatus={camerasLoadingStatus}
       isDataLoaded={isCamerasLoaded}
     >
-      <CatalogList />
+      <CatalogContent />
     </Loading>
   );
 }

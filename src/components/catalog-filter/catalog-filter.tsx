@@ -1,4 +1,4 @@
-export function Filter() {
+export function CatalogFilter() {
   return (
     <div className="catalog-filter">
       <form action="#">

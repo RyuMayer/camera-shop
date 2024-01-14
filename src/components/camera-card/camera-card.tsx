@@ -1,13 +1,15 @@
+import { useState } from 'react';
 import { AsyncImage } from 'loadable-image';
+import { Link } from 'react-router-dom';
+import { createPortal } from 'react-dom';
 
 import './camera-card.css';
 
 import { TCamera } from '../../types/camera';
-import { CardRating } from '../card-rating/card-rating';
+import { Rating } from '../rating/rating';
 import { formatPrice } from '../../utils/card';
-import { useState } from 'react';
-import { createPortal } from 'react-dom';
 import { CardPopup } from '../card-popup/card-popup';
+import { AppRoute } from '../../const';
 
 type TCameraCardProps = {
   cameraData: TCamera;
@@ -17,6 +19,7 @@ export function CameraCard({ cameraData }: TCameraCardProps) {
   const [isPopupOpened, setIsPopupOpened] = useState(false);
 
   const {
+    id,
     name,
     previewImgWebp,
     previewImgWebp2x,
@@ -50,7 +53,7 @@ export function CameraCard({ cameraData }: TCameraCardProps) {
         </div>
         <div className="product-card__info">
           <div className="rate product-card__rate">
-            <CardRating rating={rating} />
+            <Rating rating={rating} />
             <p className="visually-hidden">Рейтинг: {rating}</p>
             <p className="rate__count">
               <span className="visually-hidden">Всего оценок:</span>
@@ -71,9 +74,12 @@ export function CameraCard({ cameraData }: TCameraCardProps) {
           >
             Купить
           </button>
-          <a className="btn btn--transparent" href="#">
+          <Link
+            to={`${AppRoute.Product}/${id}`}
+            className="btn btn--transparent"
+          >
             Подробнее
-          </a>
+          </Link>
         </div>
       </div>
       {/* //TODO: Разбить на более мелкие компоненты? */}
