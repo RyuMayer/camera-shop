@@ -1,12 +1,12 @@
 import { CatalogFilter } from '../catalog-filter/catalog-filter';
-import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 import { CatalogSort } from '../catalog-sort/catalog-sort';
 import { CatalogList } from '../catalog-list/catalog-list';
+import { CatalogBreadcrumbs } from '../catalog-breadcrumbs/catalog-breadcrumbs';
 
 export function CatalogContent() {
   return (
     <div className="page-content">
-      <Breadcrumbs />
+      <CatalogBreadcrumbs />
       <section className="catalog">
         <div className="container">
           <h1 className="title title--h2">Каталог фото- и видеотехники</h1>

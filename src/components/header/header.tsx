@@ -6,7 +6,7 @@ export function Header() {
   return (
     <header className="header" id="header">
       <div className="container">
-        <Link to={AppRoute.Main} className="header__logo">
+        <Link to={AppRoute.Catalog} className="header__logo">
           <svg width={100} height={36} aria-hidden="true">
             <use xlinkHref="#icon-logo" />
           </svg>

@@ -1,0 +1,18 @@
+.product-similar__slider .swiper-slide {
+  flex-shrink: 1;
+  width: calc(33.3% - 16px);
+  margin: 0 16px;
+}
+
+.product-similar__slider .swiper-slide .product-card {
+  width: 100%;
+  margin: 0;
+}
+
+.product-similar__slider .product-card {
+  display: flex;
+}
+
+.slider-controls:active {
+  pointer-events: all;
+}

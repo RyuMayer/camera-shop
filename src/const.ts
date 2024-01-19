@@ -6,6 +6,8 @@ export const TOTAL_RATING_COUNT = 5;
 export const PAGINATION_URL_PARAM = 'page';
 export const CARDS_PER_PAGE = 9;
 
+export const TABS_URL_PARAM = 'tab';
+
 export const AppRoute = {
   Catalog: '/',
   Product: '/product',
@@ -20,10 +22,16 @@ export const NameSpace = {
   Cameras: 'CAMERAS',
   Camera: 'CAMERA',
   Promo: 'PROMO',
+  Similar: 'SIMILAR',
 } as const;
 
 export const LoadingStatus = {
   Idle: 'idle',
   Loading: 'loading',
   Rejected: 'rejected',
+} as const;
+
+export const TabUrlParam = {
+  DESCRIPTION: 'desc',
+  SPECIFICATION: 'spec',
 } as const;
