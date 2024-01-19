@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { MouseEvent, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { ProductCardLoader } from '../../components/product-card-loader/product-card-loader';
@@ -9,9 +9,18 @@ import { ProductReviewLoader } from '../../components/product-review-loader/prod
 export function Product() {
   const { productId } = useParams();
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleUpBtnClick = (e: MouseEvent) => {
+    e.preventDefault();
+    scrollToTop();
+  };
+
   useEffect(() => {
     if (productId) {
-      window.scrollTo(0, 0);
+      scrollToTop();
     }
   }, [productId]);
 
@@ -33,7 +42,7 @@ export function Product() {
           </div>
         </div>
       </main>
-      <a className="up-btn" href="#header">
+      <a onClick={handleUpBtnClick} className="up-btn" href="#header">
         <svg width={12} height={18} aria-hidden="true">
           <use xlinkHref="#icon-arrow2" />
         </svg>

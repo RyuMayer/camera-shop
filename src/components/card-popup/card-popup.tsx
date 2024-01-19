@@ -1,15 +1,11 @@
-import { Dispatch, SetStateAction } from 'react';
-
 import { TCardPopup } from '../../types/card-popup';
 import { decapitalizeFirstCharacter, formatPrice } from '../../utils/card';
-import { Popup } from '../popup/popup';
 
 type TCardPopupProps = {
   popupData: TCardPopup;
-  onClose: Dispatch<SetStateAction<boolean>>;
 };
 
-export function CardPopup({ popupData, onClose }: TCardPopupProps) {
+export function CardPopup({ popupData }: TCardPopupProps) {
   const {
     category,
     name,
@@ -24,7 +20,7 @@ export function CardPopup({ popupData, onClose }: TCardPopupProps) {
   } = popupData;
 
   return (
-    <Popup onClose={onClose}>
+    <>
       <p className="title title--h4">Добавить товар в корзину</p>
       <div className="basket-item basket-item--short">
         <div className="basket-item__img">
@@ -71,6 +67,6 @@ export function CardPopup({ popupData, onClose }: TCardPopupProps) {
           Добавить в корзину
         </button>
       </div>
-    </Popup>
+    </>
   );
 }

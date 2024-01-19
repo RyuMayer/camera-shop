@@ -38,3 +38,11 @@ export const TabUrlParam = {
   DESCRIPTION: 'desc',
   SPECIFICATION: 'spec',
 } as const;
+
+export const FormStarRating = {
+  5: 'Отлично',
+  4: 'Хорошо',
+  3: 'Нормально',
+  2: 'Плохо',
+  1: 'Ужасно',
+} as const;

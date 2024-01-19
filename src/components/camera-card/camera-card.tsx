@@ -10,6 +10,7 @@ import { Rating } from '../rating/rating';
 import { formatPrice } from '../../utils/card';
 import { CardPopup } from '../card-popup/card-popup';
 import { AppRoute } from '../../const';
+import { Popup } from '../popup/popup';
 
 type TCameraCardProps = {
   cameraData: TCamera;
@@ -85,21 +86,22 @@ export function CameraCard({ cameraData }: TCameraCardProps) {
       {/* //TODO: Разбить на более мелкие компоненты? */}
       {isPopupOpened &&
         createPortal(
-          <CardPopup
-            onClose={setIsPopupOpened}
-            popupData={{
-              category,
-              level,
-              name,
-              previewImg,
-              previewImg2x,
-              previewImgWebp,
-              previewImgWebp2x,
-              price,
-              type,
-              vendorCode,
-            }}
-          />,
+          <Popup onClose={setIsPopupOpened}>
+            <CardPopup
+              popupData={{
+                category,
+                level,
+                name,
+                previewImg,
+                previewImg2x,
+                previewImgWebp,
+                previewImgWebp2x,
+                price,
+                type,
+                vendorCode,
+              }}
+            />
+          </Popup>,
           document.querySelector('main') as HTMLElement,
         )}
     </>
