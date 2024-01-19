@@ -8,6 +8,8 @@ export const CARDS_PER_PAGE = 9;
 
 export const TABS_URL_PARAM = 'tab';
 
+export const COUNT_REVIEWS_FOR_RENDER = 3;
+
 export const AppRoute = {
   Catalog: '/',
   Product: '/product',
@@ -23,6 +25,7 @@ export const NameSpace = {
   Camera: 'CAMERA',
   Promo: 'PROMO',
   Similar: 'SIMILAR',
+  Review: 'REVIEW',
 } as const;
 
 export const LoadingStatus = {
