@@ -1,8 +1,13 @@
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { Fragment } from 'react';
 import cn from 'classnames';
 
 import { FormStarRating } from '../../const';
+import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { TReviewPostData } from '../../types/review';
+import { useAppSelector } from '../../hooks/useAppSelector';
+import { selectCameraId } from '../../store/camera/camera.selector';
+import { fetchPostReview } from '../../store/review/review.action';
 
 type TFormInputs = {
   rating: string;
@@ -13,19 +18,30 @@ type TFormInputs = {
 };
 
 export function ProductReviewPopup() {
+  const dispatch = useAppDispatch();
+  const productId = useAppSelector(selectCameraId) as number;
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors, isValid, touchedFields },
   } = useForm<TFormInputs>({ mode: 'onBlur' });
+
   const ratingFieldValue = watch('rating');
 
-  const handleFormSubmit = (data) => {
-    console.log(data);
-  };
+  const handleFormSubmit: SubmitHandler<TFormInputs> = (data) => {
+    const reviewData: TReviewPostData = {
+      cameraId: productId,
+      advantage: data.advantage,
+      disadvantage: data.disadvantage,
+      rating: Number(data.rating),
+      review: data.review,
+      userName: data.userName,
+    };
 
-  console.log(errors, isValid, ratingFieldValue);
+    dispatch(fetchPostReview({ reviewData }));
+  };
 
   return (
     <>
@@ -38,7 +54,12 @@ export function ProductReviewPopup() {
           method="post"
         >
           <div className="form-review__rate">
-            <fieldset className="rate form-review__item">
+            <fieldset
+              className={cn('rate form-review__item', {
+                'is-valid': touchedFields.rating && !errors.rating,
+                'is-invalid': touchedFields.rating && errors.rating,
+              })}
+            >
               <legend className="rate__caption">
                 Рейтинг
                 <svg width={9} height={9} aria-hidden="true">
@@ -57,12 +78,11 @@ export function ProductReviewPopup() {
                           type="radio"
                           value={value}
                           {...register('rating', {
-                            required: true,
+                            required: 'Нужно оценить товар',
                             validate: (ratingValue) =>
                               (Number(ratingValue) >= 1 &&
                                 Number(ratingValue) <= 5) ||
                               `Минимальное значение 1, максимальное 5`,
-                            valueAsNumber: true,
                           })}
                         />
                         <label
@@ -78,7 +98,11 @@ export function ProductReviewPopup() {
                   <span>/</span> <span className="rate__all-stars">5</span>
                 </div>
               </div>
-              <p className="rate__message">Нужно оценить товар</p>
+              {errors.rating && (
+                <p className="rate__message">
+                  {errors.rating.message || 'Ошибка'}
+                </p>
+              )}
             </fieldset>
             <div
               className={cn('custom-input form-review__item', {

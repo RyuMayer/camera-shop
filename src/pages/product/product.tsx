@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { ProductCardLoader } from '../../components/product-card-loader/product-card-loader';
 import { ProductBreadcrumbs } from '../../components/product-breadcrumbs/product--breadcrumbs';
 import { ProductSimilarLoader } from '../../components/product-similar-loader/product-similar-loader';
-import { ProductReviewLoader } from '../../components/product-review-loader/product-review-loader';
+import { ProductReview } from '../../components/product-review/product-review';
 
 export function Product() {
   const { productId } = useParams();
@@ -24,8 +24,6 @@ export function Product() {
     }
   }, [productId]);
 
-  console.log('here');
-
   return (
     <>
       <main>
@@ -38,7 +36,7 @@ export function Product() {
             <ProductSimilarLoader />
           </div>
           <div className="page-content__section">
-            <ProductReviewLoader />
+            <ProductReview />
           </div>
         </div>
       </main>

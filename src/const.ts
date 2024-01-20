@@ -18,6 +18,7 @@ export const AppRoute = {
 export const APIRoute = {
   Cameras: '/cameras',
   Promo: '/promo',
+  Reviews: '/reviews',
 } as const;
 
 export const NameSpace = {

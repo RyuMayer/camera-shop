@@ -1,35 +1,49 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import { fetchReview } from '../../store/review/review.action';
 import {
-  selectLoadedStatus,
-  selectLoadingStatus,
+  selectPostedStatus,
+  selectLoadedStatus as selectReviewLoadedStatus,
+  selectLoadingStatus as selectReviewLoadingStatus,
 } from '../../store/review/similar.selector';
-import { ProductReview } from '../product-review/product-review';
 import { Loading } from '../loading/loading';
+import {
+  selectCameraId,
+  selectLoadedStatus as selectCameraLoadedStatus,
+} from '../../store/camera/camera.selector';
+import { ProductReviewList } from '../product-review-list/product-review-list';
 
 export function ProductReviewLoader() {
   const dispatch = useAppDispatch();
-  const { productId } = useParams();
 
-  const reviewsLoadingStatus = useAppSelector(selectLoadingStatus);
-  const isReviewsLoaded = useAppSelector(selectLoadedStatus);
+  const productId = useAppSelector(selectCameraId);
+  const isCameraLoaded = useAppSelector(selectCameraLoadedStatus);
+
+  const reviewsLoadingStatus = useAppSelector(selectReviewLoadingStatus);
+  const isReviewsLoaded = useAppSelector(selectReviewLoadedStatus);
+
+  const isReviewPosted = useAppSelector(selectPostedStatus);
 
   useEffect(() => {
-    if (productId) {
+    if (isCameraLoaded && productId) {
       dispatch(fetchReview(productId));
     }
-  }, [dispatch, productId]);
+  }, [dispatch, isCameraLoaded, productId]);
+
+  useEffect(() => {
+    if (isReviewPosted && productId) {
+      dispatch(fetchReview(productId));
+    }
+  }, [dispatch, isReviewPosted, productId]);
 
   return (
     <Loading
       loadingStatus={reviewsLoadingStatus}
       isDataLoaded={isReviewsLoaded}
     >
-      <ProductReview />
+      <ProductReviewList />
     </Loading>
   );
 }

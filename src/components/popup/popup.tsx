@@ -1,9 +1,9 @@
 import cn from 'classnames';
-import { Dispatch, ReactNode, SetStateAction, useEffect } from 'react';
+import { ReactNode, useEffect } from 'react';
 
 type TPopupProps = {
   children: ReactNode;
-  onClose: Dispatch<SetStateAction<boolean>>;
+  onClose: (state: boolean) => void;
   isNarrow?: boolean;
 };
 

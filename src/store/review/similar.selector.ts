@@ -14,3 +14,9 @@ export const selectLoadingStatus = (state: TState) =>
 
 export const selectLoadedStatus = (state: TState) =>
   state[NameSpace.Review].isLoaded;
+
+export const selectPostingStatus = (state: TState) =>
+  state[NameSpace.Review].postingStatus;
+
+export const selectPostedStatus = (state: TState) =>
+  state[NameSpace.Review].isPosted;

@@ -20,7 +20,7 @@ export function ProductCardLoader() {
 
   useEffect(() => {
     if (productId) {
-      dispatch(fetchCamera(Number(productId)));
+      dispatch(fetchCamera(productId));
     }
   }, [dispatch, productId]);
 

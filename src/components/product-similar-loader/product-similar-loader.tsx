@@ -1,28 +1,33 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 
 import { useAppDispatch } from '../../hooks/useAppDispatch';
 import { Loading } from '../loading/loading';
 import { useAppSelector } from '../../hooks/useAppSelector';
 import {
-  selectLoadedStatus,
-  selectLoadingStatus,
+  selectLoadedStatus as selectSimilarLoadedStatus,
+  selectLoadingStatus as selectSeimilarLoadingStatus,
 } from '../../store/similar/similar.selector';
 import { ProductSimilar } from '../product-similar/product-similar';
 import { fetchSimilar } from '../../store/similar/similar.action';
+import {
+  selectCameraId,
+  selectLoadedStatus as selectCameraLoadedStatus,
+} from '../../store/camera/camera.selector';
 
 export function ProductSimilarLoader() {
   const dispatch = useAppDispatch();
-  const { productId } = useParams();
 
-  const similarLoadingStatus = useAppSelector(selectLoadingStatus);
-  const isSimilarLoaded = useAppSelector(selectLoadedStatus);
+  const productId = useAppSelector(selectCameraId);
+  const isCameraLoaded = useAppSelector(selectCameraLoadedStatus);
+
+  const similarLoadingStatus = useAppSelector(selectSeimilarLoadingStatus);
+  const isSimilarLoaded = useAppSelector(selectSimilarLoadedStatus);
 
   useEffect(() => {
-    if (productId) {
-      dispatch(fetchSimilar(Number(productId)));
+    if (isCameraLoaded && productId) {
+      dispatch(fetchSimilar(productId));
     }
-  }, [dispatch, productId]);
+  }, [dispatch, isCameraLoaded, productId]);
 
   return (
     <Loading

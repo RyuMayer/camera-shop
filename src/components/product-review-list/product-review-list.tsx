@@ -14,9 +14,11 @@ export function ProductReviewList() {
   const isAllReviewsRendered = reviews.length <= countTotalReviewsForRender;
 
   const handleReviewBtnClick = () => {
-    setCountTotalReviewsForRender(
-      (prevValue) => prevValue + COUNT_REVIEWS_FOR_RENDER,
-    );
+    if (!isAllReviewsRendered) {
+      setCountTotalReviewsForRender(
+        (prevValue) => prevValue + COUNT_REVIEWS_FOR_RENDER,
+      );
+    }
   };
 
   return reviews.length !== 0 ? (

@@ -8,7 +8,7 @@ type TExtra = {
   extra: AxiosInstance;
 };
 
-export const fetchCamera = createAsyncThunk<TCamera, TCamera['id'], TExtra>(
+export const fetchCamera = createAsyncThunk<TCamera, string, TExtra>(
   `${NameSpace.Camera}/fetchCamera`,
   async (id, { extra: api }) => {
     const { data } = await api.get<TCamera>(`${APIRoute.Cameras}/${id}`);
