@@ -1,31 +1,22 @@
 import { useState } from 'react';
-<<<<<<< HEAD
-
-=======
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { selectCamera } from '../../store/camera/camera.selector';
->>>>>>> 53fb3eb2ba81d429d14c32d2fdf4e2515c48a2fa
 import { formatPrice } from '../../utils/card';
 import { ProductTabs } from '../product-tabs/product-tabs';
 import { Rating } from '../rating/rating';
 import { Popup } from '../popup/popup';
 import { AddToCartPopup } from '../add-to-cart-popup/add-to-cart-popup';
 import { createPortal } from 'react-dom';
-<<<<<<< HEAD
 import { TCamera } from '../../types/camera';
 
 type TProductCardProps = {
   data: TCamera;
 };
-=======
-
-export function ProductCard() {
-  const [isPopupOpened, setIsPopupOpened] = useState(false);
-  const camera = useAppSelector(selectCamera);
->>>>>>> 53fb3eb2ba81d429d14c32d2fdf4e2515c48a2fa
 
 export function ProductCard({ data: camera }: TProductCardProps) {
   const [isPopupOpened, setIsPopupOpened] = useState(false);
+
+  const onClose = (state = false) => {
+    setIsPopupOpened(state);
+  };
 
   return (
     <>
@@ -76,7 +67,7 @@ export function ProductCard({ data: camera }: TProductCardProps) {
       </section>
       {isPopupOpened &&
         createPortal(
-          <Popup onClose={setIsPopupOpened}>
+          <Popup onClose={onClose}>
             <AddToCartPopup data={camera} />
           </Popup>,
           document.querySelector('main') as HTMLElement,

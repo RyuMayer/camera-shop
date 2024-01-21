@@ -13,13 +13,8 @@ import {
   selectCameraId,
   selectLoadedStatus as selectCameraLoadedStatus,
 } from '../../store/camera/camera.selector';
-<<<<<<< HEAD
 import { dropReviewData } from '../../store/review/review';
 import { ProductReview } from '../product-review/product-review';
-=======
-import { ProductReviewList } from '../product-review-list/product-review-list';
-import { dropReviewData } from '../../store/review/review';
->>>>>>> 53fb3eb2ba81d429d14c32d2fdf4e2515c48a2fa
 
 export function ProductReviewLoader() {
   const dispatch = useAppDispatch();

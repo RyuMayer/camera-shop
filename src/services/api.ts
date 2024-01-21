@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import axios, { AxiosInstance } from 'axios';
-=======
-import axios, { AxiosError, AxiosInstance } from 'axios';
->>>>>>> 53fb3eb2ba81d429d14c32d2fdf4e2515c48a2fa
 
 import { BASE_URL, REQUEST_TIMEOUT } from '../const';
 
