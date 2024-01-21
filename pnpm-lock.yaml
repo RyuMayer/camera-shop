@@ -58,6 +58,9 @@ dependencies:
     version: 11.0.5
 
 devDependencies:
+  '@faker-js/faker':
+    specifier: ^8.3.1
+    version: 8.3.1
   '@jedmao/redux-mock-store':
     specifier: 3.0.5
     version: 3.0.5(redux@4.2.1)
@@ -118,9 +121,6 @@ devDependencies:
   eslint-plugin-react-refresh:
     specifier: 0.4.1
     version: 0.4.1(eslint@8.43.0)
-  faker:
-    specifier: 5.5.3
-    version: 5.5.3
   jsdom:
     specifier: 22.1.0
     version: 22.1.0
@@ -625,6 +625,11 @@ packages:
   /@eslint/js@8.43.0:
     resolution: {integrity: sha512-s2UHCoiXfxMvmfzqoN+vrQ84ahUSYde9qNO1MdxmoEhyHWsfmwOpFlwYV+ePJEVc7gFnATGUi376WowX1N7tFg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+    dev: true
+
+  /@faker-js/faker@8.3.1:
+    resolution: {integrity: sha512-FdgpFxY6V6rLZE9mmIBb9hM0xpfvQOSNOLnzolzKwsE1DH+gC7lEKV1p1IbR0lAYyvYd5a4u3qWJzowUkw1bIw==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
     dev: true
 
   /@humanwhocodes/config-array@0.11.13:
@@ -2152,10 +2157,6 @@ packages:
       jest-matcher-utils: 29.7.0
       jest-message-util: 29.7.0
       jest-util: 29.7.0
-    dev: true
-
-  /faker@5.5.3:
-    resolution: {integrity: sha512-wLTv2a28wjUyWkbnX7u/ABZBkUkIF2fCd73V6P2oFqEGEktDfzWx4UxrSqtPRw0xPRAcjeAOIiJWqZm3pP4u3g==}
     dev: true
 
   /fast-deep-equal@3.1.3:
