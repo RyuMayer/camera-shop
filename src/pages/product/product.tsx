@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 
 import { ProductCardLoader } from '../../components/product-card-loader/product-card-loader';
 import { ProductBreadcrumbs } from '../../components/product-breadcrumbs/product--breadcrumbs';
-import { ProductSimilarLoader } from '../../components/product-similar-loader/product-similar-loader';
 import { ProductReview } from '../../components/product-review/product-review';
+import { ProductSimilarLoader } from '../../components/product-similar-loader/product-similar-loader';
 
 export function Product() {
   const { productId } = useParams();

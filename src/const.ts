@@ -10,9 +10,12 @@ export const TABS_URL_PARAM = 'tab';
 
 export const COUNT_REVIEWS_FOR_RENDER = 3;
 
+export const SLIDER_AUTOPLAY_DELAY = 3000;
+
 export const AppRoute = {
   Catalog: '/',
   Product: '/product',
+  NotFound: '/not-found',
 } as const;
 
 export const APIRoute = {

@@ -14,6 +14,7 @@ import {
   selectLoadedStatus as selectCameraLoadedStatus,
 } from '../../store/camera/camera.selector';
 import { ProductReviewList } from '../product-review-list/product-review-list';
+import { dropReviewData } from '../../store/review/review';
 
 export function ProductReviewLoader() {
   const dispatch = useAppDispatch();
@@ -30,6 +31,10 @@ export function ProductReviewLoader() {
     if (isCameraLoaded && productId) {
       dispatch(fetchReview(productId));
     }
+
+    return () => {
+      dispatch(dropReviewData());
+    };
   }, [dispatch, isCameraLoaded, productId]);
 
   useEffect(() => {

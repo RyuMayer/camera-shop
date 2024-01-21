@@ -1,4 +1,18 @@
-export function PopupSuccess() {
+import { useEffect, useRef } from 'react';
+
+type TPopupSuccessProps = {
+  onClose: (state: boolean) => void;
+};
+
+export function PopupSuccess({ onClose }: TPopupSuccessProps) {
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (btnRef.current) {
+      btnRef.current.focus();
+    }
+  }, []);
+
   return (
     <>
       <p className="title title--h4">Спасибо за отзыв</p>
@@ -7,6 +21,8 @@ export function PopupSuccess() {
       </svg>
       <div className="modal__buttons">
         <button
+          ref={btnRef}
+          onClick={() => onClose(false)}
           className="btn btn--purple modal__btn modal__btn--fit-width"
           type="button"
         >

@@ -1,4 +1,5 @@
-import axios, { AxiosInstance } from 'axios';
+import axios, { AxiosError, AxiosInstance } from 'axios';
+
 import { BASE_URL, REQUEST_TIMEOUT } from '../const';
 
 export function createApi(): AxiosInstance {
@@ -6,6 +7,18 @@ export function createApi(): AxiosInstance {
     baseURL: BASE_URL,
     timeout: REQUEST_TIMEOUT,
   });
+
+  //FIXME: Общий или на каждый rejected?
+  // api.interceptors.response.use(
+  //   (response) => response,
+  //   (error: AxiosError) => {
+  //     if (error.response?.status !== StatusCodes.UNAUTHORIZED) {
+  //       toast.error(error.message);
+  //     }
+
+  //     throw error;
+  //   },
+  // );
 
   return api;
 }

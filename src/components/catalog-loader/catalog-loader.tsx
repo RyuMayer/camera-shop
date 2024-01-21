@@ -9,6 +9,7 @@ import {
   selectLoadingStatus,
 } from '../../store/cameras/cameras.selector';
 import { CatalogContent } from '../catalog-content/catalog-content';
+import { dropCamerasData } from '../../store/cameras/cameras';
 
 export function CatalogLoader() {
   const dispatch = useAppDispatch();
@@ -18,6 +19,9 @@ export function CatalogLoader() {
 
   useEffect(() => {
     dispatch(fetchCameras());
+    return () => {
+      dispatch(dropCamerasData());
+    };
   }, [dispatch]);
 
   return (

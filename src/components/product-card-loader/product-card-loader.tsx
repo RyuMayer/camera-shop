@@ -10,6 +10,7 @@ import {
   selectLoadingStatus,
 } from '../../store/camera/camera.selector';
 import { ProductCard } from '../product-card/product-card';
+import { dropCameraData } from '../../store/camera/camera';
 
 export function ProductCardLoader() {
   const dispatch = useAppDispatch();
@@ -22,6 +23,10 @@ export function ProductCardLoader() {
     if (productId) {
       dispatch(fetchCamera(productId));
     }
+
+    return () => {
+      dispatch(dropCameraData());
+    };
   }, [dispatch, productId]);
 
   return (

@@ -1,11 +1,13 @@
-import { TCardPopup } from '../../types/card-popup';
+import { useEffect, useRef } from 'react';
+
+import { TAddToCartPopup } from '../../types/card-popup';
 import { decapitalizeFirstCharacter, formatPrice } from '../../utils/card';
 
-type TCardPopupProps = {
-  popupData: TCardPopup;
+type TAddToCartPopupProps = {
+  data: TAddToCartPopup;
 };
 
-export function CardPopup({ popupData }: TCardPopupProps) {
+export function AddToCartPopup({ data }: TAddToCartPopupProps) {
   const {
     category,
     name,
@@ -17,7 +19,15 @@ export function CardPopup({ popupData }: TCardPopupProps) {
     price,
     type,
     vendorCode,
-  } = popupData;
+  } = data;
+
+  const btnRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (btnRef.current) {
+      btnRef.current.focus();
+    }
+  }, []);
 
   return (
     <>
@@ -58,6 +68,7 @@ export function CardPopup({ popupData }: TCardPopupProps) {
       </div>
       <div className="modal__buttons">
         <button
+          ref={btnRef}
           className="btn btn--purple modal__btn modal__btn--fit-width"
           type="button"
         >
