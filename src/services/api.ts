@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
+
 import { BASE_URL, REQUEST_TIMEOUT } from '../const';
 
 export function createApi(): AxiosInstance {

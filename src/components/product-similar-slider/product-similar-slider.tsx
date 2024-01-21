@@ -2,16 +2,17 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
-import './product-similar.css';
+import './product-similar-slider.css';
 
-import { useAppSelector } from '../../hooks/useAppSelector';
-import { selectSimilar } from '../../store/similar/similar.selector';
 import { CameraCard } from '../camera-card/camera-card';
 import { Navigation } from 'swiper/modules';
+import { TCamera } from '../../types/camera';
 
-export function ProductSimilar() {
-  const similar = useAppSelector(selectSimilar);
+type TProductSimilarSliderProps = {
+  similar: TCamera[];
+};
 
+export function ProductSimilarSlider({ similar }: TProductSimilarSliderProps) {
   return (
     <section className="product-similar">
       <div className="container">
@@ -28,11 +29,12 @@ export function ProductSimilar() {
             watchSlidesProgress
             allowTouchMove={false}
             slidesPerGroup={3}
+            centerInsufficientSlides
             className="product-similar__slider-list"
           >
-            {similar.map((data) => (
-              <SwiperSlide key={data.id}>
-                <CameraCard cameraData={data} />
+            {similar.map((item) => (
+              <SwiperSlide key={item.id}>
+                <CameraCard cameraData={item} />
               </SwiperSlide>
             ))}
           </Swiper>

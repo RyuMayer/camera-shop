@@ -1,6 +1,6 @@
 import { useState } from 'react';
-
 import { createPortal } from 'react-dom';
+
 import { Popup } from '../popup/popup';
 import { ProductReviewPopup } from '../product-review-popup/product-review-popup';
 import { ProductReviewLoader } from '../product-review-loader/product-review-loader';
@@ -53,7 +53,11 @@ export function ProductReview() {
       {isPopupOpened &&
         createPortal(
           <Popup onClose={onClose} isNarrow={isReviewPosted}>
-            {isReviewPosted ? <PopupSuccess /> : <ProductReviewPopup />}
+            {isReviewPosted ? (
+              <PopupSuccess onClose={onClose} />
+            ) : (
+              <ProductReviewPopup />
+            )}
           </Popup>,
           document.querySelector('main') as HTMLElement,
         )}

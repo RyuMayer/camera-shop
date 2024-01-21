@@ -1,6 +1,6 @@
 import { TCamera } from './camera';
 
-export type TCardPopup = Omit<
+export type TAddToCartPopup = Omit<
   TCamera,
   'id' | 'description' | 'rating' | 'reviewCount'
 >;

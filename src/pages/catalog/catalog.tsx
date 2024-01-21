@@ -1,11 +1,10 @@
 import { CatalogLoader } from '../../components/catalog-loader/catalog-loader';
-import { CatalogSlider } from '../../components/catalog-slider/catalog-slider';
+import { CatalogSliderLoader } from '../../components/catalog-slider-loader/catalog-slider-loader';
 
 export function Catalog() {
   return (
     <main>
-      {/* //TODO: Сделать лоадер! */}
-      <CatalogSlider />
+      <CatalogSliderLoader />
       <CatalogLoader />
     </main>
   );

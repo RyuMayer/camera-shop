@@ -5,7 +5,6 @@ import { TBreadcrumbsDataList } from '../../types/breadcrumbs';
 import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';
 
 export function ProductBreadcrumbs() {
-  //FIXME: Подумать как можно ещё сделать?
   const cameraName = useAppSelector(selectCameraName);
 
   const productBreadcrumbs: TBreadcrumbsDataList[] = [

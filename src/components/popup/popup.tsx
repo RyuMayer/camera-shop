@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useCallback, useEffect } from 'react';
 
 type TPopupProps = {
   children: ReactNode;
@@ -8,17 +8,25 @@ type TPopupProps = {
 };
 
 export function Popup({ children, onClose, isNarrow = false }: TPopupProps) {
-  const handleCloseBtnClick = () => {
+  const handleCloseBtnClick = useCallback(() => {
     onClose(false);
-  };
+  }, [onClose]);
 
   useEffect(() => {
     document.body.classList.add('scroll-lock');
 
-    return () => {
-      document.body.classList.remove('scroll-lock');
-    };
+    return () => document.body.classList.remove('scroll-lock');
   }, []);
+
+  useEffect(() => {
+    const closePopup = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') handleCloseBtnClick();
+    };
+
+    window.addEventListener('keydown', closePopup);
+
+    return () => window.removeEventListener('keydown', closePopup);
+  }, [handleCloseBtnClick]);
 
   return (
     <div

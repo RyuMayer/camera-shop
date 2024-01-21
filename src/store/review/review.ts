@@ -4,6 +4,7 @@ import { LoadingStatus, NameSpace } from '../../const';
 import { TLoadingStatus } from '../../types/state';
 import { TReview } from '../../types/review';
 import { fetchPostReview, fetchReview } from './review.action';
+import { toast } from 'react-toastify';
 
 type TInitialState = {
   data: TReview[];
@@ -28,6 +29,11 @@ export const reviewSlice = createSlice({
     dropPostedStatus(state) {
       state.isPosted = false;
     },
+    dropReviewData(state) {
+      state.data = [];
+      state.isLoaded = false;
+      state.isPosted = false;
+    },
   },
   extraReducers(builder) {
     builder
@@ -40,6 +46,11 @@ export const reviewSlice = createSlice({
         state.loadingStatus = LoadingStatus.Idle;
         state.isLoaded = true;
       })
+      .addCase(fetchReview.rejected, (state) => {
+        state.loadingStatus = LoadingStatus.Rejected;
+        state.isLoaded = false;
+        toast.error('Ошибка при загрузке отзывов. Обновите страницу');
+      })
       .addCase(fetchPostReview.pending, (state) => {
         state.postingStatus = LoadingStatus.Loading;
         state.isPosted = false;
@@ -47,8 +58,15 @@ export const reviewSlice = createSlice({
       .addCase(fetchPostReview.fulfilled, (state) => {
         state.postingStatus = LoadingStatus.Idle;
         state.isPosted = true;
+      })
+      .addCase(fetchPostReview.rejected, (state) => {
+        state.postingStatus = LoadingStatus.Rejected;
+        state.isPosted = false;
+        toast.error(
+          'Ошибка при валидации. Пожалуйста, введите валидные данные',
+        );
       });
   },
 });
 
-export const { dropPostedStatus } = reviewSlice.actions;
+export const { dropPostedStatus, dropReviewData } = reviewSlice.actions;

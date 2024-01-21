@@ -6,13 +6,15 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import {
   selectLoadedStatus as selectSimilarLoadedStatus,
   selectLoadingStatus as selectSeimilarLoadingStatus,
+  selectSimilar,
 } from '../../store/similar/similar.selector';
-import { ProductSimilar } from '../product-similar/product-similar';
 import { fetchSimilar } from '../../store/similar/similar.action';
 import {
   selectCameraId,
   selectLoadedStatus as selectCameraLoadedStatus,
 } from '../../store/camera/camera.selector';
+import { dropSimilarData } from '../../store/similar/similar';
+import { ProductSimilarSlider } from '../product-similar-slider/product-similar-slider';
 
 export function ProductSimilarLoader() {
   const dispatch = useAppDispatch();
@@ -23,10 +25,16 @@ export function ProductSimilarLoader() {
   const similarLoadingStatus = useAppSelector(selectSeimilarLoadingStatus);
   const isSimilarLoaded = useAppSelector(selectSimilarLoadedStatus);
 
+  const similar = useAppSelector(selectSimilar);
+
   useEffect(() => {
     if (isCameraLoaded && productId) {
       dispatch(fetchSimilar(productId));
     }
+
+    return () => {
+      dispatch(dropSimilarData());
+    };
   }, [dispatch, isCameraLoaded, productId]);
 
   return (
@@ -34,7 +42,7 @@ export function ProductSimilarLoader() {
       loadingStatus={similarLoadingStatus}
       isDataLoaded={isSimilarLoaded}
     >
-      <ProductSimilar />
+      {similar.length === 0 ? null : <ProductSimilarSlider similar={similar} />}
     </Loading>
   );
 }

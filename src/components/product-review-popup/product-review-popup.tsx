@@ -1,5 +1,5 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import cn from 'classnames';
 
 import { FormStarRating } from '../../const';
@@ -26,9 +26,16 @@ export function ProductReviewPopup() {
     handleSubmit,
     watch,
     formState: { errors, isValid, touchedFields },
-  } = useForm<TFormInputs>({ mode: 'onBlur' });
+    setFocus,
+    trigger,
+  } = useForm<TFormInputs>({ mode: 'all' });
 
   const ratingFieldValue = watch('rating');
+
+  useEffect(() => {
+    setFocus('userName');
+    trigger('rating');
+  }, [setFocus, trigger]);
 
   const handleFormSubmit: SubmitHandler<TFormInputs> = (data) => {
     const reviewData: TReviewPostData = {
@@ -56,8 +63,8 @@ export function ProductReviewPopup() {
           <div className="form-review__rate">
             <fieldset
               className={cn('rate form-review__item', {
-                'is-valid': touchedFields.rating && !errors.rating,
-                'is-invalid': touchedFields.rating && errors.rating,
+                'is-valid': !errors.rating,
+                'is-invalid': errors.rating,
               })}
             >
               <legend className="rate__caption">

@@ -4,6 +4,7 @@ import { LoadingStatus, NameSpace } from '../../const';
 import { TLoadingStatus } from '../../types/state';
 import { TPromo } from '../../types/promo';
 import { fetchPromo } from './promo.action';
+import { toast } from 'react-toastify';
 
 type TInitialState = {
   data: TPromo[];
@@ -20,16 +21,29 @@ const initialState: TInitialState = {
 export const promoSlice = createSlice({
   name: NameSpace.Promo,
   initialState,
-  reducers: {},
+  reducers: {
+    dropPromoData(state) {
+      state.data = [];
+      state.isLoaded = false;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchPromo.pending, (state) => {
         state.loadingStatus = LoadingStatus.Loading;
+        state.isLoaded = false;
       })
       .addCase(fetchPromo.fulfilled, (state, action) => {
         state.data = action.payload;
         state.loadingStatus = LoadingStatus.Idle;
         state.isLoaded = true;
+      })
+      .addCase(fetchPromo.rejected, (state) => {
+        state.loadingStatus = LoadingStatus.Rejected;
+        state.isLoaded = false;
+        toast.error('Ошибка при загрузке промо товаров. Обновите страницу');
       });
   },
 });
+
+export const { dropPromoData } = promoSlice.actions;
