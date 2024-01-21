@@ -1,4 +1,5 @@
 import { createSelector } from '@reduxjs/toolkit';
+
 import { NameSpace } from '../../const';
 import { TState } from '../../types/state';
 import { sortByCreationDate } from '../../utils/sort';
@@ -20,3 +21,6 @@ export const selectPostingStatus = (state: TState) =>
 
 export const selectPostedStatus = (state: TState) =>
   state[NameSpace.Review].isPosted;
+
+export const selectOpenedStatus = (state: TState) =>
+  state[NameSpace.Review].isPopupOpened;

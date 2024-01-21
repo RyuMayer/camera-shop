@@ -7,14 +7,14 @@ import {
   selectPostedStatus,
   selectLoadedStatus as selectReviewLoadedStatus,
   selectLoadingStatus as selectReviewLoadingStatus,
-} from '../../store/review/similar.selector';
+} from '../../store/review/review.selector';
 import { Loading } from '../loading/loading';
 import {
   selectCameraId,
   selectLoadedStatus as selectCameraLoadedStatus,
 } from '../../store/camera/camera.selector';
-import { ProductReviewList } from '../product-review-list/product-review-list';
 import { dropReviewData } from '../../store/review/review';
+import { ProductReview } from '../product-review/product-review';
 
 export function ProductReviewLoader() {
   const dispatch = useAppDispatch();
@@ -48,7 +48,7 @@ export function ProductReviewLoader() {
       loadingStatus={reviewsLoadingStatus}
       isDataLoaded={isReviewsLoaded}
     >
-      <ProductReviewList />
+      <ProductReview />
     </Loading>
   );
 }

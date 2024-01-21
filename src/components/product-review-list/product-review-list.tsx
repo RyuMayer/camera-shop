@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import { useAppSelector } from '../../hooks/useAppSelector';
-import { selectSortedReviews } from '../../store/review/similar.selector';
+import { selectSortedReviews } from '../../store/review/review.selector';
 import { ProductReviewItemMemo } from '../product-review-item/product-review-item';
 import { COUNT_REVIEWS_FOR_RENDER } from '../../const';
 

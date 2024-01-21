@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 type TPopupSuccessProps = {
-  onClose: (state: boolean) => void;
+  onClose: () => void;
 };
 
 export function PopupSuccess({ onClose }: TPopupSuccessProps) {
@@ -22,7 +22,7 @@ export function PopupSuccess({ onClose }: TPopupSuccessProps) {
       <div className="modal__buttons">
         <button
           ref={btnRef}
-          onClick={() => onClose(false)}
+          onClick={onClose}
           className="btn btn--purple modal__btn modal__btn--fit-width"
           type="button"
         >

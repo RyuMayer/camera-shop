@@ -3,7 +3,7 @@ import { ReactNode, useCallback, useEffect } from 'react';
 
 type TPopupProps = {
   children: ReactNode;
-  onClose: (state: boolean) => void;
+  onClose: (state?: boolean) => void;
   isNarrow?: boolean;
 };
 

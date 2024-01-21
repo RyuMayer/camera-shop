@@ -12,6 +12,7 @@ type TInitialState = {
   isLoaded: boolean;
   postingStatus: TLoadingStatus;
   isPosted: boolean;
+  isPopupOpened: boolean;
 };
 
 const initialState: TInitialState = {
@@ -20,6 +21,7 @@ const initialState: TInitialState = {
   isLoaded: false,
   postingStatus: LoadingStatus.Idle,
   isPosted: false,
+  isPopupOpened: false,
 };
 
 export const reviewSlice = createSlice({
@@ -33,6 +35,12 @@ export const reviewSlice = createSlice({
       state.data = [];
       state.isLoaded = false;
       state.isPosted = false;
+    },
+    openPopup(state) {
+      state.isPopupOpened = true;
+    },
+    closePopup(state) {
+      state.isPopupOpened = false;
     },
   },
   extraReducers(builder) {
@@ -69,4 +77,5 @@ export const reviewSlice = createSlice({
   },
 });
 
-export const { dropPostedStatus, dropReviewData } = reviewSlice.actions;
+export const { dropPostedStatus, dropReviewData, closePopup, openPopup } =
+  reviewSlice.actions;
