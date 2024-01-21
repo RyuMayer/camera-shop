@@ -36,12 +36,15 @@ export const reviewSlice = createSlice({
       state.isLoaded = false;
       state.isPosted = false;
     },
+<<<<<<< HEAD
     openPopup(state) {
       state.isPopupOpened = true;
     },
     closePopup(state) {
       state.isPopupOpened = false;
     },
+=======
+>>>>>>> 53fb3eb2ba81d429d14c32d2fdf4e2515c48a2fa
   },
   extraReducers(builder) {
     builder
@@ -77,5 +80,9 @@ export const reviewSlice = createSlice({
   },
 });
 
+<<<<<<< HEAD
 export const { dropPostedStatus, dropReviewData, closePopup, openPopup } =
   reviewSlice.actions;
+=======
+export const { dropPostedStatus, dropReviewData } = reviewSlice.actions;
+>>>>>>> 53fb3eb2ba81d429d14c32d2fdf4e2515c48a2fa
