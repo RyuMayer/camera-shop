@@ -1,3 +1,5 @@
+import { toast } from 'react-toastify';
+
 import { LoadingStatus } from '../../const';
 import { makeFakeCameraData } from '../../utils/mocks';
 import { cameraSlice, dropCameraData } from './camera';
@@ -76,16 +78,20 @@ describe('Camera slice', () => {
     expect(result).toEqual(expectedState);
   });
 
-  //TODO: Проверить react-toastify?
   it('Should set "loadingStatus" to "rejected", "isLoaded" to "false" with "fetchCamera.rejected"', () => {
     const expectedState = {
       data: null,
       loadingStatus: LoadingStatus.Rejected,
       isLoaded: false,
     };
+    const mockToastError = vi.spyOn(toast, 'error');
 
     const result = cameraSlice.reducer(undefined, fetchCamera.rejected);
 
     expect(result).toEqual(expectedState);
+    expect(mockToastError).toHaveBeenCalledTimes(1);
+    expect(mockToastError).toHaveBeenCalledWith(
+      'Ошибка при загрузке товара. Обновите страницу',
+    );
   });
 });

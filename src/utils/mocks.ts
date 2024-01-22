@@ -1,4 +1,16 @@
+import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { TCamera } from '../types/camera';
+import { TState } from '../types/state';
+import { createApi } from '../services/api';
+
+export type AppThunkDispatch = ThunkDispatch<
+  TState,
+  ReturnType<typeof createApi>,
+  Action
+>;
+
+export const extractActionsTypes = (actions: Action<string>[]) =>
+  actions.map(({ type }) => type);
 
 export function makeFakeCameraData(): TCamera {
   return {
