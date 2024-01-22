@@ -33,8 +33,11 @@ export const reviewSlice = createSlice({
     },
     dropReviewData(state) {
       state.data = [];
+      state.loadingStatus = LoadingStatus.Idle;
       state.isLoaded = false;
+      state.postingStatus = LoadingStatus.Idle;
       state.isPosted = false;
+      state.isPopupOpened = false;
     },
     openPopup(state) {
       state.isPopupOpened = true;
