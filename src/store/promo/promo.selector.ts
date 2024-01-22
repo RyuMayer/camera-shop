@@ -1,10 +1,12 @@
 import { NameSpace } from '../../const';
 import { TState } from '../../types/state';
 
-export const selectPromos = (state: TState) => state[NameSpace.Promo].data;
+type TPromoState = Pick<TState, typeof NameSpace.Promo>;
 
-export const selectLoadingStatus = (state: TState) =>
+export const selectPromos = (state: TPromoState) => state[NameSpace.Promo].data;
+
+export const selectLoadingStatus = (state: TPromoState) =>
   state[NameSpace.Promo].loadingStatus;
 
-export const selectLoadedStatus = (state: TState) =>
+export const selectLoadedStatus = (state: TPromoState) =>
   state[NameSpace.Promo].isLoaded;

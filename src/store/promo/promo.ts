@@ -25,6 +25,7 @@ export const promoSlice = createSlice({
     dropPromoData(state) {
       state.data = [];
       state.isLoaded = false;
+      state.loadingStatus = LoadingStatus.Idle;
     },
   },
   extraReducers(builder) {

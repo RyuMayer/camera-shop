@@ -2,6 +2,7 @@ import { Action, ThunkDispatch } from '@reduxjs/toolkit';
 import { TCamera } from '../types/camera';
 import { TState } from '../types/state';
 import { createApi } from '../services/api';
+import { TPromo } from '../types/promo';
 
 export type AppThunkDispatch = ThunkDispatch<
   TState,
@@ -28,5 +29,16 @@ export function makeFakeCameraData(): TCamera {
     previewImgWebp2x: 'img/content/das-auge@2x.webp',
     rating: 3,
     reviewCount: 58,
+  };
+}
+
+export function makeFakePromoData(): TPromo {
+  return {
+    id: 7,
+    name: 'Look 54',
+    previewImg: 'img/content/promo-look-54.jpg',
+    previewImg2x: 'img/content/promo-look-54@2x.jpg',
+    previewImgWebp: 'img/content/promo-look-54.webp',
+    previewImgWebp2x: 'img/content/promo-look-54@2x.webp',
   };
 }
