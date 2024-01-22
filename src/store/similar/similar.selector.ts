@@ -1,10 +1,13 @@
 import { NameSpace } from '../../const';
 import { TState } from '../../types/state';
 
-export const selectSimilar = (state: TState) => state[NameSpace.Similar].data;
+type TSimilarState = Pick<TState, typeof NameSpace.Similar>;
 
-export const selectLoadingStatus = (state: TState) =>
+export const selectSimilar = (state: TSimilarState) =>
+  state[NameSpace.Similar].data;
+
+export const selectLoadingStatus = (state: TSimilarState) =>
   state[NameSpace.Similar].loadingStatus;
 
-export const selectLoadedStatus = (state: TState) =>
+export const selectLoadedStatus = (state: TSimilarState) =>
   state[NameSpace.Similar].isLoaded;

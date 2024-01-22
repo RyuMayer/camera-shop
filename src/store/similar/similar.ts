@@ -25,6 +25,7 @@ export const similarSlice = createSlice({
     dropSimilarData(state) {
       state.data = [];
       state.isLoaded = false;
+      state.loadingStatus = LoadingStatus.Idle;
     },
   },
   extraReducers(builder) {
