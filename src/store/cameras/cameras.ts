@@ -25,6 +25,7 @@ export const camerasSlice = createSlice({
     dropCamerasData(state) {
       state.data = [];
       state.isLoaded = false;
+      state.loadingStatus = LoadingStatus.Idle;
     },
   },
   extraReducers(builder) {

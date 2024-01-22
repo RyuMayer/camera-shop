@@ -1,10 +1,13 @@
 import { NameSpace } from '../../const';
 import { TState } from '../../types/state';
 
-export const selectCameras = (state: TState) => state[NameSpace.Cameras].data;
+type TCamerasState = Pick<TState, typeof NameSpace.Cameras>;
 
-export const selectLoadingStatus = (state: TState) =>
+export const selectCameras = (state: TCamerasState) =>
+  state[NameSpace.Cameras].data;
+
+export const selectLoadingStatus = (state: TCamerasState) =>
   state[NameSpace.Cameras].loadingStatus;
 
-export const selectLoadedStatus = (state: TState) =>
+export const selectLoadedStatus = (state: TCamerasState) =>
   state[NameSpace.Cameras].isLoaded;
