@@ -20,7 +20,7 @@ export function ProductCard({ data: camera }: TProductCardProps) {
 
   return (
     <>
-      <section className="product">
+      <section className="product" data-testid="product">
         <div className="container">
           <div className="product__img">
             <picture>
@@ -55,6 +55,7 @@ export function ProductCard({ data: camera }: TProductCardProps) {
               onClick={() => setIsPopupOpened(true)}
               className="btn btn--purple"
               type="button"
+              data-testid="cart-button"
             >
               <svg width={24} height={16} aria-hidden="true">
                 <use xlinkHref="#icon-add-basket" />

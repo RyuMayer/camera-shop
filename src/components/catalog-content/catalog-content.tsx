@@ -5,7 +5,7 @@ import { CatalogBreadcrumbs } from '../catalog-breadcrumbs/catalog-breadcrumbs';
 
 export function CatalogContent() {
   return (
-    <div className="page-content">
+    <div className="page-content" data-testid="catalog-content">
       <CatalogBreadcrumbs />
       <section className="catalog">
         <div className="container">

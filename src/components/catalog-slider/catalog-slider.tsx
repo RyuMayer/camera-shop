@@ -14,7 +14,11 @@ export function CatalogSlider() {
   const promos = useAppSelector(selectPromos);
 
   return (
-    <div className="banner" style={{ display: 'flex' }}>
+    <div
+      className="banner"
+      style={{ display: 'flex' }}
+      data-testid="catalog-slider"
+    >
       <Swiper
         modules={[Pagination, Autoplay]}
         slidesPerView={1}
@@ -42,7 +46,7 @@ export function CatalogSlider() {
               <span className="banner__message">Новинка!</span>
               <span className="title title--h1">{promo.name}</span>
               <span className="banner__text">
-                Профессиональная камера от&nbsp;известного производителя
+                Профессиональная камера от известного производителя
               </span>
               <Link to={`${AppRoute.Product}/${promo.id}`} className="btn">
                 Подробнее

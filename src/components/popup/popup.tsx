@@ -35,7 +35,11 @@ export function Popup({ children, onClose, isNarrow = false }: TPopupProps) {
       })}
     >
       <div className="modal__wrapper">
-        <div onClick={handleCloseBtnClick} className="modal__overlay" />
+        <div
+          onClick={handleCloseBtnClick}
+          className="modal__overlay"
+          data-testid="modal-overlay"
+        />
         <div className="modal__content">
           {children}
           <button

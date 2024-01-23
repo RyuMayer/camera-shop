@@ -9,9 +9,10 @@ type TProductReviewItemProps = {
 
 function ProductReviewItem({ review }: TProductReviewItemProps) {
   return (
-    <li className="review-card">
+    <li className="review-card" data-testid="review-card">
       <div className="review-card__head">
         <p className="title title--h4">{review.userName}</p>
+        {/* TODO: Доделать время! */}
         <time className="review-card__data" dateTime="2022-04-13">
           {humanizeReviewDate(review.createAt)}
         </time>

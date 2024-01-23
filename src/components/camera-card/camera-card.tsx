@@ -19,6 +19,10 @@ type TCameraCardProps = {
 export function CameraCard({ cameraData }: TCameraCardProps) {
   const [isPopupOpened, setIsPopupOpened] = useState(false);
 
+  const onClose = (state = false) => {
+    setIsPopupOpened(state);
+  };
+
   const {
     id,
     name,
@@ -33,7 +37,7 @@ export function CameraCard({ cameraData }: TCameraCardProps) {
 
   return (
     <>
-      <div className="product-card">
+      <div className="product-card" data-testid="camera-card">
         <div className="product-card__img">
           <AsyncImage
             src={previewImg}
@@ -81,7 +85,7 @@ export function CameraCard({ cameraData }: TCameraCardProps) {
       </div>
       {isPopupOpened &&
         createPortal(
-          <Popup onClose={setIsPopupOpened}>
+          <Popup onClose={onClose}>
             <AddToCartPopup data={cameraData} />
           </Popup>,
           document.querySelector('main') as HTMLElement,

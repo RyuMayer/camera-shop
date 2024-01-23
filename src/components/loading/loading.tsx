@@ -17,7 +17,7 @@ export function Loading({
 }: TLoadingProps) {
   const isLoading = loadingStatus === LoadingStatus.Loading;
 
-  //FIXME: Переделать на красивые скелеты?
+  //TODO: Когда-нибудь переделать на красивые скелеты!
   if (isLoading || !isDataLoaded) {
     return (
       <div
@@ -28,6 +28,7 @@ export function Loading({
           alignItems: 'center',
           justifyContent: 'center',
         }}
+        data-testid="loading"
       >
         <InfinitySpin width="200" color="#7575e2" />
       </div>

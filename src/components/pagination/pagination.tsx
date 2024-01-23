@@ -23,7 +23,7 @@ export function Pagination({ currentPage, totalPage }: TPaginationProps) {
       : totalPage - (totalPage % PAGINATIONS_PER_PAGE) + 1);
 
   return (
-    <div className="pagination">
+    <div className="pagination" data-testid="pagination">
       <ul className="pagination__list">
         {isPreviousBtnVisible && (
           <li className="pagination__item">
@@ -36,7 +36,11 @@ export function Pagination({ currentPage, totalPage }: TPaginationProps) {
           </li>
         )}
         {pages.map((pageNumber) => (
-          <li key={pageNumber} className="pagination__item">
+          <li
+            key={pageNumber}
+            className="pagination__item"
+            data-testid="pagination-item"
+          >
             <Link
               to={`?${PAGINATION_URL_PARAM}=${pageNumber}`}
               className={cn('pagination__link', {

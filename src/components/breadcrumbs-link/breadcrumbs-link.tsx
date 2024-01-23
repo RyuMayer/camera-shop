@@ -9,7 +9,7 @@ type TBreadcrumbsLinkProps = {
 
 export function BreadcrumbsLink({ children, linkTo }: TBreadcrumbsLinkProps) {
   return (
-    <li className="breadcrumbs__item">
+    <li className="breadcrumbs__item" data-testid="breadcrumbs-item">
       {linkTo ? (
         <Link className="breadcrumbs__link" to={linkTo}>
           {children}

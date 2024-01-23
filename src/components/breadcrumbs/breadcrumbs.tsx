@@ -7,7 +7,7 @@ type TBreadcrumbsProps = {
 
 export function Breadcrumbs({ items }: TBreadcrumbsProps) {
   return (
-    <div className="breadcrumbs">
+    <div className="breadcrumbs" data-testid="breadcrumbs">
       <div className="container">
         <ul className="breadcrumbs__list">
           {items.map(({ href, title, id }) => (
