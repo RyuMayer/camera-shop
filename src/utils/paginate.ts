@@ -1,13 +1,15 @@
 export function getPageNumbers(totalPage: number, currentPage: number) {
-  if (totalPage <= 3) {
-    return Array.from({ length: totalPage }, (_, i) => i + 1);
+  for (let i = 1; i <= totalPage; i += 3) {
+    const range = [];
+
+    for (let j = i; j <= Math.min(i + 2, totalPage); j++) {
+      range.push(j);
+    }
+
+    if (range.includes(currentPage)) {
+      return range;
+    }
   }
 
-  const startPage = Math.max(1, Math.min(currentPage - 1, totalPage - 2));
-  const endPage = Math.min(totalPage, startPage + 2);
-
-  return Array.from(
-    { length: endPage - startPage + 1 },
-    (_, i) => startPage + i,
-  );
+  return [];
 }

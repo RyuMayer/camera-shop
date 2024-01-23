@@ -12,6 +12,8 @@ export const COUNT_REVIEWS_FOR_RENDER = 3;
 
 export const SLIDER_AUTOPLAY_DELAY = 3000;
 
+export const PAGINATIONS_PER_PAGE = 3;
+
 export const AppRoute = {
   Catalog: '/',
   Product: '/product',

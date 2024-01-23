@@ -16,11 +16,7 @@ export function CatalogList() {
   ) : (
     <>
       {cameras.length > CARDS_PER_PAGE && (
-        <Pagination
-          key={currentPage}
-          currentPage={currentPage}
-          totalPage={totalPage}
-        />
+        <Pagination currentPage={currentPage} totalPage={totalPage} />
       )}
       <div className="cards catalog__cards">
         {cameras.slice(firstIdx, lastIdx).map((camera) => (
