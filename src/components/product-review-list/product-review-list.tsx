@@ -55,6 +55,6 @@ export function ProductReviewList() {
       )}
     </>
   ) : (
-    'Список отзывов пуст'
+    <>Список отзывов пуст</>
   );
 }

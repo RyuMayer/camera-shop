@@ -22,17 +22,16 @@ export function ProductReviewPopup() {
     dispatch(dropPostedStatus());
   };
 
-  return (
-    isPopupOpened &&
-    createPortal(
-      <Popup onClose={onClose} isNarrow={isReviewPosted}>
-        {isReviewPosted ? (
-          <PopupSuccess onClose={onClose} />
-        ) : (
-          <ProductReviewForm />
-        )}
-      </Popup>,
-      document.querySelector('main') as HTMLElement,
-    )
-  );
+  return isPopupOpened
+    ? createPortal(
+        <Popup onClose={onClose} isNarrow={isReviewPosted}>
+          {isReviewPosted ? (
+            <PopupSuccess onClose={onClose} />
+          ) : (
+            <ProductReviewForm />
+          )}
+        </Popup>,
+        document.querySelector('main') as HTMLElement,
+      )
+    : null;
 }

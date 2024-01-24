@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, isValidElement } from 'react';
 import { InfinitySpin } from 'react-loader-spinner';
 
 import { TLoadingStatus } from '../../types/state';
@@ -35,5 +35,5 @@ export function Loading({
     );
   }
 
-  return children;
+  return isValidElement(children) ? children : null;
 }
