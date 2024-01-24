@@ -15,14 +15,14 @@ export function CatalogList() {
     <h1>Нет доступных товаров.</h1>
   ) : (
     <>
-      {cameras.length > CARDS_PER_PAGE && (
-        <Pagination currentPage={currentPage} totalPage={totalPage} />
-      )}
       <div className="cards catalog__cards">
         {cameras.slice(firstIdx, lastIdx).map((camera) => (
           <CameraCard key={camera.id} cameraData={camera} />
         ))}
       </div>
+      {cameras.length > CARDS_PER_PAGE && (
+        <Pagination currentPage={currentPage} totalPage={totalPage} />
+      )}
     </>
   );
 }
