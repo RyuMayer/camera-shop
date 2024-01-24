@@ -7,6 +7,7 @@ import { useAppSelector } from '../../hooks/useAppSelector';
 import {
   selectLoadedStatus,
   selectLoadingStatus,
+  selectPromos,
 } from '../../store/promo/promo.selector';
 import { Loading } from '../loading/loading';
 import { dropPromoData } from '../../store/promo/promo';
@@ -14,6 +15,7 @@ import { dropPromoData } from '../../store/promo/promo';
 export function CatalogSliderLoader() {
   const dispatch = useAppDispatch();
 
+  const promos = useAppSelector(selectPromos);
   const promosLoadingStatus = useAppSelector(selectLoadingStatus);
   const isPromosLoaded = useAppSelector(selectLoadedStatus);
 
@@ -27,7 +29,7 @@ export function CatalogSliderLoader() {
 
   return (
     <Loading loadingStatus={promosLoadingStatus} isDataLoaded={isPromosLoaded}>
-      <CatalogSlider />
+      {promos.length === 0 ? null : <CatalogSlider promos={promos} />}
     </Loading>
   );
 }

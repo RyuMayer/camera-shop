@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 
 import { withRouter, withStore } from '../../utils/mock-component';
-import { LoadingStatus } from '../../const';
 import { CatalogSlider } from './catalog-slider';
 import { makeFakePromoData } from '../../utils/mocks';
 
@@ -11,13 +10,9 @@ describe('Component: Catalog slider', () => {
 
   it('Should render correctly', () => {
     const mockData = [makeFakePromoData()];
-    const { withStoreComponent } = withStore(<CatalogSlider />, {
-      PROMO: {
-        data: mockData,
-        isLoaded: true,
-        loadingStatus: LoadingStatus.Idle,
-      },
-    });
+    const { withStoreComponent } = withStore(
+      <CatalogSlider promos={mockData} />,
+    );
     const preparedComponent = withRouter(withStoreComponent);
 
     render(preparedComponent);

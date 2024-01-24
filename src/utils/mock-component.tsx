@@ -9,6 +9,7 @@ import { Action } from '@reduxjs/toolkit';
 import { TState } from '../types/state';
 import { createApi } from '../services/api';
 import { AppThunkDispatch } from './mocks';
+import { HelmetProvider } from 'react-helmet-async';
 
 type TComponentWithMockStore = {
   withStoreComponent: ReactElement;
@@ -17,7 +18,11 @@ type TComponentWithMockStore = {
 };
 
 export function withRouter(component: ReactElement) {
-  return <BrowserRouter>{component}</BrowserRouter>;
+  return (
+    <HelmetProvider>
+      <BrowserRouter>{component}</BrowserRouter>
+    </HelmetProvider>
+  );
 }
 
 export function withStore(

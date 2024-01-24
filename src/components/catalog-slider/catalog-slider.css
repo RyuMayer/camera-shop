@@ -1,3 +1,15 @@
+.swiper-pagination {
+  position: absolute;
+  left: 0 !important;
+  right: 0 !important;
+
+  max-width: 1280px;
+  margin: auto;
+  padding: 0 40px;
+
+  text-align: right;
+}
+
 .swiper-pagination-bullet {
   width: 16px;
   height: 16px;
@@ -10,4 +22,8 @@
 
 .swiper-pagination-bullet-active {
   background-color: #7575e2;
+}
+
+.swiper-horizontal {
+  width: 100%;
 }

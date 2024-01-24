@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { TReview } from '../../types/review';
-import { humanizeReviewDate } from '../../utils/date-time';
+import { humanizeDateTime, humanizeReviewDate } from '../../utils/date-time';
 import { Rating } from '../rating/rating';
 
 type TProductReviewItemProps = {
@@ -12,8 +12,10 @@ function ProductReviewItem({ review }: TProductReviewItemProps) {
     <li className="review-card" data-testid="review-card">
       <div className="review-card__head">
         <p className="title title--h4">{review.userName}</p>
-        {/* TODO: Доделать время! */}
-        <time className="review-card__data" dateTime="2022-04-13">
+        <time
+          className="review-card__data"
+          dateTime={humanizeDateTime(review.createAt)}
+        >
           {humanizeReviewDate(review.createAt)}
         </time>
       </div>

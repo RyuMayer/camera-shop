@@ -1,4 +1,6 @@
+import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
+
 import { formatPrice } from '../../utils/card';
 import { ProductTabs } from '../product-tabs/product-tabs';
 import { Rating } from '../rating/rating';
@@ -20,6 +22,9 @@ export function ProductCard({ data: camera }: TProductCardProps) {
 
   return (
     <>
+      <Helmet>
+        <title>{camera.name}</title>
+      </Helmet>
       <section className="product" data-testid="product">
         <div className="container">
           <div className="product__img">

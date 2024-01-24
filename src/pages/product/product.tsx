@@ -27,7 +27,7 @@ export function Product() {
 
   return (
     <>
-      <main>
+      <main data-testid="main-product">
         <div className="page-content">
           <ProductBreadcrumbs />
           <div className="page-content__section">
@@ -42,7 +42,12 @@ export function Product() {
           </div>
         </div>
       </main>
-      <a onClick={handleUpBtnClick} className="up-btn" href="#header">
+      <a
+        onClick={handleUpBtnClick}
+        className="up-btn"
+        href="#header"
+        data-testid="up-arrow"
+      >
         <svg width={12} height={18} aria-hidden="true">
           <use xlinkHref="#icon-arrow2" />
         </svg>

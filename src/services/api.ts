@@ -8,17 +8,5 @@ export function createApi(): AxiosInstance {
     timeout: REQUEST_TIMEOUT,
   });
 
-  //FIXME: Общий или на каждый rejected?
-  // api.interceptors.response.use(
-  //   (response) => response,
-  //   (error: AxiosError) => {
-  //     if (error.response?.status !== StatusCodes.UNAUTHORIZED) {
-  //       toast.error(error.message);
-  //     }
-
-  //     throw error;
-  //   },
-  // );
-
   return api;
 }

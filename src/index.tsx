@@ -11,6 +11,7 @@ import { store } from './store/store';
 import { Product } from './pages/product/product';
 import { Layout } from './layout/layout';
 import { NotFound } from './pages/not-found/not-found';
+import { HelmetProvider } from 'react-helmet-async';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -38,8 +39,10 @@ const router = createBrowserRouter([
 ]);
 
 root.render(
-  <Provider store={store}>
-    <RouterProvider router={router} />
-    <ToastContainer />
-  </Provider>,
+  <HelmetProvider>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+      <ToastContainer />
+    </Provider>
+  </HelmetProvider>,
 );

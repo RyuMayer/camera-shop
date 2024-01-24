@@ -80,6 +80,7 @@ export function ProductReviewForm() {
                     .map(([value, title]) => (
                       <Fragment key={title}>
                         <input
+                          data-testid="rating"
                           className="visually-hidden"
                           id={`star-${value}`}
                           type="radio"
@@ -125,6 +126,7 @@ export function ProductReviewForm() {
                   </svg>
                 </span>
                 <input
+                  data-testid="userName"
                   type="text"
                   placeholder="Введите ваше имя"
                   {...register('userName', {
@@ -160,6 +162,7 @@ export function ProductReviewForm() {
                   </svg>
                 </span>
                 <input
+                  data-testid="advantage"
                   type="text"
                   placeholder="Основные преимущества товара"
                   {...register('advantage', {
@@ -195,6 +198,7 @@ export function ProductReviewForm() {
                   </svg>
                 </span>
                 <input
+                  data-testid="disadvantage"
                   type="text"
                   placeholder="Главные недостатки товара"
                   {...register('disadvantage', {
@@ -230,6 +234,7 @@ export function ProductReviewForm() {
                   </svg>
                 </span>
                 <textarea
+                  data-testid="review"
                   minLength={5}
                   placeholder="Поделитесь своим опытом покупки"
                   {...register('review', {

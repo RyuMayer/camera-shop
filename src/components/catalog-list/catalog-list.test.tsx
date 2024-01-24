@@ -22,6 +22,7 @@ describe('Component: Catalog list', () => {
     render(preparedComponent);
 
     expect(screen.getAllByTestId('camera-card').length).toBe(1);
+    expect(screen.queryByTestId('pagination')).not.toBeInTheDocument();
   });
 
   it('Should render correctly with pagination', () => {

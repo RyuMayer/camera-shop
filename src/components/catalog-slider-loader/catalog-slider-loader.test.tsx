@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import { withRouter, withStore } from '../../utils/mock-component';
 import { LoadingStatus } from '../../const';
 import { CatalogSliderLoader } from './catalog-slider-loader';
+import { makeFakePromoData } from '../../utils/mocks';
 
 describe('Component: Catalog slider loader', () => {
   it('Should first render correctly', () => {
@@ -23,7 +24,7 @@ describe('Component: Catalog slider loader', () => {
   it('Should render correctly when data loaded', () => {
     const { withStoreComponent } = withStore(<CatalogSliderLoader />, {
       PROMO: {
-        data: [],
+        data: [makeFakePromoData()],
         isLoaded: true,
         loadingStatus: LoadingStatus.Idle,
       },

@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 
 import { withStore } from '../../utils/mock-component';
 import { makeFakeReviewData } from '../../utils/mocks';
@@ -7,6 +8,7 @@ import { ProductReviewList } from './product-review-list';
 import { LoadingStatus } from '../../const';
 
 describe('Component: Product review list', () => {
+  beforeAll(() => mockAllIsIntersecting(true));
   it('Should render correctly when reviews = 1', () => {
     const mockData = makeFakeReviewData();
     const { withStoreComponent } = withStore(<ProductReviewList />, {

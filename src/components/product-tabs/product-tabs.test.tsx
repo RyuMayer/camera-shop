@@ -11,7 +11,6 @@ describe('Component: Product tabs', () => {
     const preparedComponent = withRouter(withStoreComponent);
 
     render(preparedComponent);
-    screen.debug();
 
     expect(screen.getByText('Характеристики')).toBeInTheDocument();
     expect(screen.getByText('Описание')).toBeInTheDocument();
