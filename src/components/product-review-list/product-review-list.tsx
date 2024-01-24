@@ -25,7 +25,13 @@ export function ProductReviewList() {
   }, [isAllReviewsRendered]);
 
   useEffect(() => {
-    if (inView) handleReviewBtnClick();
+    let isMounted = true;
+
+    if (inView && isMounted) handleReviewBtnClick();
+
+    return () => {
+      isMounted = false;
+    };
   }, [handleReviewBtnClick, inView]);
 
   return reviews.length !== 0 ? (

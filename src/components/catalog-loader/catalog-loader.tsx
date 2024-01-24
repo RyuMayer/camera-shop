@@ -18,9 +18,13 @@ export function CatalogLoader() {
   const isCamerasLoaded = useAppSelector(selectLoadedStatus);
 
   useEffect(() => {
-    dispatch(fetchCameras());
+    let isMounted = true;
+
+    if (isMounted) dispatch(fetchCameras());
+
     return () => {
       dispatch(dropCamerasData());
+      isMounted = false;
     };
   }, [dispatch]);
 

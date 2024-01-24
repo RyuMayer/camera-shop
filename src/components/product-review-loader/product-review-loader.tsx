@@ -28,19 +28,28 @@ export function ProductReviewLoader() {
   const isReviewPosted = useAppSelector(selectPostedStatus);
 
   useEffect(() => {
-    if (isCameraLoaded && productId) {
+    let isMounted = true;
+
+    if (isCameraLoaded && productId && isMounted) {
       dispatch(fetchReview(productId));
     }
 
     return () => {
       dispatch(dropReviewData());
+      isMounted = false;
     };
   }, [dispatch, isCameraLoaded, productId]);
 
   useEffect(() => {
-    if (isReviewPosted && productId) {
+    let isMounted = true;
+
+    if (isReviewPosted && productId && isMounted) {
       dispatch(fetchReview(productId));
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, [dispatch, isReviewPosted, productId]);
 
   return (

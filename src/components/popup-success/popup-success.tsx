@@ -8,9 +8,15 @@ export function PopupSuccess({ onClose }: TPopupSuccessProps) {
   const btnRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
-    if (btnRef.current) {
+    let isMounted = true;
+
+    if (btnRef.current && isMounted) {
       btnRef.current.focus();
     }
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (

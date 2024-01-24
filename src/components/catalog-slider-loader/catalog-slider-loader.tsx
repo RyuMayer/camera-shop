@@ -20,10 +20,13 @@ export function CatalogSliderLoader() {
   const isPromosLoaded = useAppSelector(selectLoadedStatus);
 
   useEffect(() => {
-    dispatch(fetchPromo());
+    let isMounted = true;
+
+    if (isMounted) dispatch(fetchPromo());
 
     return () => {
       dispatch(dropPromoData());
+      isMounted = false;
     };
   }, [dispatch]);
 

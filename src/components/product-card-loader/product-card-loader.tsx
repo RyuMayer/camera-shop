@@ -22,12 +22,15 @@ export function ProductCardLoader() {
   const isCameraLoaded = useAppSelector(selectLoadedStatus);
 
   useEffect(() => {
-    if (productId) {
+    let isMounted = true;
+
+    if (productId && isMounted) {
       dispatch(fetchCamera(productId));
     }
 
     return () => {
       dispatch(dropCameraData());
+      isMounted = false;
     };
   }, [dispatch, productId]);
 

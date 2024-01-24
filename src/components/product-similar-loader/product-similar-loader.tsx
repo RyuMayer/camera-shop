@@ -28,12 +28,15 @@ export function ProductSimilarLoader() {
   const similar = useAppSelector(selectSimilar);
 
   useEffect(() => {
-    if (isCameraLoaded && productId) {
+    let isMounted = true;
+
+    if (isCameraLoaded && productId && isMounted) {
       dispatch(fetchSimilar(productId));
     }
 
     return () => {
       dispatch(dropSimilarData());
+      isMounted = false;
     };
   }, [dispatch, isCameraLoaded, productId]);
 

@@ -33,8 +33,16 @@ export function ProductReviewForm() {
   const ratingFieldValue = watch('rating');
 
   useEffect(() => {
-    setFocus('userName');
-    trigger('rating');
+    let isMounted = true;
+
+    if (isMounted) {
+      setFocus('userName');
+      trigger('rating');
+    }
+
+    return () => {
+      isMounted = false;
+    };
   }, [setFocus, trigger]);
 
   const handleFormSubmit: SubmitHandler<TFormInputs> = (data) => {

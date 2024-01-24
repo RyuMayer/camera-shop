@@ -12,21 +12,34 @@ export function Popup({ children, onClose, isNarrow = false }: TPopupProps) {
     onClose(false);
   }, [onClose]);
 
-  useEffect(() => {
-    document.body.classList.add('scroll-lock');
+  const closePopup = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape') handleCloseBtnClick();
+    },
+    [handleCloseBtnClick],
+  );
 
-    return () => document.body.classList.remove('scroll-lock');
+  useEffect(() => {
+    let isMounted = true;
+
+    if (isMounted) document.body.classList.add('scroll-lock');
+
+    return () => {
+      document.body.classList.remove('scroll-lock');
+      isMounted = false;
+    };
   }, []);
 
   useEffect(() => {
-    const closePopup = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') handleCloseBtnClick();
+    let isMounted = true;
+
+    if (isMounted) window.addEventListener('keydown', closePopup);
+
+    return () => {
+      window.removeEventListener('keydown', closePopup);
+      isMounted = false;
     };
-
-    window.addEventListener('keydown', closePopup);
-
-    return () => window.removeEventListener('keydown', closePopup);
-  }, [handleCloseBtnClick]);
+  }, [closePopup, handleCloseBtnClick]);
 
   return (
     <div
