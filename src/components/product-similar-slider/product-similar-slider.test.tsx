@@ -11,7 +11,7 @@ describe('Component: Product similar slider', () => {
   it('Should render correctly', () => {
     const mockData = [makeFakeCameraData()];
     const { withStoreComponent } = withStore(
-      <ProductSimilarSlider similar={mockData} />,
+      <ProductSimilarSlider similarCameras={mockData} />,
     );
     const preparedComponent = withRouter(withStoreComponent);
 

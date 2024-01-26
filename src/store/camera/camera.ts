@@ -42,7 +42,7 @@ export const cameraSlice = createSlice({
       .addCase(fetchCamera.rejected, (state) => {
         state.loadingStatus = LoadingStatus.Rejected;
         state.isLoaded = false;
-        toast.error('Ошибка при загрузке товара. Обновите страницу');
+        toast.error('Ошибка при загрузке товара.');
       });
   },
 });

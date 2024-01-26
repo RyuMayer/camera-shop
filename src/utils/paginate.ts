@@ -1,4 +1,4 @@
-export function getPageNumbers(totalPage: number, currentPage: number) {
+export const getPageNumbers = (totalPage: number, currentPage: number) => {
   for (let i = 1; i <= totalPage; i += 3) {
     const range = [];
 
@@ -12,4 +12,4 @@ export function getPageNumbers(totalPage: number, currentPage: number) {
   }
 
   return [];
-}
+};

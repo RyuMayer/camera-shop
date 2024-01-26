@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectSortedReviews } from '../../store/review/review.selector';
 import { ProductReviewItemMemo } from '../product-review-item/product-review-item';
 import { COUNT_REVIEWS_FOR_RENDER } from '../../const';
 
 export function ProductReviewList() {
   const reviews = useAppSelector(selectSortedReviews);
-  const { ref, inView } = useInView({ threshold: 1 });
+  const { ref, inView } = useInView({ threshold: 1, rootMargin: '-100px ' });
 
   const [countTotalReviewsForRender, setCountTotalReviewsForRender] = useState(
     COUNT_REVIEWS_FOR_RENDER,

@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { Loading } from '../loading/loading';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { Loader } from '../loader/loader';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import { fetchCamera } from '../../store/camera/camera.action';
 import {
   selectCamera,
@@ -12,9 +12,11 @@ import {
 } from '../../store/camera/camera.selector';
 import { ProductCard } from '../product-card/product-card';
 import { dropCameraData } from '../../store/camera/camera';
+import { AppRoute } from '../../const';
 
 export function ProductCardLoader() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { productId } = useParams();
 
   const camera = useAppSelector(selectCamera);
@@ -25,18 +27,20 @@ export function ProductCardLoader() {
     let isMounted = true;
 
     if (productId && isMounted) {
-      dispatch(fetchCamera(productId));
+      dispatch(fetchCamera(productId))
+        .unwrap()
+        .catch(() => navigate(AppRoute.NotFound));
     }
 
     return () => {
       dispatch(dropCameraData());
       isMounted = false;
     };
-  }, [dispatch, productId]);
+  }, [dispatch, navigate, productId]);
 
   return (
-    <Loading loadingStatus={cameraLoadingStatus} isDataLoaded={isCameraLoaded}>
-      {camera ? <ProductCard data={camera} /> : null}
-    </Loading>
+    <Loader loadingStatus={cameraLoadingStatus} isDataLoaded={isCameraLoaded}>
+      {camera && <ProductCard data={camera} />}
+    </Loader>
   );
 }

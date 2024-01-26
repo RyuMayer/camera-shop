@@ -17,18 +17,18 @@ type TComponentWithMockStore = {
   mockAxiosAdapter: MockAdapter;
 };
 
-export function withRouter(component: ReactElement) {
+export const withRouter = (component: ReactElement) => {
   return (
     <HelmetProvider>
       <BrowserRouter>{component}</BrowserRouter>
     </HelmetProvider>
   );
-}
+};
 
-export function withStore(
+export const withStore = (
   component: ReactElement,
   initialState: Partial<TState> = {},
-): TComponentWithMockStore {
+): TComponentWithMockStore => {
   const axios = createApi();
   const mockAxiosAdapter = new MockAdapter(axios);
   const middleware = [thunk.withExtraArgument(axios)];
@@ -44,4 +44,4 @@ export function withStore(
     mockStore,
     mockAxiosAdapter,
   };
-}
+};

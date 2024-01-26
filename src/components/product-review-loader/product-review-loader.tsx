@@ -1,14 +1,14 @@
 import { useEffect } from 'react';
 
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import { fetchReview } from '../../store/review/review.action';
 import {
   selectPostedStatus,
   selectLoadedStatus as selectReviewLoadedStatus,
   selectLoadingStatus as selectReviewLoadingStatus,
 } from '../../store/review/review.selector';
-import { Loading } from '../loading/loading';
+import { Loader } from '../loader/loader';
 import {
   selectCameraId,
   selectLoadedStatus as selectCameraLoadedStatus,
@@ -53,11 +53,8 @@ export function ProductReviewLoader() {
   }, [dispatch, isReviewPosted, productId]);
 
   return (
-    <Loading
-      loadingStatus={reviewsLoadingStatus}
-      isDataLoaded={isReviewsLoaded}
-    >
+    <Loader loadingStatus={reviewsLoadingStatus} isDataLoaded={isReviewsLoaded}>
       <ProductReview />
-    </Loading>
+    </Loader>
   );
 }

@@ -2,10 +2,10 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Fragment, useEffect } from 'react';
 import cn from 'classnames';
 
-import { FormStarRating } from '../../const';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { FormStarRating, ReviewValidLength } from '../../const';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { TReviewPostData } from '../../types/review';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectCameraId } from '../../store/camera/camera.selector';
 import { fetchPostReview } from '../../store/review/review.action';
 
@@ -140,12 +140,12 @@ export function ProductReviewForm() {
                   {...register('userName', {
                     required: 'Нужно указать имя',
                     minLength: {
-                      value: 1,
-                      message: 'От 1 до 15 символов',
+                      value: 2,
+                      message: 'От 2 до 15 символов',
                     },
                     maxLength: {
                       value: 15,
-                      message: 'От 1 до 15 символов',
+                      message: 'От 2 до 15 символов',
                     },
                   })}
                 />
@@ -176,12 +176,12 @@ export function ProductReviewForm() {
                   {...register('advantage', {
                     required: 'Нужно указать достоинства',
                     minLength: {
-                      value: 10,
-                      message: 'От 10 до 160 символов',
+                      value: ReviewValidLength.Min,
+                      message: `От ${ReviewValidLength.Min} до ${ReviewValidLength.Max} символов`,
                     },
                     maxLength: {
-                      value: 160,
-                      message: 'От 10 до 160 символов',
+                      value: ReviewValidLength.Max,
+                      message: `От ${ReviewValidLength.Min} до ${ReviewValidLength.Max} символов`,
                     },
                   })}
                 />
@@ -212,12 +212,12 @@ export function ProductReviewForm() {
                   {...register('disadvantage', {
                     required: 'Нужно указать недостатки',
                     minLength: {
-                      value: 10,
-                      message: 'От 10 до 160 символов',
+                      value: ReviewValidLength.Min,
+                      message: `От ${ReviewValidLength.Min} до ${ReviewValidLength.Max} символов`,
                     },
                     maxLength: {
-                      value: 160,
-                      message: 'От 10 до 160 символов',
+                      value: ReviewValidLength.Max,
+                      message: `От ${ReviewValidLength.Min} до ${ReviewValidLength.Max} символов`,
                     },
                   })}
                 />
@@ -248,12 +248,12 @@ export function ProductReviewForm() {
                   {...register('review', {
                     required: 'Нужно добавить комментарий',
                     minLength: {
-                      value: 10,
-                      message: 'От 10 до 160 символов',
+                      value: ReviewValidLength.Min,
+                      message: `От ${ReviewValidLength.Min} до ${ReviewValidLength.Max} символов`,
                     },
                     maxLength: {
-                      value: 160,
-                      message: 'От 10 до 160 символов',
+                      value: ReviewValidLength.Max,
+                      message: `От ${ReviewValidLength.Min} до ${ReviewValidLength.Max} символов`,
                     },
                   })}
                 />

@@ -1,10 +1,11 @@
+import { useEffect } from 'react';
+
 import { CameraCard } from '../camera-card/camera-card';
 import { Pagination } from '../pagination/pagination';
-import { usePaginate } from '../../hooks/usePaginate';
+import { usePaginate } from '../../hooks/use-paginate';
 import { selectCameras } from '../../store/cameras/cameras.selector';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import { CARDS_PER_PAGE } from '../../const';
-import { useEffect } from 'react';
 
 export function CatalogList() {
   const cameras = useAppSelector(selectCameras);

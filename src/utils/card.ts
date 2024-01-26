@@ -1,4 +1,4 @@
-export function formatPrice(price: number): string {
+export const formatPrice = (price: number): string => {
   const priceStr = price.toString();
   let formattedPrice = '';
   let count = 0;
@@ -12,8 +12,8 @@ export function formatPrice(price: number): string {
   }
 
   return formattedPrice;
-}
+};
 
-export function decapitalizeFirstCharacter(str: string): string {
+export const decapitalizeFirstCharacter = (str: string): string => {
   return `${str.charAt(0).toLowerCase()}${str.slice(1)}`;
-}
+};

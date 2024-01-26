@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchCameras } from '../../store/cameras/cameras.action';
-import { Loading } from '../loading/loading';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { Loader } from '../loader/loader';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import {
   selectLoadedStatus,
   selectLoadingStatus,
@@ -29,11 +29,8 @@ export function CatalogLoader() {
   }, [dispatch]);
 
   return (
-    <Loading
-      loadingStatus={camerasLoadingStatus}
-      isDataLoaded={isCamerasLoaded}
-    >
+    <Loader loadingStatus={camerasLoadingStatus} isDataLoaded={isCamerasLoaded}>
       <CatalogContent />
-    </Loading>
+    </Loader>
   );
 }

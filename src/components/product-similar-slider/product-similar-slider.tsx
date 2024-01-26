@@ -9,10 +9,12 @@ import { Navigation } from 'swiper/modules';
 import { TCamera } from '../../types/camera';
 
 type TProductSimilarSliderProps = {
-  similar: TCamera[];
+  similarCameras: TCamera[];
 };
 
-export function ProductSimilarSlider({ similar }: TProductSimilarSliderProps) {
+export function ProductSimilarSlider({
+  similarCameras,
+}: TProductSimilarSliderProps) {
   return (
     <section className="product-similar" data-testid="product-similar">
       <div className="container">
@@ -32,7 +34,7 @@ export function ProductSimilarSlider({ similar }: TProductSimilarSliderProps) {
             centerInsufficientSlides
             className="product-similar__slider-list"
           >
-            {similar.map((item) => (
+            {similarCameras.map((item) => (
               <SwiperSlide key={item.id}>
                 <CameraCard cameraData={item} />
               </SwiperSlide>

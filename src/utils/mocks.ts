@@ -14,7 +14,7 @@ export type AppThunkDispatch = ThunkDispatch<
 export const extractActionsTypes = (actions: Action<string>[]) =>
   actions.map(({ type }) => type);
 
-export function makeFakeCameraData(): TCamera {
+export const makeFakeCameraData = (): TCamera => {
   return {
     id: 1,
     name: 'Ретрокамера Dus Auge lV',
@@ -31,9 +31,9 @@ export function makeFakeCameraData(): TCamera {
     rating: 3,
     reviewCount: 58,
   };
-}
+};
 
-export function makeFakePromoData(): TPromo {
+export const makeFakePromoData = (): TPromo => {
   return {
     id: 7,
     name: 'Look 54',
@@ -42,9 +42,9 @@ export function makeFakePromoData(): TPromo {
     previewImgWebp: 'img/content/promo-look-54.webp',
     previewImgWebp2x: 'img/content/promo-look-54@2x.webp',
   };
-}
+};
 
-export function makeFakeReviewData(): TReview[] {
+export const makeFakeReviewData = (): TReview[] => {
   return [
     {
       id: '5b9497d9-3616-48f5-b36c-33800bc07abd',
@@ -100,4 +100,4 @@ export function makeFakeReviewData(): TReview[] {
       cameraId: 1,
     },
   ];
-}
+};

@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://camera-shop.accelerator.pages.academy';
+export const BASE_URL = 'https://camera-shop.accelerator.htmlacademy.pro';
 export const REQUEST_TIMEOUT = 5000;
 
 export const TOTAL_RATING_COUNT = 5;
@@ -13,6 +13,11 @@ export const COUNT_REVIEWS_FOR_RENDER = 3;
 export const SLIDER_AUTOPLAY_DELAY = 3000;
 
 export const PAGINATIONS_PER_PAGE = 3;
+
+export const ReviewValidLength = {
+  Min: 10,
+  Max: 160,
+} as const;
 
 export const AppRoute = {
   Catalog: '/',

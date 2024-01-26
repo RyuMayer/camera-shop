@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchPromo } from '../../store/promo/promo.action';
 import { CatalogSlider } from '../catalog-slider/catalog-slider';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import {
   selectLoadedStatus,
   selectLoadingStatus,
   selectPromos,
 } from '../../store/promo/promo.selector';
-import { Loading } from '../loading/loading';
+import { Loader } from '../loader/loader';
 import { dropPromoData } from '../../store/promo/promo';
 
 export function CatalogSliderLoader() {
@@ -31,8 +31,8 @@ export function CatalogSliderLoader() {
   }, [dispatch]);
 
   return (
-    <Loading loadingStatus={promosLoadingStatus} isDataLoaded={isPromosLoaded}>
-      {promos.length === 0 ? null : <CatalogSlider promos={promos} />}
-    </Loading>
+    <Loader loadingStatus={promosLoadingStatus} isDataLoaded={isPromosLoaded}>
+      {promos.length !== 0 && <CatalogSlider promos={promos} />}
+    </Loader>
   );
 }

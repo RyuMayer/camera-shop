@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 import 'dayjs/locale/ru';
 
-export function humanizeReviewDate(date: string) {
+export const humanizeReviewDate = (date: string) => {
   return dayjs(date).locale('ru').format('DD MMMM');
-}
+};
 
-export function humanizeDateTime(date: string) {
+export const humanizeDateTime = (date: string) => {
   return dayjs(date).format('YYYY-MM-DD');
-}
+};

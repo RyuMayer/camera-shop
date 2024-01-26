@@ -1,5 +1,5 @@
 import { AppRoute } from '../../const';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectCameraName } from '../../store/camera/camera.selector';
 import { TBreadcrumbsDataList } from '../../types/breadcrumbs';
 import { Breadcrumbs } from '../breadcrumbs/breadcrumbs';

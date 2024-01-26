@@ -1,4 +1,4 @@
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { openPopup } from '../../store/review/review';
 import { ProductReviewList } from '../product-review-list/product-review-list';
 

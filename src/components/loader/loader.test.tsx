@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 
-import { Loading } from './loading';
+import { Loader } from './loader';
 import { LoadingStatus } from '../../const';
 
 describe('Component: Loading', () => {
@@ -10,9 +10,9 @@ describe('Component: Loading', () => {
     const loadingStatus = LoadingStatus.Idle;
 
     render(
-      <Loading isDataLoaded={isLoaded} loadingStatus={loadingStatus}>
+      <Loader isDataLoaded={isLoaded} loadingStatus={loadingStatus}>
         {notExpectedText}
-      </Loading>,
+      </Loader>,
     );
 
     expect(screen.getByTestId('loading')).toBeInTheDocument();
@@ -24,9 +24,9 @@ describe('Component: Loading', () => {
     const loadingStatus = LoadingStatus.Loading;
 
     render(
-      <Loading isDataLoaded={isLoaded} loadingStatus={loadingStatus}>
+      <Loader isDataLoaded={isLoaded} loadingStatus={loadingStatus}>
         {notExpectedText}
-      </Loading>,
+      </Loader>,
     );
 
     expect(screen.getByTestId('loading')).toBeInTheDocument();
@@ -38,10 +38,12 @@ describe('Component: Loading', () => {
     const loadingStatus = LoadingStatus.Idle;
 
     render(
-      <Loading isDataLoaded={isLoaded} loadingStatus={loadingStatus}>
+      <Loader isDataLoaded={isLoaded} loadingStatus={loadingStatus}>
         {expectedText}
-      </Loading>,
+      </Loader>,
     );
+
+    screen.debug();
 
     expect(screen.getByText(expectedText)).toBeInTheDocument();
   });
@@ -52,9 +54,9 @@ describe('Component: Loading', () => {
     const loadingStatus = LoadingStatus.Rejected;
 
     render(
-      <Loading isDataLoaded={isLoaded} loadingStatus={loadingStatus}>
+      <Loader isDataLoaded={isLoaded} loadingStatus={loadingStatus}>
         {notExpectedText}
-      </Loading>,
+      </Loader>,
     );
 
     expect(screen.getByTestId('loading')).toBeInTheDocument();

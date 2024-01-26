@@ -90,8 +90,6 @@ describe('Camera slice', () => {
 
     expect(result).toEqual(expectedState);
     expect(mockToastError).toHaveBeenCalledTimes(1);
-    expect(mockToastError).toHaveBeenCalledWith(
-      'Ошибка при загрузке товара. Обновите страницу',
-    );
+    expect(mockToastError).toHaveBeenCalledWith('Ошибка при загрузке товара.');
   });
 });

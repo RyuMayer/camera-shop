@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { AsyncImage } from 'loadable-image';
 import { Link } from 'react-router-dom';
-import { createPortal } from 'react-dom';
 
 import './camera-card.css';
 
@@ -10,7 +9,7 @@ import { Rating } from '../rating/rating';
 import { formatPrice } from '../../utils/card';
 import { AddToCartPopup } from '../add-to-cart-popup/add-to-cart-popup';
 import { AppRoute } from '../../const';
-import { Popup } from '../popup/popup';
+import { Modal } from '../modal/modal';
 
 type TCameraCardProps = {
   cameraData: TCamera;
@@ -83,13 +82,9 @@ export function CameraCard({ cameraData }: TCameraCardProps) {
           </Link>
         </div>
       </div>
-      {isPopupOpened &&
-        createPortal(
-          <Popup onClose={onClose}>
-            <AddToCartPopup data={cameraData} />
-          </Popup>,
-          document.querySelector('main') as HTMLElement,
-        )}
+      <Modal onClose={onClose} isOpen={isPopupOpened}>
+        <AddToCartPopup data={cameraData} />
+      </Modal>
     </>
   );
 }

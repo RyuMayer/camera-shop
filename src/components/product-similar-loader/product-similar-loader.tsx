@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 
-import { useAppDispatch } from '../../hooks/useAppDispatch';
-import { Loading } from '../loading/loading';
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { Loader } from '../loader/loader';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import {
   selectLoadedStatus as selectSimilarLoadedStatus,
   selectLoadingStatus as selectSeimilarLoadingStatus,
@@ -25,7 +25,7 @@ export function ProductSimilarLoader() {
   const similarLoadingStatus = useAppSelector(selectSeimilarLoadingStatus);
   const isSimilarLoaded = useAppSelector(selectSimilarLoadedStatus);
 
-  const similar = useAppSelector(selectSimilar);
+  const similarCameras = useAppSelector(selectSimilar);
 
   useEffect(() => {
     let isMounted = true;
@@ -41,11 +41,10 @@ export function ProductSimilarLoader() {
   }, [dispatch, isCameraLoaded, productId]);
 
   return (
-    <Loading
-      loadingStatus={similarLoadingStatus}
-      isDataLoaded={isSimilarLoaded}
-    >
-      {similar.length === 0 ? null : <ProductSimilarSlider similar={similar} />}
-    </Loading>
+    <Loader loadingStatus={similarLoadingStatus} isDataLoaded={isSimilarLoaded}>
+      {similarCameras.length !== 0 && (
+        <ProductSimilarSlider similarCameras={similarCameras} />
+      )}
+    </Loader>
   );
 }

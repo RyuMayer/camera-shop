@@ -4,10 +4,9 @@ import { useState } from 'react';
 import { formatPrice } from '../../utils/card';
 import { ProductTabs } from '../product-tabs/product-tabs';
 import { Rating } from '../rating/rating';
-import { Popup } from '../popup/popup';
 import { AddToCartPopup } from '../add-to-cart-popup/add-to-cart-popup';
-import { createPortal } from 'react-dom';
 import { TCamera } from '../../types/camera';
+import { Modal } from '../modal/modal';
 
 type TProductCardProps = {
   data: TCamera;
@@ -71,13 +70,9 @@ export function ProductCard({ data: camera }: TProductCardProps) {
           </div>
         </div>
       </section>
-      {isPopupOpened &&
-        createPortal(
-          <Popup onClose={onClose}>
-            <AddToCartPopup data={camera} />
-          </Popup>,
-          document.querySelector('main') as HTMLElement,
-        )}
+      <Modal onClose={onClose} isOpen={isPopupOpened}>
+        <AddToCartPopup data={camera} />
+      </Modal>
     </>
   );
 }

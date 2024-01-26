@@ -1,15 +1,13 @@
-import { createPortal } from 'react-dom';
-
-import { useAppSelector } from '../../hooks/useAppSelector';
+import { useAppSelector } from '../../hooks/use-app-selector';
 import {
   selectOpenedStatus,
   selectPostedStatus,
 } from '../../store/review/review.selector';
-import { Popup } from '../popup/popup';
 import { ProductReviewForm } from '../product-review-form/product-review-form';
 import { PopupSuccess } from '../popup-success/popup-success';
-import { useAppDispatch } from '../../hooks/useAppDispatch';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { closePopup, dropPostedStatus } from '../../store/review/review';
+import { Modal } from '../modal/modal';
 
 export function ProductReviewPopup() {
   const dispatch = useAppDispatch();
@@ -22,16 +20,13 @@ export function ProductReviewPopup() {
     dispatch(dropPostedStatus());
   };
 
-  return isPopupOpened
-    ? createPortal(
-        <Popup onClose={onClose} isNarrow={isReviewPosted}>
-          {isReviewPosted ? (
-            <PopupSuccess onClose={onClose} />
-          ) : (
-            <ProductReviewForm />
-          )}
-        </Popup>,
-        document.querySelector('main') as HTMLElement,
-      )
-    : null;
+  return (
+    <Modal onClose={onClose} isOpen={isPopupOpened}>
+      {isReviewPosted ? (
+        <PopupSuccess onClose={onClose} />
+      ) : (
+        <ProductReviewForm />
+      )}
+    </Modal>
+  );
 }

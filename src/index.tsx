@@ -17,9 +17,8 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 
-const router = createBrowserRouter([
+export const router = createBrowserRouter([
   {
-    path: AppRoute.Catalog,
     element: <Layout />,
     children: [
       {
