@@ -71,8 +71,7 @@ export function ProductReviewForm() {
           <div className="form-review__rate">
             <fieldset
               className={cn('rate form-review__item', {
-                'is-valid': !errors.rating,
-                'is-invalid': errors.rating,
+                'is-invalid': touchedFields.review && errors.rating,
               })}
             >
               <legend className="rate__caption">
@@ -122,7 +121,6 @@ export function ProductReviewForm() {
             </fieldset>
             <div
               className={cn('custom-input form-review__item', {
-                'is-valid': touchedFields.userName && !errors.userName,
                 'is-invalid': touchedFields.userName && errors.userName,
               })}
             >
@@ -158,7 +156,6 @@ export function ProductReviewForm() {
             </div>
             <div
               className={cn('custom-input form-review__item', {
-                'is-valid': touchedFields.advantage && !errors.advantage,
                 'is-invalid': touchedFields.advantage && errors.advantage,
               })}
             >
@@ -194,7 +191,6 @@ export function ProductReviewForm() {
             </div>
             <div
               className={cn('custom-input form-review__item', {
-                'is-valid': touchedFields.disadvantage && !errors.disadvantage,
                 'is-invalid': touchedFields.disadvantage && errors.disadvantage,
               })}
             >
@@ -230,7 +226,6 @@ export function ProductReviewForm() {
             </div>
             <div
               className={cn('custom-textarea form-review__item', {
-                'is-valid': touchedFields.review && !errors.review,
                 'is-invalid': touchedFields.review && errors.review,
               })}
             >
