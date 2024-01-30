@@ -20,10 +20,12 @@ export function CatalogLoader() {
   useEffect(() => {
     let isMounted = true;
 
-    if (isMounted) dispatch(fetchCameras());
+    if (isMounted) {
+      dispatch(dropCamerasData());
+      dispatch(fetchCameras());
+    }
 
     return () => {
-      dispatch(dropCamerasData());
       isMounted = false;
     };
   }, [dispatch]);
