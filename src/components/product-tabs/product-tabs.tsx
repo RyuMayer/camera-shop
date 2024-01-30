@@ -11,22 +11,22 @@ type TProductTabsProps = {
 export function ProductTabs({ camera }: TProductTabsProps) {
   const [urlParams, setUrlParams] = useSearchParams();
 
-  const currentParam = urlParams.get(TABS_URL_PARAM) || TabUrlParam.DESCRIPTION;
+  const currentParam = urlParams.get(TABS_URL_PARAM) || TabUrlParam.Description;
   const currentTab = Object.values(TabUrlParam).some(
     (item) => item === currentParam,
   )
     ? currentParam
-    : TabUrlParam.DESCRIPTION;
+    : TabUrlParam.Description;
 
   return (
     <div className="tabs product__tabs">
       <div className="tabs__controls product__tabs-controls">
         <button
           onClick={() =>
-            setUrlParams({ [TABS_URL_PARAM]: TabUrlParam.SPECIFICATION })
+            setUrlParams({ [TABS_URL_PARAM]: TabUrlParam.Specification })
           }
           className={cn('tabs__control', {
-            'is-active': currentTab === TabUrlParam.SPECIFICATION,
+            'is-active': currentTab === TabUrlParam.Specification,
           })}
           type="button"
         >
@@ -34,10 +34,10 @@ export function ProductTabs({ camera }: TProductTabsProps) {
         </button>
         <button
           onClick={() =>
-            setUrlParams({ [TABS_URL_PARAM]: TabUrlParam.DESCRIPTION })
+            setUrlParams({ [TABS_URL_PARAM]: TabUrlParam.Description })
           }
           className={cn('tabs__control', {
-            'is-active': currentTab === TabUrlParam.DESCRIPTION,
+            'is-active': currentTab === TabUrlParam.Description,
           })}
           type="button"
         >
@@ -47,7 +47,7 @@ export function ProductTabs({ camera }: TProductTabsProps) {
       <div className="tabs__content">
         <div
           className={cn('tabs__element', {
-            'is-active': currentTab === TabUrlParam.SPECIFICATION,
+            'is-active': currentTab === TabUrlParam.Specification,
           })}
         >
           <ul className="product__tabs-list">
@@ -71,7 +71,7 @@ export function ProductTabs({ camera }: TProductTabsProps) {
         </div>
         <div
           className={cn('tabs__element', {
-            'is-active': currentTab === TabUrlParam.DESCRIPTION,
+            'is-active': currentTab === TabUrlParam.Description,
           })}
         >
           <div className="product__tabs-text">

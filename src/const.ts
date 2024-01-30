@@ -46,8 +46,28 @@ export const LoadingStatus = {
 } as const;
 
 export const TabUrlParam = {
-  DESCRIPTION: 'desc',
-  SPECIFICATION: 'spec',
+  Description: 'desc',
+  Specification: 'spec',
+} as const;
+
+export const SortUrlParam = {
+  SortBy: 'sortBy',
+  OrderBy: 'orderBy',
+} as const;
+
+export const SortBy = {
+  PRICE: 'pr',
+  POPULARITY: 'pp',
+} as const;
+
+export const OrderBy = {
+  ASC: 'asc',
+  DESC: 'desc',
+} as const;
+
+export const SortValue = {
+  [SortUrlParam.OrderBy]: [OrderBy.ASC, OrderBy.DESC],
+  [SortUrlParam.SortBy]: [SortBy.POPULARITY, SortBy.PRICE],
 } as const;
 
 export const FormStarRating = {
