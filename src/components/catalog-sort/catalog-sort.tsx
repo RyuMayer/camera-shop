@@ -1,33 +1,15 @@
 import { useSearchParams } from 'react-router-dom';
+import { ChangeEvent } from 'react';
+
 import { OrderBy, SortBy, SortUrlParam } from '../../const';
-import { getAllSearchParams } from '../../utils/url';
+import { getValidSortUrlParams } from '../../utils/url';
 
 export function CatalogSort() {
   const [urlParam, setUrlParam] = useSearchParams();
 
-  const handleChangeSort = (sortParam: { [key: string]: string }) => {
-    let allParams = getAllSearchParams(urlParam);
-
-    //FIXME: Настроить типы и переписать более лаконично
-    if (
-      SortUrlParam.SortBy in sortParam &&
-      (!(SortUrlParam.OrderBy in allParams) ||
-        !Object.values(OrderBy).some(
-          (value) => value === allParams[SortUrlParam.OrderBy],
-        ))
-    ) {
-      allParams = { ...allParams, [SortUrlParam.OrderBy]: OrderBy.ASC };
-    } else if (
-      SortUrlParam.OrderBy in sortParam &&
-      (!(SortUrlParam.SortBy in allParams) ||
-        !Object.values(SortBy).some(
-          (value) => value === allParams[SortUrlParam.SortBy],
-        ))
-    ) {
-      allParams = { ...allParams, [SortUrlParam.SortBy]: SortBy.PRICE };
-    }
-
-    setUrlParam({ ...allParams, ...sortParam });
+  const handleChangeSort = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUrlParam(getValidSortUrlParams(urlParam, name, value));
   };
 
   return (
@@ -40,11 +22,10 @@ export function CatalogSort() {
               <input
                 type="radio"
                 id="sortPrice"
-                name="sort"
+                name={SortUrlParam.SortBy}
+                value={SortBy.PRICE}
                 checked={urlParam.get(SortUrlParam.SortBy) === SortBy.PRICE}
-                onChange={() =>
-                  handleChangeSort({ [SortUrlParam.SortBy]: SortBy.PRICE })
-                }
+                onChange={handleChangeSort}
               />
               <label htmlFor="sortPrice">по цене</label>
             </div>
@@ -52,13 +33,12 @@ export function CatalogSort() {
               <input
                 type="radio"
                 id="sortPopular"
-                name="sort"
+                name={SortUrlParam.SortBy}
+                value={SortBy.POPULARITY}
                 checked={
                   urlParam.get(SortUrlParam.SortBy) === SortBy.POPULARITY
                 }
-                onChange={() =>
-                  handleChangeSort({ [SortUrlParam.SortBy]: SortBy.POPULARITY })
-                }
+                onChange={handleChangeSort}
               />
               <label htmlFor="sortPopular">по популярности</label>
             </div>
@@ -68,12 +48,11 @@ export function CatalogSort() {
               <input
                 type="radio"
                 id="up"
-                name="sort-icon"
                 aria-label="По возрастанию"
+                name={SortUrlParam.OrderBy}
+                value={OrderBy.ASC}
                 checked={urlParam.get(SortUrlParam.OrderBy) === OrderBy.ASC}
-                onChange={() =>
-                  handleChangeSort({ [SortUrlParam.OrderBy]: OrderBy.ASC })
-                }
+                onChange={handleChangeSort}
               />
               <label htmlFor="up">
                 <svg width={16} height={14} aria-hidden="true">
@@ -85,12 +64,11 @@ export function CatalogSort() {
               <input
                 type="radio"
                 id="down"
-                name="sort-icon"
                 aria-label="По убыванию"
+                name={SortUrlParam.OrderBy}
+                value={OrderBy.DESC}
                 checked={urlParam.get(SortUrlParam.OrderBy) === OrderBy.DESC}
-                onChange={() =>
-                  handleChangeSort({ [SortUrlParam.OrderBy]: OrderBy.DESC })
-                }
+                onChange={handleChangeSort}
               />
               <label htmlFor="down">
                 <svg width={16} height={14} aria-hidden="true">

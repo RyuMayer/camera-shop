@@ -1,6 +1,6 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { NameSpace, OrderBy, SortBy, SortUrlParam } from '../../const';
+import { NameSpace, SortUrlParam } from '../../const';
 import { TState } from '../../types/state';
 import { sortBy } from '../../utils/sort';
 import { isSortUrlParamsValid } from '../../utils/url';

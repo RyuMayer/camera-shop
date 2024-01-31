@@ -1,15 +1,21 @@
-import { Link } from 'react-router-dom';
+import { Link, createSearchParams } from 'react-router-dom';
 import cn from 'classnames';
 
 import { PAGINATIONS_PER_PAGE, PAGINATION_URL_PARAM } from '../../const';
 import { getPageNumbers } from '../../utils/paginate';
+import { getAllSearchParams } from '../../utils/url';
 
 type TPaginationProps = {
   currentPage: number;
   totalPage: number;
+  urlParams: URLSearchParams;
 };
 
-export function Pagination({ currentPage, totalPage }: TPaginationProps) {
+export function Pagination({
+  currentPage,
+  totalPage,
+  urlParams,
+}: TPaginationProps) {
   const pages = getPageNumbers(totalPage, currentPage);
 
   const startPage = pages[0];
@@ -28,7 +34,12 @@ export function Pagination({ currentPage, totalPage }: TPaginationProps) {
         {isPreviousBtnVisible && (
           <li className="pagination__item">
             <Link
-              to={`?${PAGINATION_URL_PARAM}=${startPage - 1}`}
+              to={{
+                search: createSearchParams({
+                  ...getAllSearchParams(urlParams),
+                  [PAGINATION_URL_PARAM]: (startPage - 1).toString(),
+                }).toString(),
+              }}
               className="pagination__link pagination__link--text"
             >
               Назад
@@ -42,7 +53,12 @@ export function Pagination({ currentPage, totalPage }: TPaginationProps) {
             data-testid="pagination-item"
           >
             <Link
-              to={`?${PAGINATION_URL_PARAM}=${pageNumber}`}
+              to={{
+                search: createSearchParams({
+                  ...getAllSearchParams(urlParams),
+                  [PAGINATION_URL_PARAM]: pageNumber.toString(),
+                }).toString(),
+              }}
               className={cn('pagination__link', {
                 'pagination__link--active': pageNumber === currentPage,
               })}
@@ -54,7 +70,12 @@ export function Pagination({ currentPage, totalPage }: TPaginationProps) {
         {isNextBtnVisible && (
           <li className="pagination__item">
             <Link
-              to={`?${PAGINATION_URL_PARAM}=${endPage + 1}`}
+              to={{
+                search: createSearchParams({
+                  ...getAllSearchParams(urlParams),
+                  [PAGINATION_URL_PARAM]: (endPage + 1).toString(),
+                }).toString(),
+              }}
               className="pagination__link pagination__link--text"
             >
               Далее

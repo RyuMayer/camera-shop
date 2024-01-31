@@ -1,13 +1,18 @@
 import { render, screen } from '@testing-library/react';
 import { Pagination } from './pagination';
 import { withRouter } from '../../utils/mock-component';
+import { createSearchParams } from 'react-router-dom';
 
 describe('Component: Pagination', () => {
   it('Should render correctly when currentPage = 1, totalPage = 1', () => {
     const currentPage = 1;
     const totalPage = 1;
     const preparedComponent = withRouter(
-      <Pagination currentPage={currentPage} totalPage={totalPage} />,
+      <Pagination
+        currentPage={currentPage}
+        totalPage={totalPage}
+        urlParams={createSearchParams({ test: 'test' })}
+      />,
     );
 
     render(preparedComponent);
@@ -20,7 +25,11 @@ describe('Component: Pagination', () => {
     const currentPage = 1;
     const totalPage = 3;
     const preparedComponent = withRouter(
-      <Pagination currentPage={currentPage} totalPage={totalPage} />,
+      <Pagination
+        currentPage={currentPage}
+        totalPage={totalPage}
+        urlParams={createSearchParams({ test: 'test' })}
+      />,
     );
 
     render(preparedComponent);
@@ -35,7 +44,11 @@ describe('Component: Pagination', () => {
     const currentPage = 1;
     const totalPage = 4;
     const preparedComponent = withRouter(
-      <Pagination currentPage={currentPage} totalPage={totalPage} />,
+      <Pagination
+        currentPage={currentPage}
+        totalPage={totalPage}
+        urlParams={createSearchParams({ test: 'test' })}
+      />,
     );
 
     render(preparedComponent);
@@ -52,7 +65,11 @@ describe('Component: Pagination', () => {
     const currentPage = 4;
     const totalPage = 4;
     const preparedComponent = withRouter(
-      <Pagination currentPage={currentPage} totalPage={totalPage} />,
+      <Pagination
+        currentPage={currentPage}
+        totalPage={totalPage}
+        urlParams={createSearchParams({ test: 'test' })}
+      />,
     );
 
     render(preparedComponent);
@@ -67,7 +84,11 @@ describe('Component: Pagination', () => {
     const currentPage = 4;
     const totalPage = 7;
     const preparedComponent = withRouter(
-      <Pagination currentPage={currentPage} totalPage={totalPage} />,
+      <Pagination
+        currentPage={currentPage}
+        totalPage={totalPage}
+        urlParams={createSearchParams({ test: 'test' })}
+      />,
     );
 
     render(preparedComponent);
@@ -84,7 +105,11 @@ describe('Component: Pagination', () => {
     const currentPage = 4;
     const totalPage = 5;
     const preparedComponent = withRouter(
-      <Pagination currentPage={currentPage} totalPage={totalPage} />,
+      <Pagination
+        currentPage={currentPage}
+        totalPage={totalPage}
+        urlParams={createSearchParams({ test: 'test' })}
+      />,
     );
 
     render(preparedComponent);

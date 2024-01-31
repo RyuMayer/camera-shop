@@ -10,7 +10,7 @@ import { useSearchParams } from 'react-router-dom';
 import { getAllSearchParams } from '../../utils/url';
 
 export function CatalogList() {
-  const [urlParams, setUrlParams] = useSearchParams();
+  const [urlParams] = useSearchParams();
 
   const sortedCameras = useAppSelector((state) =>
     selectSortedCameras(state, getAllSearchParams(urlParams)),
@@ -38,7 +38,11 @@ export function CatalogList() {
         ))}
       </div>
       {sortedCameras.length > CARDS_PER_PAGE && (
-        <Pagination currentPage={currentPage} totalPage={totalPage} />
+        <Pagination
+          currentPage={currentPage}
+          totalPage={totalPage}
+          urlParams={urlParams}
+        />
       )}
     </>
   );

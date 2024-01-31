@@ -11,4 +11,8 @@ export const sortBy = {
     a.price - b.price,
   [`${SortBy.PRICE}${OrderBy.DESC}`]: (a: TCamera, b: TCamera) =>
     b.price - a.price,
+  [`${SortBy.POPULARITY}${OrderBy.ASC}`]: (a: TCamera, b: TCamera) =>
+    a.rating !== b.rating ? a.rating - b.rating : a.reviewCount - b.reviewCount,
+  [`${SortBy.POPULARITY}${OrderBy.DESC}`]: (a: TCamera, b: TCamera) =>
+    a.rating !== b.rating ? b.rating - a.rating : b.reviewCount - a.reviewCount,
 };
