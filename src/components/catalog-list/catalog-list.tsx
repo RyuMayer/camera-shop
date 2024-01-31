@@ -16,7 +16,6 @@ export function CatalogList() {
     selectSortedCameras(state, getAllSearchParams(urlParams)),
   );
 
-  //FIXME: Доделать пагинацию при переключении камер
   const paginatedData = usePaginate(sortedCameras.length, urlParams);
 
   const { firstIdx, lastIdx, currentPage, totalPage } = paginatedData;

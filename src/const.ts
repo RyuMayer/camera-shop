@@ -65,11 +65,6 @@ export const OrderBy = {
   DESC: 'desc',
 } as const;
 
-export const SortValue = {
-  [SortUrlParam.OrderBy]: [OrderBy.ASC, OrderBy.DESC],
-  [SortUrlParam.SortBy]: [SortBy.POPULARITY, SortBy.PRICE],
-} as const;
-
 export const FormStarRating = {
   5: 'Отлично',
   4: 'Хорошо',

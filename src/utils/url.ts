@@ -1,4 +1,9 @@
+import {
+  CategoryFilter,
+  FilterUrlParam,
+} from '../components/catalog-filter/catalog-filter.const';
 import { OrderBy, SortBy, SortUrlParam } from '../const';
+import { TUrlParams } from '../types/url';
 
 export const getAllSearchParams = (params: URLSearchParams) => {
   let allParams = {};
@@ -37,6 +42,26 @@ export const isSortUrlParamsValid = (sortValues: { [key: string]: string }) => {
   return isValidSortBy && isValidOrderBy && isValidKeys;
 };
 
+export const isFilterUrlParamsValid = (sortValues: TUrlParams) => {
+  // const isValidSortBy = Object.values(SortBy).some(
+  //   (value) => sortValues[SortUrlParam.SortBy] === value,
+  // );
+  // const isValidOrderBy = Object.values(OrderBy).some(
+  //   (value) => sortValues[SortUrlParam.OrderBy] === value,
+  // );
+  // const isValidKeys = Object.values(SortUrlParam).every(
+  //   (key) => key in sortValues,
+  // );
+
+  // return isValidSortBy && isValidOrderBy && isValidKeys;
+
+  const isValidCategory = Object.values(CategoryFilter).some(
+    (value) => sortValues[FilterUrlParam.Category] === value,
+  );
+
+  return isValidCategory;
+};
+
 export const getValidSortUrlParams = (
   urlParams: URLSearchParams,
   paramName: string,
@@ -66,4 +91,14 @@ export const getValidSortUrlParams = (
   }
 
   return { ...params, [paramName]: paramValue };
+};
+
+export const isInputFilterCheked = (
+  urlParam: URLSearchParams,
+  name: string,
+  value: string,
+) => {
+  const splitParam = urlParam.get(name)?.split('-');
+
+  return Boolean(splitParam && splitParam.includes(value));
 };

@@ -3,7 +3,9 @@ import { createSelector } from '@reduxjs/toolkit';
 import { NameSpace, SortUrlParam } from '../../const';
 import { TState } from '../../types/state';
 import { sortBy } from '../../utils/sort';
-import { isSortUrlParamsValid } from '../../utils/url';
+import { isFilterUrlParamsValid, isSortUrlParamsValid } from '../../utils/url';
+import { getFilteredCameras } from '../../utils/filter';
+import { TUrlParams } from '../../types/url';
 
 type TCamerasState = Pick<TState, typeof NameSpace.Cameras>;
 
@@ -40,24 +42,27 @@ export const selectFoundCameras = createSelector(
       : [],
 );
 
-const selectSortValues = (
-  _state: TCamerasState,
-  value: { [key: string]: string },
-) => value;
+const selectSortValues = (_state: TCamerasState, value: TUrlParams) => value;
 
 export const selectSortedCameras = createSelector(
   [selectCameras, selectSortValues],
   (cameras, sortValues) => {
     const isUrlHasKeys = Boolean(Object.keys(sortValues).length);
 
-    if (isUrlHasKeys && isSortUrlParamsValid(sortValues)) {
-      return [...cameras].sort(
-        sortBy[
-          `${sortValues[SortUrlParam.SortBy]}${sortValues[SortUrlParam.OrderBy]}`
-        ],
+    let sortedAndFilteredCameras = [...cameras];
+
+    if (isFilterUrlParamsValid(sortValues)) {
+      sortedAndFilteredCameras = getFilteredCameras(
+        sortValues,
+        sortedAndFilteredCameras,
       );
     }
 
-    return cameras;
+    if (isUrlHasKeys && isSortUrlParamsValid(sortValues)) {
+      const sortByKey = `${sortValues[SortUrlParam.SortBy] ?? ''}${sortValues[SortUrlParam.OrderBy] ?? ''}`;
+      sortedAndFilteredCameras.sort(sortBy[sortByKey]);
+    }
+
+    return sortedAndFilteredCameras;
   },
 );
