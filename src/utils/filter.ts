@@ -3,6 +3,7 @@ import {
   FilterUrlParam,
   LevelFilterLocalized,
   TypeFilterLocalized,
+  ValidFilter,
 } from '../components/catalog-filter/catalog-filter.const';
 import { TCamera } from '../types/camera';
 import { TFilterUrlParams } from '../types/filter';
@@ -23,27 +24,49 @@ export const getFilteredCameras = (
 
   return cameras.filter((item) => {
     for (const key in filterParams) {
-      const filterParamValue = filterParams[key as keyof TFilterUrlParams];
-      if (filterParamValue) {
-        const values = filterParamValue.split('-').map((value) => {
-          if (key === 'category' && value in CategoryFilterLocalized)
-            return CategoryFilterLocalized[
-              value as keyof typeof CategoryFilterLocalized
-            ];
-          if (key === 'type' && value in TypeFilterLocalized)
-            return TypeFilterLocalized[
-              value as keyof typeof TypeFilterLocalized
-            ];
-          if (key === 'level' && value in LevelFilterLocalized)
-            return LevelFilterLocalized[
-              value as keyof typeof LevelFilterLocalized
-            ];
-        });
+      const filterValue = filterParams[key as keyof TFilterUrlParams];
+      if (filterValue) {
+        const validParams = [];
+        const currentValues = filterValue.split('-');
+
+        for (let i = 0; i < currentValues.length; i++) {
+          const isValidParam = ValidFilter[
+            key as keyof typeof ValidFilter
+          ].includes(currentValues[i]);
+
+          if (!isValidParam) continue;
+
+          switch (key) {
+            case FilterUrlParam.Category: {
+              validParams.push(
+                CategoryFilterLocalized[
+                  currentValues[i] as keyof typeof CategoryFilterLocalized
+                ],
+              );
+              break;
+            }
+            case FilterUrlParam.Type: {
+              validParams.push(
+                TypeFilterLocalized[
+                  currentValues[i] as keyof typeof TypeFilterLocalized
+                ],
+              );
+              break;
+            }
+            case FilterUrlParam.Level: {
+              validParams.push(
+                LevelFilterLocalized[
+                  currentValues[i] as keyof typeof LevelFilterLocalized
+                ],
+              );
+              break;
+            }
+          }
+        }
 
         if (
-          !values.some(
-            (filterValue) => filterValue === item[key as keyof TCamera],
-          )
+          validParams.length &&
+          !validParams.some((param) => param === item[key as keyof TCamera])
         ) {
           return false;
         }

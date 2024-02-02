@@ -7,49 +7,31 @@ import {
   LevelFilter,
   TypeFilter,
 } from './catalog-filter.const';
-import { getAllSearchParams, isInputFilterCheked } from '../../utils/url';
+import {
+  getValidFilterUrlParams,
+  isInputFilterCheked,
+  isInputFilterDisabled,
+} from '../../utils/url';
+import { PAGINATION_URL_PARAM } from '../../const';
+import { CatalogFilterPrice } from '../catalog-filter-price/catalog-filter-price';
 
 export function CatalogFilter() {
-  const [urlParam, setUrlParam] = useSearchParams();
+  const [urlParams, setUrlParams] = useSearchParams();
 
   const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+    setUrlParams(getValidFilterUrlParams(urlParams, name, value));
+  };
 
-    switch (name) {
-      case FilterUrlParam.Category: {
-        if (urlParam.get(name) === value) {
-          urlParam.delete(name);
-          setUrlParam({ ...getAllSearchParams(urlParam) });
-        } else {
-          setUrlParam({ ...getAllSearchParams(urlParam), [name]: value });
-        }
-        break;
-      }
-      case FilterUrlParam.Level:
-      case FilterUrlParam.Type: {
-        const splitParam = urlParam.get(name)?.split('-');
+  const handleResetClick = () => {
+    const test = urlParams.get(PAGINATION_URL_PARAM);
 
-        if (splitParam && !splitParam.includes(value)) {
-          urlParam.delete(name);
-          const newParam = { [name]: `${splitParam.join('-')}-${value}` };
-
-          setUrlParam({ ...getAllSearchParams(urlParam), ...newParam });
-        } else if (splitParam && splitParam.includes(value)) {
-          urlParam.delete(name);
-          const newParam = splitParam
-            .filter((param) => param !== value)
-            .join('-');
-
-          if (newParam) {
-            setUrlParam({ ...getAllSearchParams(urlParam), [name]: newParam });
-          } else {
-            setUrlParam({ ...getAllSearchParams(urlParam) });
-          }
-        } else {
-          setUrlParam({ ...getAllSearchParams(urlParam), [name]: value });
-        }
-        break;
-      }
+    if (test) {
+      setUrlParams({
+        [PAGINATION_URL_PARAM]: test,
+      });
+    } else {
+      setUrlParams({});
     }
   };
 
@@ -57,21 +39,7 @@ export function CatalogFilter() {
     <div className="catalog-filter">
       <form action="#">
         <h2 className="visually-hidden">Фильтр</h2>
-        <fieldset className="catalog-filter__block">
-          <legend className="title title--h5">Цена, ₽</legend>
-          <div className="catalog-filter__price-range">
-            <div className="custom-input">
-              <label>
-                <input type="number" name="price" placeholder="от" />
-              </label>
-            </div>
-            <div className="custom-input">
-              <label>
-                <input type="number" name="priceUp" placeholder="до" />
-              </label>
-            </div>
-          </div>
-        </fieldset>
+        <CatalogFilterPrice />
         <fieldset className="catalog-filter__block">
           <legend className="title title--h5">Категория</legend>
           <div className="custom-checkbox catalog-filter__item">
@@ -81,7 +49,7 @@ export function CatalogFilter() {
                 name={FilterUrlParam.Category}
                 value={CategoryFilter.Photocamera}
                 checked={
-                  urlParam.get(FilterUrlParam.Category) ===
+                  urlParams.get(FilterUrlParam.Category) ===
                   CategoryFilter.Photocamera
                 }
                 onChange={handleFilterChange}
@@ -97,7 +65,7 @@ export function CatalogFilter() {
                 name={FilterUrlParam.Category}
                 value={CategoryFilter.Videocamera}
                 checked={
-                  urlParam.get(FilterUrlParam.Category) ===
+                  urlParams.get(FilterUrlParam.Category) ===
                   CategoryFilter.Videocamera
                 }
                 onChange={handleFilterChange}
@@ -116,7 +84,7 @@ export function CatalogFilter() {
                 name={FilterUrlParam.Type}
                 value={TypeFilter.Digital}
                 checked={isInputFilterCheked(
-                  urlParam,
+                  urlParams,
                   FilterUrlParam.Type,
                   TypeFilter.Digital,
                 )}
@@ -133,9 +101,14 @@ export function CatalogFilter() {
                 name={FilterUrlParam.Type}
                 value={TypeFilter.Film}
                 checked={isInputFilterCheked(
-                  urlParam,
+                  urlParams,
                   FilterUrlParam.Type,
                   TypeFilter.Film,
+                )}
+                disabled={isInputFilterDisabled(
+                  urlParams,
+                  FilterUrlParam.Category,
+                  CategoryFilter.Videocamera,
                 )}
                 onChange={handleFilterChange}
               />
@@ -150,9 +123,14 @@ export function CatalogFilter() {
                 name={FilterUrlParam.Type}
                 value={TypeFilter.Instant}
                 checked={isInputFilterCheked(
-                  urlParam,
+                  urlParams,
                   FilterUrlParam.Type,
                   TypeFilter.Instant,
+                )}
+                disabled={isInputFilterDisabled(
+                  urlParams,
+                  FilterUrlParam.Category,
+                  CategoryFilter.Videocamera,
                 )}
                 onChange={handleFilterChange}
               />
@@ -167,7 +145,7 @@ export function CatalogFilter() {
                 name={FilterUrlParam.Type}
                 value={TypeFilter.Сollectible}
                 checked={isInputFilterCheked(
-                  urlParam,
+                  urlParams,
                   FilterUrlParam.Type,
                   TypeFilter.Сollectible,
                 )}
@@ -187,7 +165,7 @@ export function CatalogFilter() {
                 name={FilterUrlParam.Level}
                 value={LevelFilter.Zero}
                 checked={isInputFilterCheked(
-                  urlParam,
+                  urlParams,
                   FilterUrlParam.Level,
                   LevelFilter.Zero,
                 )}
@@ -204,7 +182,7 @@ export function CatalogFilter() {
                 name={FilterUrlParam.Level}
                 value={LevelFilter.Аmateur}
                 checked={isInputFilterCheked(
-                  urlParam,
+                  urlParams,
                   FilterUrlParam.Level,
                   LevelFilter.Аmateur,
                 )}
@@ -221,7 +199,7 @@ export function CatalogFilter() {
                 name={FilterUrlParam.Level}
                 value={LevelFilter.Professional}
                 checked={isInputFilterCheked(
-                  urlParam,
+                  urlParams,
                   FilterUrlParam.Level,
                   LevelFilter.Professional,
                 )}
@@ -232,7 +210,11 @@ export function CatalogFilter() {
             </label>
           </div>
         </fieldset>
-        <button className="btn catalog-filter__reset-btn" type="reset">
+        <button
+          onClick={handleResetClick}
+          className="btn catalog-filter__reset-btn"
+          type="reset"
+        >
           Сбросить фильтры
         </button>
       </form>

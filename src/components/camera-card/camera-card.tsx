@@ -37,6 +37,11 @@ export function CameraCard({ cameraData }: TCameraCardProps) {
   return (
     <>
       <div className="product-card" data-testid="camera-card">
+        Категория: {cameraData.category}
+        <br />
+        Тип камеры: {cameraData.type}
+        <br />
+        Уровень: {cameraData.level}
         <div className="product-card__img">
           <AsyncImage
             src={previewImg}

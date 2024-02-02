@@ -39,3 +39,9 @@ export const LevelFilterLocalized = {
   [LevelFilter.Аmateur]: 'Любительский',
   [LevelFilter.Professional]: 'Профессиональный',
 } as const;
+
+export const ValidFilter = {
+  [FilterUrlParam.Category]: Object.values(CategoryFilter) as string[],
+  [FilterUrlParam.Type]: Object.values(TypeFilter) as string[],
+  [FilterUrlParam.Level]: Object.values(LevelFilter) as string[],
+} as const;

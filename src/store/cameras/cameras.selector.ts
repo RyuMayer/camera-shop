@@ -6,6 +6,7 @@ import { sortBy } from '../../utils/sort';
 import { isFilterUrlParamsValid, isSortUrlParamsValid } from '../../utils/url';
 import { getFilteredCameras } from '../../utils/filter';
 import { TUrlParams } from '../../types/url';
+import { TCamera } from '../../types/camera';
 
 type TCamerasState = Pick<TState, typeof NameSpace.Cameras>;
 
@@ -47,22 +48,33 @@ const selectSortValues = (_state: TCamerasState, value: TUrlParams) => value;
 export const selectSortedCameras = createSelector(
   [selectCameras, selectSortValues],
   (cameras, sortValues) => {
-    const isUrlHasKeys = Boolean(Object.keys(sortValues).length);
-
-    let sortedAndFilteredCameras = [...cameras];
+    const data: {
+      minPrice: number;
+      maxPrice: number;
+      cameras: TCamera[];
+    } = {
+      minPrice: 0,
+      maxPrice: 0,
+      cameras: [...cameras],
+    };
+    // const isUrlHasKeys = Boolean(Object.keys(sortValues).length);
 
     if (isFilterUrlParamsValid(sortValues)) {
-      sortedAndFilteredCameras = getFilteredCameras(
-        sortValues,
-        sortedAndFilteredCameras,
-      );
+      data.cameras = getFilteredCameras(sortValues, data.cameras);
     }
 
-    if (isUrlHasKeys && isSortUrlParamsValid(sortValues)) {
+    if (data.cameras.length) {
+      const allPrices = data.cameras.map((camera) => camera.price);
+
+      data.minPrice = Math.min(...allPrices);
+      data.maxPrice = Math.max(...allPrices);
+    }
+
+    if (isSortUrlParamsValid(sortValues)) {
       const sortByKey = `${sortValues[SortUrlParam.SortBy] ?? ''}${sortValues[SortUrlParam.OrderBy] ?? ''}`;
-      sortedAndFilteredCameras.sort(sortBy[sortByKey]);
+      data.cameras.sort(sortBy[sortByKey]);
     }
 
-    return sortedAndFilteredCameras;
+    return data;
   },
 );

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 
 import { CameraCard } from '../camera-card/camera-card';
 import { Pagination } from '../pagination/pagination';
@@ -12,8 +12,13 @@ import { getAllSearchParams } from '../../utils/url';
 export function CatalogList() {
   const [urlParams] = useSearchParams();
 
-  const sortedCameras = useAppSelector((state) =>
-    selectSortedCameras(state, getAllSearchParams(urlParams)),
+  const memoUrlParams = useMemo(
+    () => getAllSearchParams(urlParams),
+    [urlParams],
+  );
+
+  const { cameras: sortedCameras } = useAppSelector((state) =>
+    selectSortedCameras(state, memoUrlParams),
   );
 
   const paginatedData = usePaginate(sortedCameras.length, urlParams);
