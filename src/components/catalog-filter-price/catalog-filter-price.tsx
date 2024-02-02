@@ -130,21 +130,29 @@ export function CatalogFilterPrice() {
     const maxParamValue = urlParams.get(PriceUrlParam.Max);
 
     if (isFirstRender) {
-      if (minParamValue) {
+      if (
+        minParamValue &&
+        Number(minParamValue) <= maxCatalogPrice &&
+        Number(minParamValue) >= minCatalogPrice
+      ) {
         setPrice((prevValue) => ({
           ...prevValue,
           [PriceUrlParam.Min]: minParamValue,
         }));
       }
 
-      if (maxParamValue) {
+      if (
+        maxParamValue &&
+        Number(maxParamValue) <= maxCatalogPrice &&
+        Number(maxParamValue) >= minCatalogPrice
+      ) {
         setPrice((prevValue) => ({
           ...prevValue,
           [PriceUrlParam.Max]: maxParamValue,
         }));
       }
     }
-  }, [isFirstRender, urlParams]);
+  }, [isFirstRender, maxCatalogPrice, minCatalogPrice, urlParams]);
 
   useEffect(() => {
     if (
@@ -205,7 +213,9 @@ export function CatalogFilterPrice() {
       !isNaN(minPriceValue) &&
       !isNaN(maxPriceValue) &&
       maxCatalogPrice !== 0 &&
-      minCatalogPrice !== 0
+      minCatalogPrice !== 0 &&
+      urlParams.get(PriceUrlParam.Min) &&
+      urlParams.get(PriceUrlParam.Min)
     ) {
       setUrlParams({
         ...memoUrlParams,

@@ -1,3 +1,4 @@
+import { PriceUrlParam } from '../components/catalog-filter-price/catalog-filter-price.const';
 import {
   CategoryFilter,
   FilterUrlParam,
@@ -30,7 +31,7 @@ const isValidParamExist = (
   );
 };
 
-export const isSortUrlParamsValid = (sortValues: { [key: string]: string }) => {
+export const isSortUrlParamsValid = (sortValues: TUrlParams) => {
   const isValidSortBy = Object.values(SortBy).some(
     (value) => sortValues[SortUrlParam.SortBy] === value,
   );
@@ -42,6 +43,14 @@ export const isSortUrlParamsValid = (sortValues: { [key: string]: string }) => {
   );
 
   return isValidSortBy && isValidOrderBy && isValidKeys;
+};
+
+export const isPriceUrlParamsValid = (sortValues: TUrlParams) => {
+  const isValidKeys = Object.values(PriceUrlParam).some(
+    (value) => value in sortValues,
+  );
+
+  return isValidKeys;
 };
 
 export const isFilterUrlParamsValid = (sortValues: TUrlParams) => {

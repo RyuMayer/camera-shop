@@ -1,3 +1,4 @@
+import { PriceUrlParam } from '../components/catalog-filter-price/catalog-filter-price.const';
 import {
   CategoryFilterLocalized,
   FilterUrlParam,
@@ -6,7 +7,7 @@ import {
   ValidFilter,
 } from '../components/catalog-filter/catalog-filter.const';
 import { TCamera } from '../types/camera';
-import { TFilterUrlParams } from '../types/filter';
+import { TFilterUrlParams, TPriceUrlParams } from '../types/filter';
 import { TUrlParams } from '../types/url';
 
 export const getFilteredCameras = (
@@ -73,5 +74,41 @@ export const getFilteredCameras = (
       }
     }
     return true;
+  });
+};
+
+export const getFilteredByPriceCameras = (
+  sortValues: TUrlParams,
+  cameras: TCamera[],
+  minPrice: number,
+  maxPrice: number,
+) => {
+  const filterParams: TPriceUrlParams = {};
+
+  for (const key in PriceUrlParam) {
+    const sourceKey = PriceUrlParam[key as keyof typeof PriceUrlParam];
+    if (sourceKey in sortValues) {
+      filterParams[sourceKey] = sortValues[sourceKey];
+    }
+  }
+
+  return cameras.filter((item) => {
+    const hasMinp = filterParams.minp !== undefined;
+    const hasMaxp = filterParams.maxp !== undefined;
+
+    const minp = hasMinp ? parseInt(filterParams.minp, 10) : undefined;
+    const maxp = hasMaxp ? parseInt(filterParams.maxp, 10) : undefined;
+
+    let isValid = true;
+
+    if (hasMinp) {
+      isValid = isValid && item.price >= minp;
+    }
+
+    if (hasMaxp) {
+      isValid = isValid && item.price <= maxp;
+    }
+
+    return isValid;
   });
 };

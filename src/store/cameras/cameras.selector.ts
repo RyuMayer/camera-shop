@@ -3,8 +3,15 @@ import { createSelector } from '@reduxjs/toolkit';
 import { NameSpace, SortUrlParam } from '../../const';
 import { TState } from '../../types/state';
 import { sortBy } from '../../utils/sort';
-import { isFilterUrlParamsValid, isSortUrlParamsValid } from '../../utils/url';
-import { getFilteredCameras } from '../../utils/filter';
+import {
+  isFilterUrlParamsValid,
+  isPriceUrlParamsValid,
+  isSortUrlParamsValid,
+} from '../../utils/url';
+import {
+  getFilteredByPriceCameras,
+  getFilteredCameras,
+} from '../../utils/filter';
 import { TUrlParams } from '../../types/url';
 import { TCamera } from '../../types/camera';
 
@@ -68,6 +75,15 @@ export const selectSortedCameras = createSelector(
 
       data.minPrice = Math.min(...allPrices);
       data.maxPrice = Math.max(...allPrices);
+    }
+
+    if (isPriceUrlParamsValid(sortValues)) {
+      data.cameras = getFilteredByPriceCameras(
+        sortValues,
+        data.cameras,
+        data.minPrice,
+        data.maxPrice,
+      );
     }
 
     if (isSortUrlParamsValid(sortValues)) {
