@@ -27,6 +27,8 @@ export function CatalogFilterPrice() {
     const inputMin = inputMinRef.current;
     const inputMax = inputMaxRef.current;
 
+    if (!minCatalogPrice || !maxCatalogPrice) return;
+
     if (inputMin && name === inputMin.name) {
       if (!isNaN(currentNumberValue)) {
         if (!minCatalogPrice) {
@@ -115,7 +117,7 @@ export function CatalogFilterPrice() {
       }
     }
 
-    if (minCatalogPrice || maxCatalogPrice) {
+    if (minCatalogPrice && maxCatalogPrice) {
       const inputMin = inputMinRef.current;
       const inputMax = inputMaxRef.current;
 
