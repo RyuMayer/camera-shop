@@ -17,11 +17,9 @@ export function CatalogList() {
     [urlParams],
   );
 
-  // const sortedCameras = useAppSelector((state) =>
-  //   selectSortedCameras(state, memoUrlParams),
-  // );
-
-  const sortedCameras = [];
+  const sortedCameras = useAppSelector((state) =>
+    selectSortedCameras(state, memoUrlParams),
+  );
 
   const paginatedData = usePaginate(sortedCameras.length, urlParams);
 

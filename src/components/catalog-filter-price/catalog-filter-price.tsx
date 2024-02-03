@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { PriceUrlParam } from './catalog-filter-price.const';
 import { getAllSearchParams } from '../../utils/url';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { selectSortedCameras } from '../../store/cameras/cameras.selector';
+import { selectMinMaxSortedCemerasPrice } from '../../store/cameras/cameras.selector';
 
 export function CatalogFilterPrice() {
   const [urlParams, setUrlParams] = useSearchParams();
@@ -16,16 +16,9 @@ export function CatalogFilterPrice() {
     return getAllSearchParams(urlParams);
   }, [urlParams]);
 
-  const sortedCameras = useAppSelector((state) =>
-    selectSortedCameras(state, memoUrlParams),
+  const [minCatalogPrice, maxCatalogPrice] = useAppSelector((state) =>
+    selectMinMaxSortedCemerasPrice(state, memoUrlParams),
   );
-
-  const [minCatalogPrice, maxCatalogPrice] = useMemo(() => {
-    if (!sortedCameras.length) return [undefined, undefined];
-
-    const prices = sortedCameras.map((camera) => camera.price);
-    return [Math.min(...prices), Math.max(...prices)];
-  }, [sortedCameras]);
 
   const handleInputBlur = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -106,28 +99,72 @@ export function CatalogFilterPrice() {
   };
 
   useEffect(() => {
-    if (
-      !minCatalogPrice &&
-      urlParams.get(PriceUrlParam.Min) &&
-      inputMinRef.current
-    ) {
-      inputMinRef.current.value = '';
+    if (!minCatalogPrice || !maxCatalogPrice) {
+      if (urlParams.get(PriceUrlParam.Min) && inputMinRef.current) {
+        inputMinRef.current.value = '';
 
-      urlParams.delete(PriceUrlParam.Min);
-      setUrlParams({ ...getAllSearchParams(urlParams) });
+        urlParams.delete(PriceUrlParam.Min);
+        setUrlParams({ ...getAllSearchParams(urlParams) });
+      }
+
+      if (urlParams.get(PriceUrlParam.Max) && inputMaxRef.current) {
+        inputMaxRef.current.value = '';
+
+        urlParams.delete(PriceUrlParam.Max);
+        setUrlParams({ ...getAllSearchParams(urlParams) });
+      }
     }
 
-    if (
-      !maxCatalogPrice &&
-      urlParams.get(PriceUrlParam.Max) &&
-      inputMaxRef.current
-    ) {
-      inputMaxRef.current.value = '';
+    if (minCatalogPrice || maxCatalogPrice) {
+      const inputMin = inputMinRef.current;
+      const inputMax = inputMaxRef.current;
 
-      urlParams.delete(PriceUrlParam.Max);
-      setUrlParams({ ...getAllSearchParams(urlParams) });
+      if (inputMin) {
+        const minInputValue = parseInt(inputMin.value, 10);
+
+        if (
+          !isNaN(minInputValue) &&
+          (minInputValue < minCatalogPrice || minInputValue > maxCatalogPrice)
+        ) {
+          inputMin.value = minCatalogPrice.toString();
+
+          if (urlParams.get(PriceUrlParam.Min)) {
+            urlParams.set(PriceUrlParam.Min, inputMin.value);
+          } else {
+            urlParams.append(PriceUrlParam.Min, inputMin.value);
+          }
+
+          setUrlParams({ ...getAllSearchParams(urlParams) });
+        }
+      }
+
+      if (inputMax) {
+        const maxInputValue = parseInt(inputMax.value, 10);
+
+        if (
+          !isNaN(maxInputValue) &&
+          (maxInputValue < minCatalogPrice || maxInputValue > maxCatalogPrice)
+        ) {
+          inputMax.value = maxCatalogPrice.toString();
+
+          if (urlParams.get(PriceUrlParam.Max)) {
+            urlParams.set(PriceUrlParam.Max, inputMax.value);
+          } else {
+            urlParams.append(PriceUrlParam.Max, inputMax.value);
+          }
+
+          setUrlParams({ ...getAllSearchParams(urlParams) });
+        }
+      }
     }
   }, [maxCatalogPrice, minCatalogPrice, setUrlParams, urlParams]);
+
+  console.log(
+    'render',
+    getAllSearchParams(urlParams),
+    minCatalogPrice,
+    maxCatalogPrice,
+  );
 
   return (
     <fieldset className="catalog-filter__block">
@@ -139,8 +176,9 @@ export function CatalogFilterPrice() {
               ref={inputMinRef}
               type="number"
               name={PriceUrlParam.Min}
-              placeholder="от"
+              placeholder={minCatalogPrice ? `от ${minCatalogPrice}` : ''}
               onBlur={handleInputBlur}
+              disabled={!minCatalogPrice}
             />
           </label>
         </div>
@@ -150,8 +188,9 @@ export function CatalogFilterPrice() {
               ref={inputMaxRef}
               type="number"
               name={PriceUrlParam.Max}
-              placeholder="до"
+              placeholder={maxCatalogPrice ? `до ${maxCatalogPrice}` : ''}
               onBlur={handleInputBlur}
+              disabled={!maxCatalogPrice}
             />
           </label>
         </div>

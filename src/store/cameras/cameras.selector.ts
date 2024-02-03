@@ -3,8 +3,15 @@ import { createSelector } from '@reduxjs/toolkit';
 import { NameSpace, SortUrlParam } from '../../const';
 import { TState } from '../../types/state';
 import { sortBy } from '../../utils/sort';
-import { isFilterUrlParamsValid, isSortUrlParamsValid } from '../../utils/url';
-import { getFilteredCameras } from '../../utils/filter';
+import {
+  isFilterUrlParamsValid,
+  isPriceUrlParamsValid,
+  isSortUrlParamsValid,
+} from '../../utils/url';
+import {
+  getFilteredByPriceCameras,
+  getFilteredCameras,
+} from '../../utils/filter';
 import { TUrlParams } from '../../types/url';
 
 type TCamerasState = Pick<TState, typeof NameSpace.Cameras>;
@@ -47,17 +54,37 @@ const selectSortValues = (_state: TCamerasState, value: TUrlParams) => value;
 export const selectSortedCameras = createSelector(
   [selectCameras, selectSortValues],
   (cameras, sortValues) => {
-    console.log('render in selectSortedCameras - ', sortValues);
+    let sortedCameras = [...cameras];
 
     if (isFilterUrlParamsValid(sortValues)) {
-      cameras = getFilteredCameras(sortValues, cameras);
+      sortedCameras = getFilteredCameras(sortValues, sortedCameras);
+    }
+
+    if (isPriceUrlParamsValid(sortValues)) {
+      sortedCameras = getFilteredByPriceCameras(sortValues, sortedCameras);
     }
 
     if (isSortUrlParamsValid(sortValues)) {
       const sortByKey = `${sortValues[SortUrlParam.SortBy] ?? ''}${sortValues[SortUrlParam.OrderBy] ?? ''}`;
-      cameras.sort(sortBy[sortByKey]);
+      sortedCameras.sort(sortBy[sortByKey]);
     }
 
-    return cameras;
+    return sortedCameras;
+  },
+);
+
+export const selectMinMaxSortedCemerasPrice = createSelector(
+  [selectCameras, selectSortValues],
+  (cameras, sortValues) => {
+    if (isFilterUrlParamsValid(sortValues)) {
+      cameras = getFilteredCameras(sortValues, cameras);
+    }
+    const prices = cameras.map((camera) => camera.price);
+
+    if (prices.length) {
+      return [Math.min(...prices), Math.max(...prices)];
+    }
+
+    return [undefined, undefined];
   },
 );
