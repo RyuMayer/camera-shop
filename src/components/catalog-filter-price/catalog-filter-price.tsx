@@ -176,6 +176,8 @@ export function CatalogFilterPrice() {
     const maxPriceValue = parseInt(price[PriceUrlParam.Max], 10);
     const minPriceValue = parseInt(price[PriceUrlParam.Min], 10);
 
+    console.log('in effect');
+
     const values = {
       min: minPriceValue.toString(),
       max: maxPriceValue.toString(),
@@ -201,6 +203,7 @@ export function CatalogFilterPrice() {
       minCatalogPrice !== 0 &&
       urlParams.get(PriceUrlParam.Min)
     ) {
+      console.log('min if');
       setPrice((prevValue) => ({
         ...prevValue,
         [PriceUrlParam.Min]: minCatalogPrice.toString(),
@@ -210,20 +213,27 @@ export function CatalogFilterPrice() {
     }
 
     if (
-      !isNaN(minPriceValue) &&
-      !isNaN(maxPriceValue) &&
-      maxCatalogPrice !== 0 &&
-      minCatalogPrice !== 0 &&
-      urlParams.get(PriceUrlParam.Min) &&
-      urlParams.get(PriceUrlParam.Min)
+      !isNaN(minPriceValue) ||
+      (!isNaN(maxPriceValue) && maxCatalogPrice !== 0 && minCatalogPrice !== 0)
     ) {
-      setUrlParams({
-        ...memoUrlParams,
-        [PriceUrlParam.Min]: values.min,
-        [PriceUrlParam.Max]: values.max,
-      });
+      if (
+        urlParams.get(PriceUrlParam.Min) ||
+        urlParams.get(PriceUrlParam.Max)
+      ) {
+        console.log('last if');
+        values.min = isNaN(Number(values.min)) ? '' : values.min;
+        values.max = isNaN(Number(values.max)) ? '' : values.max;
+
+        setUrlParams({
+          ...memoUrlParams,
+          [PriceUrlParam.Min]: values.min,
+          [PriceUrlParam.Max]: values.max,
+        });
+      }
     }
   }, [maxCatalogPrice, minCatalogPrice]);
+
+  console.log('urls - ', getAllSearchParams(urlParams), 'state - ', price);
 
   return (
     <fieldset className="catalog-filter__block">

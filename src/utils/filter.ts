@@ -92,23 +92,40 @@ export const getFilteredByPriceCameras = (
     }
   }
 
-  return cameras.filter((item) => {
-    const hasMinp = filterParams.minp !== undefined;
-    const hasMaxp = filterParams.maxp !== undefined;
-
-    const minp = hasMinp ? parseInt(filterParams.minp, 10) : undefined;
-    const maxp = hasMaxp ? parseInt(filterParams.maxp, 10) : undefined;
-
-    let isValid = true;
-
-    if (hasMinp) {
-      isValid = isValid && item.price >= minp;
+  return cameras.filter((camera) => {
+    if (
+      filterParams.minp &&
+      !filterParams.maxp &&
+      Number(filterParams.minp) >= minPrice &&
+      Number(filterParams.minp) <= maxPrice
+    ) {
+      console.log('1 if');
+      return camera.price >= Number(filterParams.minp);
     }
 
-    if (hasMaxp) {
-      isValid = isValid && item.price <= maxp;
+    if (
+      !filterParams.minp &&
+      filterParams.maxp &&
+      Number(filterParams.maxp) >= minPrice &&
+      Number(filterParams.maxp) <= maxPrice
+    ) {
+      console.log('2 if');
+      return camera.price <= Number(filterParams.maxp);
     }
 
-    return isValid;
+    if (
+      filterParams.minp &&
+      filterParams.maxp &&
+      Number(filterParams.maxp) >= minPrice &&
+      Number(filterParams.maxp) <= maxPrice &&
+      Number(filterParams.minp) >= minPrice &&
+      Number(filterParams.minp) <= maxPrice
+    ) {
+      console.log('3 if');
+      return (
+        camera.price >= Number(filterParams.minp) &&
+        camera.price <= Number(filterParams.maxp)
+      );
+    }
   });
 };
