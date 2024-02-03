@@ -3,17 +3,9 @@ import { createSelector } from '@reduxjs/toolkit';
 import { NameSpace, SortUrlParam } from '../../const';
 import { TState } from '../../types/state';
 import { sortBy } from '../../utils/sort';
-import {
-  isFilterUrlParamsValid,
-  isPriceUrlParamsValid,
-  isSortUrlParamsValid,
-} from '../../utils/url';
-import {
-  getFilteredByPriceCameras,
-  getFilteredCameras,
-} from '../../utils/filter';
+import { isFilterUrlParamsValid, isSortUrlParamsValid } from '../../utils/url';
+import { getFilteredCameras } from '../../utils/filter';
 import { TUrlParams } from '../../types/url';
-import { TCamera } from '../../types/camera';
 
 type TCamerasState = Pick<TState, typeof NameSpace.Cameras>;
 
@@ -55,42 +47,17 @@ const selectSortValues = (_state: TCamerasState, value: TUrlParams) => value;
 export const selectSortedCameras = createSelector(
   [selectCameras, selectSortValues],
   (cameras, sortValues) => {
-    const data: {
-      minPrice: number;
-      maxPrice: number;
-      cameras: TCamera[];
-    } = {
-      minPrice: 0,
-      maxPrice: 0,
-      cameras: [...cameras],
-    };
-    // const isUrlHasKeys = Boolean(Object.keys(sortValues).length);
+    console.log('render in selectSortedCameras - ', sortValues);
 
     if (isFilterUrlParamsValid(sortValues)) {
-      data.cameras = getFilteredCameras(sortValues, data.cameras);
-    }
-
-    if (data.cameras.length) {
-      const allPrices = data.cameras.map((camera) => camera.price);
-
-      data.minPrice = Math.min(...allPrices);
-      data.maxPrice = Math.max(...allPrices);
-    }
-
-    if (isPriceUrlParamsValid(sortValues)) {
-      data.cameras = getFilteredByPriceCameras(
-        sortValues,
-        data.cameras,
-        data.minPrice,
-        data.maxPrice,
-      );
+      cameras = getFilteredCameras(sortValues, cameras);
     }
 
     if (isSortUrlParamsValid(sortValues)) {
       const sortByKey = `${sortValues[SortUrlParam.SortBy] ?? ''}${sortValues[SortUrlParam.OrderBy] ?? ''}`;
-      data.cameras.sort(sortBy[sortByKey]);
+      cameras.sort(sortBy[sortByKey]);
     }
 
-    return data;
+    return cameras;
   },
 );

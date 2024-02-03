@@ -1,4 +1,3 @@
-import { PriceUrlParam } from '../components/catalog-filter-price/catalog-filter-price.const';
 import {
   CategoryFilterLocalized,
   FilterUrlParam,
@@ -7,7 +6,7 @@ import {
   ValidFilter,
 } from '../components/catalog-filter/catalog-filter.const';
 import { TCamera } from '../types/camera';
-import { TFilterUrlParams, TPriceUrlParams } from '../types/filter';
+import { TFilterUrlParams } from '../types/filter';
 import { TUrlParams } from '../types/url';
 
 export const getFilteredCameras = (
@@ -74,58 +73,5 @@ export const getFilteredCameras = (
       }
     }
     return true;
-  });
-};
-
-export const getFilteredByPriceCameras = (
-  sortValues: TUrlParams,
-  cameras: TCamera[],
-  minPrice: number,
-  maxPrice: number,
-) => {
-  const filterParams: TPriceUrlParams = {};
-
-  for (const key in PriceUrlParam) {
-    const sourceKey = PriceUrlParam[key as keyof typeof PriceUrlParam];
-    if (sourceKey in sortValues) {
-      filterParams[sourceKey] = sortValues[sourceKey];
-    }
-  }
-
-  return cameras.filter((camera) => {
-    if (
-      filterParams.minp &&
-      !filterParams.maxp &&
-      Number(filterParams.minp) >= minPrice &&
-      Number(filterParams.minp) <= maxPrice
-    ) {
-      console.log('1 if');
-      return camera.price >= Number(filterParams.minp);
-    }
-
-    if (
-      !filterParams.minp &&
-      filterParams.maxp &&
-      Number(filterParams.maxp) >= minPrice &&
-      Number(filterParams.maxp) <= maxPrice
-    ) {
-      console.log('2 if');
-      return camera.price <= Number(filterParams.maxp);
-    }
-
-    if (
-      filterParams.minp &&
-      filterParams.maxp &&
-      Number(filterParams.maxp) >= minPrice &&
-      Number(filterParams.maxp) <= maxPrice &&
-      Number(filterParams.minp) >= minPrice &&
-      Number(filterParams.minp) <= maxPrice
-    ) {
-      console.log('3 if');
-      return (
-        camera.price >= Number(filterParams.minp) &&
-        camera.price <= Number(filterParams.maxp)
-      );
-    }
   });
 };

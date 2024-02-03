@@ -17,9 +17,11 @@ export function CatalogList() {
     [urlParams],
   );
 
-  const { cameras: sortedCameras } = useAppSelector((state) =>
-    selectSortedCameras(state, memoUrlParams),
-  );
+  // const sortedCameras = useAppSelector((state) =>
+  //   selectSortedCameras(state, memoUrlParams),
+  // );
+
+  const sortedCameras = [];
 
   const paginatedData = usePaginate(sortedCameras.length, urlParams);
 

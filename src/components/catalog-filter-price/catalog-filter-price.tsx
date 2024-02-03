@@ -1,239 +1,133 @@
+import { ChangeEvent, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
-import { useAppSelector } from '../../hooks/use-app-selector';
-import { getAllSearchParams } from '../../utils/url';
-import { selectSortedCameras } from '../../store/cameras/cameras.selector';
-import {
-  ChangeEvent,
-  KeyboardEvent,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
 import { PriceUrlParam } from './catalog-filter-price.const';
-import { useIsFirstRender } from '../../hooks/use-is-first-render';
-
-type TPriceState = {
-  [PriceUrlParam.Min]: string;
-  [PriceUrlParam.Max]: string;
-};
+import { getAllSearchParams } from '../../utils/url';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { selectSortedCameras } from '../../store/cameras/cameras.selector';
 
 export function CatalogFilterPrice() {
   const [urlParams, setUrlParams] = useSearchParams();
-  const [price, setPrice] = useState<TPriceState>({
-    [PriceUrlParam.Min]: '',
-    [PriceUrlParam.Max]: '',
-  });
-  const isFirstRender = useIsFirstRender();
 
-  const memoUrlParams = useMemo(
-    () => getAllSearchParams(urlParams),
-    [urlParams],
+  const inputMinRef = useRef<HTMLInputElement>(null);
+  const inputMaxRef = useRef<HTMLInputElement>(null);
+
+  const memoUrlParams = useMemo(() => {
+    return getAllSearchParams(urlParams);
+  }, [urlParams]);
+
+  const sortedCameras = useAppSelector((state) =>
+    selectSortedCameras(state, memoUrlParams),
   );
 
-  const {
-    cameras,
-    maxPrice: maxCatalogPrice,
-    minPrice: minCatalogPrice,
-  } = useAppSelector((state) => selectSortedCameras(state, memoUrlParams));
+  const [minCatalogPrice, maxCatalogPrice] = useMemo(() => {
+    if (!sortedCameras.length) return [undefined, undefined];
 
-  const handleNumberInput = (name: string, value: string) => {
-    const inputNumberValue = parseInt(value, 10);
-
-    if (isNaN(inputNumberValue) || (!minCatalogPrice && !maxCatalogPrice)) {
-      if (name === PriceUrlParam.Min && urlParams.get(PriceUrlParam.Min)) {
-        urlParams.delete(PriceUrlParam.Min);
-        setUrlParams({ ...getAllSearchParams(urlParams) });
-      }
-
-      if (name === PriceUrlParam.Max && urlParams.get(PriceUrlParam.Max)) {
-        urlParams.delete(PriceUrlParam.Max);
-        setUrlParams({ ...getAllSearchParams(urlParams) });
-      }
-
-      return;
-    }
-
-    if (inputNumberValue <= 0) {
-      const defaultValues = {
-        [PriceUrlParam.Min]: minCatalogPrice.toString(),
-        [PriceUrlParam.Max]: maxCatalogPrice.toString(),
-      };
-
-      if (name === PriceUrlParam.Min || name === PriceUrlParam.Max) {
-        const defaultValue = defaultValues[name] ? defaultValues[name] : '0';
-        setPrice((prevValue) => ({ ...prevValue, [name]: defaultValue }));
-        setUrlParams({ ...memoUrlParams, [name]: defaultValue });
-
-        return;
-      }
-    }
-
-    if (name === PriceUrlParam.Min) {
-      const currentMaxPrice =
-        Number(price[PriceUrlParam.Max]) || maxCatalogPrice;
-
-      if (
-        inputNumberValue < minCatalogPrice ||
-        inputNumberValue > currentMaxPrice
-      ) {
-        setPrice((prevValue) => ({
-          ...prevValue,
-          [name]: minCatalogPrice.toString(),
-        }));
-        setUrlParams({ ...memoUrlParams, [name]: minCatalogPrice.toString() });
-      } else {
-        setUrlParams({ ...memoUrlParams, [name]: price[PriceUrlParam.Min] });
-      }
-    }
-
-    if (name === PriceUrlParam.Max) {
-      const currentMinPrice =
-        Number(price[PriceUrlParam.Min]) || minCatalogPrice;
-
-      if (
-        inputNumberValue > maxCatalogPrice ||
-        inputNumberValue < currentMinPrice
-      ) {
-        setPrice((prevValue) => ({
-          ...prevValue,
-          [name]: maxCatalogPrice.toString(),
-        }));
-
-        setUrlParams({ ...memoUrlParams, [name]: maxCatalogPrice.toString() });
-      } else {
-        setUrlParams({ ...memoUrlParams, [name]: price[PriceUrlParam.Max] });
-      }
-    }
-  };
-
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setPrice((prevValue) => ({ ...prevValue, [name]: value }));
-  };
+    const prices = sortedCameras.map((camera) => camera.price);
+    return [Math.min(...prices), Math.max(...prices)];
+  }, [sortedCameras]);
 
   const handleInputBlur = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    handleNumberInput(name, value);
-  };
+    const currentNumberValue = parseInt(value, 10);
 
-  const handleInputKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      const { name, value } = e.currentTarget;
-      handleNumberInput(name, value);
+    const inputMin = inputMinRef.current;
+    const inputMax = inputMaxRef.current;
+
+    if (inputMin && name === inputMin.name) {
+      if (!isNaN(currentNumberValue)) {
+        if (!minCatalogPrice) {
+          inputMin.value = '';
+
+          urlParams.delete(PriceUrlParam.Min);
+          setUrlParams({ ...getAllSearchParams(urlParams) });
+
+          return;
+        }
+
+        if (
+          currentNumberValue < minCatalogPrice ||
+          currentNumberValue > maxCatalogPrice
+        ) {
+          inputMin.value = minCatalogPrice.toString();
+          setUrlParams({
+            ...getAllSearchParams(urlParams),
+            [PriceUrlParam.Min]: inputMin.value,
+          });
+        } else {
+          inputMin.value = currentNumberValue.toString();
+          setUrlParams({
+            ...getAllSearchParams(urlParams),
+            [PriceUrlParam.Min]: inputMin.value,
+          });
+        }
+      } else {
+        inputMin.value = '';
+
+        urlParams.delete(PriceUrlParam.Min);
+        setUrlParams({ ...getAllSearchParams(urlParams) });
+      }
+    }
+
+    if (inputMax && name === inputMax.name) {
+      if (!isNaN(currentNumberValue)) {
+        if (!maxCatalogPrice) {
+          inputMax.value = '';
+
+          urlParams.delete(PriceUrlParam.Max);
+          setUrlParams({ ...getAllSearchParams(urlParams) });
+
+          return;
+        }
+
+        if (
+          currentNumberValue < minCatalogPrice ||
+          currentNumberValue > maxCatalogPrice
+        ) {
+          inputMax.value = maxCatalogPrice.toString();
+          setUrlParams({
+            ...getAllSearchParams(urlParams),
+            [PriceUrlParam.Max]: inputMax.value,
+          });
+        } else {
+          inputMax.value = currentNumberValue.toString();
+          setUrlParams({
+            ...getAllSearchParams(urlParams),
+            [PriceUrlParam.Max]: inputMax.value,
+          });
+        }
+      } else {
+        inputMax.value = '';
+
+        urlParams.delete(PriceUrlParam.Max);
+        setUrlParams({ ...getAllSearchParams(urlParams) });
+      }
     }
   };
-
-  useEffect(() => {
-    const minParamValue = urlParams.get(PriceUrlParam.Min);
-    const maxParamValue = urlParams.get(PriceUrlParam.Max);
-
-    if (isFirstRender) {
-      if (
-        minParamValue &&
-        Number(minParamValue) <= maxCatalogPrice &&
-        Number(minParamValue) >= minCatalogPrice
-      ) {
-        setPrice((prevValue) => ({
-          ...prevValue,
-          [PriceUrlParam.Min]: minParamValue,
-        }));
-      }
-
-      if (
-        maxParamValue &&
-        Number(maxParamValue) <= maxCatalogPrice &&
-        Number(maxParamValue) >= minCatalogPrice
-      ) {
-        setPrice((prevValue) => ({
-          ...prevValue,
-          [PriceUrlParam.Max]: maxParamValue,
-        }));
-      }
-    }
-  }, [isFirstRender, maxCatalogPrice, minCatalogPrice, urlParams]);
 
   useEffect(() => {
     if (
-      !cameras.length &&
-      (urlParams.get(PriceUrlParam.Min) || urlParams.get(PriceUrlParam.Max))
+      !minCatalogPrice &&
+      urlParams.get(PriceUrlParam.Min) &&
+      inputMinRef.current
     ) {
-      setPrice({ [PriceUrlParam.Min]: '', [PriceUrlParam.Max]: '' });
+      inputMinRef.current.value = '';
 
       urlParams.delete(PriceUrlParam.Min);
-      urlParams.delete(PriceUrlParam.Max);
-
       setUrlParams({ ...getAllSearchParams(urlParams) });
     }
 
-    if (!Object.keys(getAllSearchParams(urlParams)).length) {
-      setPrice({ [PriceUrlParam.Min]: '', [PriceUrlParam.Max]: '' });
-    }
-  }, [cameras, setUrlParams, urlParams]);
-
-  useEffect(() => {
-    const maxPriceValue = parseInt(price[PriceUrlParam.Max], 10);
-    const minPriceValue = parseInt(price[PriceUrlParam.Min], 10);
-
-    console.log('in effect');
-
-    const values = {
-      min: minPriceValue.toString(),
-      max: maxPriceValue.toString(),
-    };
-
     if (
-      !isNaN(maxPriceValue) &&
-      (maxPriceValue > maxCatalogPrice || maxPriceValue < minCatalogPrice) &&
-      maxCatalogPrice !== 0 &&
-      urlParams.get(PriceUrlParam.Max)
+      !maxCatalogPrice &&
+      urlParams.get(PriceUrlParam.Max) &&
+      inputMaxRef.current
     ) {
-      setPrice((prevValue) => ({
-        ...prevValue,
-        [PriceUrlParam.Max]: maxCatalogPrice.toString(),
-      }));
+      inputMaxRef.current.value = '';
 
-      values.max = maxCatalogPrice.toString();
+      urlParams.delete(PriceUrlParam.Max);
+      setUrlParams({ ...getAllSearchParams(urlParams) });
     }
-
-    if (
-      !isNaN(minPriceValue) &&
-      (minPriceValue < maxCatalogPrice || minPriceValue > minCatalogPrice) &&
-      minCatalogPrice !== 0 &&
-      urlParams.get(PriceUrlParam.Min)
-    ) {
-      console.log('min if');
-      setPrice((prevValue) => ({
-        ...prevValue,
-        [PriceUrlParam.Min]: minCatalogPrice.toString(),
-      }));
-
-      values.min = minCatalogPrice.toString();
-    }
-
-    if (
-      !isNaN(minPriceValue) ||
-      (!isNaN(maxPriceValue) && maxCatalogPrice !== 0 && minCatalogPrice !== 0)
-    ) {
-      if (
-        urlParams.get(PriceUrlParam.Min) ||
-        urlParams.get(PriceUrlParam.Max)
-      ) {
-        console.log('last if');
-        values.min = isNaN(Number(values.min)) ? '' : values.min;
-        values.max = isNaN(Number(values.max)) ? '' : values.max;
-
-        setUrlParams({
-          ...memoUrlParams,
-          [PriceUrlParam.Min]: values.min,
-          [PriceUrlParam.Max]: values.max,
-        });
-      }
-    }
-  }, [maxCatalogPrice, minCatalogPrice]);
-
-  console.log('urls - ', getAllSearchParams(urlParams), 'state - ', price);
+  }, [maxCatalogPrice, minCatalogPrice, setUrlParams, urlParams]);
 
   return (
     <fieldset className="catalog-filter__block">
@@ -242,28 +136,22 @@ export function CatalogFilterPrice() {
         <div className="custom-input">
           <label>
             <input
+              ref={inputMinRef}
               type="number"
               name={PriceUrlParam.Min}
-              value={price[PriceUrlParam.Min]}
-              onChange={handleInputChange}
+              placeholder="от"
               onBlur={handleInputBlur}
-              onKeyDown={handleInputKeydown}
-              disabled={Boolean(!minCatalogPrice)}
-              placeholder={`от ${minCatalogPrice || ''}`}
             />
           </label>
         </div>
         <div className="custom-input">
           <label>
             <input
+              ref={inputMaxRef}
               type="number"
               name={PriceUrlParam.Max}
-              value={price[PriceUrlParam.Max]}
-              onChange={handleInputChange}
+              placeholder="до"
               onBlur={handleInputBlur}
-              onKeyDown={handleInputKeydown}
-              disabled={Boolean(!maxCatalogPrice)}
-              placeholder={`до ${maxCatalogPrice || ''}`}
             />
           </label>
         </div>
