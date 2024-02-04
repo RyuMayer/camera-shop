@@ -1,5 +1,5 @@
 import { useSearchParams } from 'react-router-dom';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, MouseEvent } from 'react';
 
 import {
   CategoryFilter,
@@ -23,7 +23,9 @@ export function CatalogFilter() {
     setUrlParams(getValidFilterUrlParams(urlParams, name, value));
   };
 
-  const handleResetClick = () => {
+  const handleResetClick = (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
     const paginationUrlParam = urlParams.get(PAGINATION_URL_PARAM);
 
     if (paginationUrlParam) {
@@ -213,7 +215,6 @@ export function CatalogFilter() {
         <button
           onClick={handleResetClick}
           className="btn catalog-filter__reset-btn"
-          type="reset"
         >
           Сбросить фильтры
         </button>
