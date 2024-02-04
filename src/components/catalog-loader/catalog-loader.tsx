@@ -21,12 +21,12 @@ export function CatalogLoader() {
     let isMounted = true;
 
     if (isMounted) {
-      dispatch(dropCamerasData());
       dispatch(fetchCameras());
     }
 
     return () => {
       isMounted = false;
+      dispatch(dropCamerasData());
     };
   }, [dispatch]);
 

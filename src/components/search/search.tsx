@@ -8,7 +8,6 @@ import { useLocation } from 'react-router-dom';
 import { SearchList } from '../search-list/search-list';
 import { TFoundCameras } from '../../types/search';
 
-//FIXME: Загружать данные на других страницах, а не только на главной
 export function Search() {
   const location = useLocation();
   const [searchValue, setSearchValue] = useState('');

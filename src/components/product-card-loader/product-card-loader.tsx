@@ -13,6 +13,8 @@ import {
 import { ProductCard } from '../product-card/product-card';
 import { dropCameraData } from '../../store/camera/camera';
 import { AppRoute } from '../../const';
+import { dropCamerasData } from '../../store/cameras/cameras';
+import { fetchCameras } from '../../store/cameras/cameras.action';
 
 export function ProductCardLoader() {
   const dispatch = useAppDispatch();
@@ -27,12 +29,14 @@ export function ProductCardLoader() {
     let isMounted = true;
 
     if (productId && isMounted) {
+      dispatch(fetchCameras());
       dispatch(fetchCamera(productId))
         .unwrap()
         .catch(() => navigate(AppRoute.NotFound));
     }
 
     return () => {
+      dispatch(dropCamerasData());
       dispatch(dropCameraData());
       isMounted = false;
     };

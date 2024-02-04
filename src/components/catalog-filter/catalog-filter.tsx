@@ -24,11 +24,11 @@ export function CatalogFilter() {
   };
 
   const handleResetClick = () => {
-    const test = urlParams.get(PAGINATION_URL_PARAM);
+    const paginationUrlParam = urlParams.get(PAGINATION_URL_PARAM);
 
-    if (test) {
+    if (paginationUrlParam) {
       setUrlParams({
-        [PAGINATION_URL_PARAM]: test,
+        [PAGINATION_URL_PARAM]: paginationUrlParam,
       });
     } else {
       setUrlParams({});
