@@ -202,6 +202,7 @@ export function CatalogFilterPrice() {
         <div className="custom-input">
           <label>
             <input
+              data-testid="input-min"
               ref={inputMinRef}
               type="number"
               name={PriceUrlParam.Min}
@@ -215,6 +216,7 @@ export function CatalogFilterPrice() {
         <div className="custom-input">
           <label>
             <input
+              data-testid="input-max"
               ref={inputMaxRef}
               type="number"
               name={PriceUrlParam.Max}

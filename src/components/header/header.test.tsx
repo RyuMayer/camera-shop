@@ -1,12 +1,21 @@
 import { render, screen } from '@testing-library/react';
 
 import { Header } from './header';
-import { withRouter } from '../../utils/mock-component';
+import { withRouter, withStore } from '../../utils/mock-component';
 
 describe('Component: Header', () => {
   it('Should render correctly', () => {
     const expectedText = 'Каталог';
-    const preparedComponent = withRouter(<Header />);
+
+    const { withStoreComponent } = withStore(<Header />, {
+      CAMERAS: {
+        data: [],
+        isLoaded: true,
+        loadingStatus: 'idle',
+      },
+    });
+
+    const preparedComponent = withRouter(withStoreComponent);
 
     render(preparedComponent);
 

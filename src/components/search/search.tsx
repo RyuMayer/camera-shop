@@ -49,6 +49,7 @@ export function Search() {
             <use xlinkHref="#icon-lens" />
           </svg>
           <input
+            data-testid="search-input"
             value={searchValue}
             onChange={handleInputChange}
             onBlur={handleInputBlur}

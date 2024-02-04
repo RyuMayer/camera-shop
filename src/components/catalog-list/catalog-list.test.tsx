@@ -53,6 +53,8 @@ describe('Component: Catalog list', () => {
 
     render(preparedComponent);
 
-    expect(screen.getByText('Нет доступных товаров.')).toBeInTheDocument();
+    expect(
+      screen.getByText('По вашему запросу ничего не найдено.'),
+    ).toBeInTheDocument();
   });
 });
