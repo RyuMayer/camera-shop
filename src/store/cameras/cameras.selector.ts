@@ -1,18 +1,17 @@
 import { createSelector } from '@reduxjs/toolkit';
 
-import { NameSpace, SortUrlParam } from '../../const';
+import { NameSpace } from '../../const';
 import { TState } from '../../types/state';
-import { sortBy } from '../../utils/sort';
-import {
-  isFilterUrlParamsValid,
-  isPriceUrlParamsValid,
-  isSortUrlParamsValid,
-} from '../../utils/url';
+import { isSortUrlParamsValid, sortBy } from '../../utils/sort';
+
 import {
   getFilteredByPriceCameras,
   getFilteredCameras,
+  isFilterUrlParamsValid,
+  isPriceUrlParamsValid,
 } from '../../utils/filter';
 import { TUrlParams } from '../../types/url';
+import { SortUrlParam } from '../../components/catalog-sort/catalog-sort.const';
 
 type TCamerasState = Pick<TState, typeof NameSpace.Cameras>;
 

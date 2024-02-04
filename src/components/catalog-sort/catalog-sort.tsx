@@ -1,8 +1,8 @@
 import { useSearchParams } from 'react-router-dom';
 import { ChangeEvent } from 'react';
 
-import { OrderBy, SortBy, SortUrlParam } from '../../const';
-import { getValidSortUrlParams } from '../../utils/url';
+import { OrderBy, SortBy, SortUrlParam } from './catalog-sort.const';
+import { getValidSortUrlParams } from '../../utils/sort';
 
 export function CatalogSort() {
   const [urlParam, setUrlParam] = useSearchParams();

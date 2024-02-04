@@ -7,13 +7,13 @@ import {
   LevelFilter,
   TypeFilter,
 } from './catalog-filter.const';
+import { PAGINATION_URL_PARAM } from '../../const';
+import { CatalogFilterPrice } from '../catalog-filter-price/catalog-filter-price';
 import {
   getValidFilterUrlParams,
   isInputFilterCheked,
   isInputFilterDisabled,
-} from '../../utils/url';
-import { PAGINATION_URL_PARAM } from '../../const';
-import { CatalogFilterPrice } from '../catalog-filter-price/catalog-filter-price';
+} from '../../utils/filter';
 
 export function CatalogFilter() {
   const [urlParams, setUrlParams] = useSearchParams();

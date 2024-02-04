@@ -2,12 +2,12 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Fragment, useEffect } from 'react';
 import cn from 'classnames';
 
-import { FormStarRating, ReviewValidLength } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { TReviewPostData } from '../../types/review';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectCameraId } from '../../store/camera/camera.selector';
 import { fetchPostReview } from '../../store/review/review.action';
+import { FormStarRating, ReviewValidLength } from './product-review-form.const';
 
 type TFormInputs = {
   rating: string;

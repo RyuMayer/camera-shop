@@ -2,7 +2,7 @@ import cn from 'classnames';
 
 import { TCamera } from '../../types/camera';
 import { useSearchParams } from 'react-router-dom';
-import { TABS_URL_PARAM, TabUrlParam } from '../../const';
+import { TABS_URL_PARAM, TabUrlParam } from './product-tabs.const';
 
 type TProductTabsProps = {
   camera: TCamera;
