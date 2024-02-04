@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useMemo, useRef } from 'react';
+import { ChangeEvent, KeyboardEvent, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { PriceUrlParam } from './catalog-filter-price.const';
@@ -20,8 +20,7 @@ export function CatalogFilterPrice() {
     selectMinMaxSortedCemerasPrice(state, memoUrlParams),
   );
 
-  const handleInputBlur = (e: ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const changeInputNumber = (name: string, value: string) => {
     const currentNumberValue = parseInt(value, 10);
 
     const inputMin = inputMinRef.current;
@@ -100,6 +99,79 @@ export function CatalogFilterPrice() {
     }
   };
 
+  const changeInputNumber = (name: string, value: string) => {
+    const inputMin = inputMinRef.current;
+    const inputMax = inputMaxRef.current;
+
+    if (!minCatalogPrice || !maxCatalogPrice) return;
+
+    const updateInputAndUrlParams = (
+      currenValue: number,
+      inputRef: HTMLInputElement | null,
+      catalogPrice: { min: number | null; max: number | null },
+      urlParamKey: string,
+    ) => {
+      if (!inputRef || isNaN(currenValue)) {
+        if (inputRef) inputRef.value = '';
+
+        urlParams.delete(urlParamKey);
+        setUrlParams({ ...getAllSearchParams(urlParams) });
+
+        return;
+      }
+
+      if (!catalogPrice.min || !catalogPrice.max) return;
+
+      let newValue = '';
+
+      if (currenValue < catalogPrice.min || currenValue > catalogPrice.max) {
+        newValue =
+          urlParamKey === PriceUrlParam.Min
+            ? catalogPrice.min.toString()
+            : catalogPrice.max.toString();
+      } else {
+        newValue = currenValue.toString();
+      }
+
+      inputRef.value = newValue;
+      setUrlParams({
+        ...getAllSearchParams(urlParams),
+        [urlParamKey]: newValue,
+      });
+    };
+
+    if (inputMin && name === inputMin.name) {
+      updateInputAndUrlParams(
+        parseInt(value, 10),
+        inputMin,
+        { min: minCatalogPrice, max: maxCatalogPrice },
+        PriceUrlParam.Min,
+      );
+    }
+
+    if (inputMax && name === inputMax.name) {
+      updateInputAndUrlParams(
+        parseInt(value, 10),
+        inputMax,
+        { min: minCatalogPrice, max: maxCatalogPrice },
+        PriceUrlParam.Max,
+      );
+    }
+  };
+
+  const handleInputBlur = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    changeInputNumber(name, value);
+  };
+
+  const handleInputKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const { name, value } = e.currentTarget;
+      changeInputNumber(name, value);
+    }
+  };
+
   useEffect(() => {
     if (!minCatalogPrice || !maxCatalogPrice) {
       if (urlParams.get(PriceUrlParam.Min) && inputMinRef.current) {
@@ -128,14 +200,9 @@ export function CatalogFilterPrice() {
           !isNaN(minInputValue) &&
           (minInputValue < minCatalogPrice || minInputValue > maxCatalogPrice)
         ) {
-          inputMin.value = minCatalogPrice.toString();
+          inputMin.value = '';
 
-          if (urlParams.get(PriceUrlParam.Min)) {
-            urlParams.set(PriceUrlParam.Min, inputMin.value);
-          } else {
-            urlParams.append(PriceUrlParam.Min, inputMin.value);
-          }
-
+          urlParams.delete(PriceUrlParam.Min);
           setUrlParams({ ...getAllSearchParams(urlParams) });
         }
       }
@@ -147,26 +214,33 @@ export function CatalogFilterPrice() {
           !isNaN(maxInputValue) &&
           (maxInputValue < minCatalogPrice || maxInputValue > maxCatalogPrice)
         ) {
-          inputMax.value = maxCatalogPrice.toString();
+          inputMax.value = '';
 
-          if (urlParams.get(PriceUrlParam.Max)) {
-            urlParams.set(PriceUrlParam.Max, inputMax.value);
-          } else {
-            urlParams.append(PriceUrlParam.Max, inputMax.value);
-          }
-
+          urlParams.delete(PriceUrlParam.Max);
           setUrlParams({ ...getAllSearchParams(urlParams) });
         }
       }
     }
   }, [maxCatalogPrice, minCatalogPrice, setUrlParams, urlParams]);
 
-  console.log(
-    'render',
-    getAllSearchParams(urlParams),
-    minCatalogPrice,
-    maxCatalogPrice,
-  );
+  useEffect(() => {
+    if (inputMinRef.current && inputMaxRef.current) {
+      const numberMinValue = Number(inputMinRef.current.value);
+      const numberMaxValue = Number(inputMaxRef.current.value);
+
+      if (numberMaxValue < numberMinValue) {
+        inputMaxRef.current.value = '';
+
+        urlParams.delete(PriceUrlParam.Max);
+        setUrlParams({ ...getAllSearchParams(urlParams) });
+      }
+    }
+  }, [
+    inputMinRef.current?.value,
+    inputMaxRef.current?.value,
+    urlParams,
+    setUrlParams,
+  ]);
 
   return (
     <fieldset className="catalog-filter__block">
@@ -180,6 +254,7 @@ export function CatalogFilterPrice() {
               name={PriceUrlParam.Min}
               placeholder={minCatalogPrice ? `от ${minCatalogPrice}` : ''}
               onBlur={handleInputBlur}
+              onKeyDown={handleInputKeydown}
               disabled={!minCatalogPrice}
             />
           </label>
@@ -192,6 +267,7 @@ export function CatalogFilterPrice() {
               name={PriceUrlParam.Max}
               placeholder={maxCatalogPrice ? `до ${maxCatalogPrice}` : ''}
               onBlur={handleInputBlur}
+              onKeyDown={handleInputKeydown}
               disabled={!maxCatalogPrice}
             />
           </label>

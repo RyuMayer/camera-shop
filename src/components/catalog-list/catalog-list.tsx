@@ -33,7 +33,7 @@ export function CatalogList() {
   }, [currentPage]);
 
   return sortedCameras.length === 0 ? (
-    <h1>Нет доступных товаров.</h1>
+    <h1>По вашему запросу ничего не найдено.</h1>
   ) : (
     <>
       <div className="cards catalog__cards">
