@@ -5,9 +5,11 @@ import { PriceUrlParam } from './catalog-filter-price.const';
 import { getAllSearchParams } from '../../utils/url';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { selectMinMaxSortedCemerasPrice } from '../../store/cameras/cameras.selector';
+import { useIsFirstRender } from '../../hooks/use-is-first-render';
 
 export function CatalogFilterPrice() {
   const [urlParams, setUrlParams] = useSearchParams();
+  const isFirstRender = useIsFirstRender();
 
   const inputMinRef = useRef<HTMLInputElement>(null);
   const inputMaxRef = useRef<HTMLInputElement>(null);
@@ -162,6 +164,36 @@ export function CatalogFilterPrice() {
     urlParams,
     setUrlParams,
   ]);
+
+  useEffect(() => {
+    if (
+      !urlParams.get(PriceUrlParam.Min) &&
+      !urlParams.get(PriceUrlParam.Max)
+    ) {
+      if (inputMaxRef.current && inputMaxRef.current.value) {
+        inputMaxRef.current.value = '';
+      }
+
+      if (inputMinRef.current && inputMinRef.current.value) {
+        inputMinRef.current.value = '';
+      }
+    }
+  }, [urlParams]);
+
+  useEffect(() => {
+    if (isFirstRender) {
+      const minParam = urlParams.get(PriceUrlParam.Min);
+      const maxParam = urlParams.get(PriceUrlParam.Max);
+
+      if (minParam) {
+        if (inputMinRef.current) inputMinRef.current.value = minParam;
+      }
+
+      if (maxParam) {
+        if (inputMaxRef.current) inputMaxRef.current.value = maxParam;
+      }
+    }
+  }, [isFirstRender, urlParams]);
 
   return (
     <fieldset className="catalog-filter__block">

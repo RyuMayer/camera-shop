@@ -83,9 +83,6 @@ export const getFilteredByPriceCameras = (
 ) => {
   const filterParams: TPriceUrlParams = {};
 
-  const prices = cameras.map((camera) => camera.price);
-  const [minPrice, maxPrice] = [Math.min(...prices), Math.max(...prices)];
-
   for (const key in PriceUrlParam) {
     const sourceKey = PriceUrlParam[key as keyof typeof PriceUrlParam];
     if (sourceKey in sortValues) {
@@ -93,37 +90,27 @@ export const getFilteredByPriceCameras = (
     }
   }
 
+  const catalogPrices = cameras.map((camera) => camera.price);
+  const [minCatalogPrice, maxCatalogPrice] = [
+    Math.min(...catalogPrices),
+    Math.max(...catalogPrices),
+  ];
+
   const numberMinValueParam = Number(filterParams.minp);
   const numberMaxValueParam = Number(filterParams.maxp);
 
-  return cameras.filter((camera) => {
-    if (filterParams.minp && !filterParams.maxp) {
-      if (numberMinValueParam && numberMinValueParam < minPrice) {
-        return camera.price >= minPrice && camera.price <= maxPrice;
-      } else {
-        return camera.price >= numberMinValueParam && camera.price <= maxPrice;
-      }
-    }
+  const minimumPriceLimit =
+    numberMinValueParam >= minCatalogPrice
+      ? numberMinValueParam
+      : minCatalogPrice;
 
-    if (!filterParams.minp && filterParams.maxp) {
-      if (numberMaxValueParam && numberMaxValueParam > maxPrice) {
-        return camera.price <= maxPrice && camera.price >= minPrice;
-      } else {
-        return camera.price <= numberMaxValueParam && camera.price >= minPrice;
-      }
-    }
+  const maximumPriceLimit =
+    numberMaxValueParam <= maxCatalogPrice
+      ? numberMaxValueParam
+      : maxCatalogPrice;
 
-    if (filterParams.minp && filterParams.maxp) {
-      if (numberMinValueParam && numberMaxValueParam) {
-        if (numberMinValueParam < minPrice && numberMaxValueParam > maxPrice) {
-          return camera.price >= minPrice && camera.price <= maxPrice;
-        } else {
-          return (
-            camera.price >= numberMinValueParam &&
-            camera.price <= numberMaxValueParam
-          );
-        }
-      }
-    }
-  });
+  return cameras.filter(
+    (camera) =>
+      camera.price >= minimumPriceLimit && camera.price <= maximumPriceLimit,
+  );
 };
