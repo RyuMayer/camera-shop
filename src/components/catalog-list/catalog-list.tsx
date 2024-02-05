@@ -3,7 +3,7 @@ import { useEffect, useMemo } from 'react';
 import { CameraCard } from '../camera-card/camera-card';
 import { Pagination } from '../pagination/pagination';
 import { usePaginate } from '../../hooks/use-paginate';
-import { selectSortedCameras } from '../../store/cameras/cameras.selector';
+import { selectFilteredSortedCameras } from '../../store/cameras/cameras.selector';
 import { useAppSelector } from '../../hooks/use-app-selector';
 import { CARDS_PER_PAGE } from '../../const';
 import { useSearchParams } from 'react-router-dom';
@@ -18,7 +18,7 @@ export function CatalogList() {
   );
 
   const sortedCameras = useAppSelector((state) =>
-    selectSortedCameras(state, memoUrlParams),
+    selectFilteredSortedCameras(state, memoUrlParams),
   );
 
   const paginatedData = usePaginate(sortedCameras.length, urlParams);

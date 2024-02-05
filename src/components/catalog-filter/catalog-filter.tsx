@@ -7,13 +7,14 @@ import {
   LevelFilter,
   TypeFilter,
 } from './catalog-filter.const';
-import { PAGINATION_URL_PARAM } from '../../const';
 import { CatalogFilterPrice } from '../catalog-filter-price/catalog-filter-price';
 import {
   getValidFilterUrlParams,
   isInputFilterCheked,
   isInputFilterDisabled,
 } from '../../utils/filter';
+import { getAllSearchParams } from '../../utils/url';
+import { PriceUrlParam } from '../catalog-filter-price/catalog-filter-price.const';
 
 export function CatalogFilter() {
   const [urlParams, setUrlParams] = useSearchParams();
@@ -26,15 +27,19 @@ export function CatalogFilter() {
   const handleResetClick = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    const paginationUrlParam = urlParams.get(PAGINATION_URL_PARAM);
+    const filterParams = Object.values(FilterUrlParam);
+    const priceParams = Object.values(PriceUrlParam);
 
-    if (paginationUrlParam) {
-      setUrlParams({
-        [PAGINATION_URL_PARAM]: paginationUrlParam,
-      });
-    } else {
-      setUrlParams({});
-    }
+    const paramsForClear = [...filterParams, ...priceParams];
+    const currentParams = getAllSearchParams(urlParams);
+
+    paramsForClear.forEach((param) => {
+      if (param in currentParams) {
+        urlParams.delete(param);
+      }
+    });
+
+    setUrlParams({ ...getAllSearchParams(urlParams) });
   };
 
   return (

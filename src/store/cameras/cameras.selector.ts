@@ -50,7 +50,7 @@ export const selectFoundCameras = createSelector(
 
 const selectSortValues = (_state: TCamerasState, value: TUrlParams) => value;
 
-export const selectSortedCameras = createSelector(
+export const selectFilteredSortedCameras = createSelector(
   [selectCameras, selectSortValues],
   (cameras, sortValues) => {
     let sortedCameras = [...cameras];
@@ -72,7 +72,7 @@ export const selectSortedCameras = createSelector(
   },
 );
 
-export const selectMinMaxSortedCemerasPrice = createSelector(
+export const selectMinMaxFilteredCemerasPrice = createSelector(
   [selectCameras, selectSortValues],
   (cameras, sortValues) => {
     if (isFilterUrlParamsValid(sortValues)) {

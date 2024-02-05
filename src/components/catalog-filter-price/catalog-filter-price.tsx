@@ -4,7 +4,7 @@ import { useSearchParams } from 'react-router-dom';
 import { PriceUrlParam } from './catalog-filter-price.const';
 import { getAllSearchParams } from '../../utils/url';
 import { useAppSelector } from '../../hooks/use-app-selector';
-import { selectMinMaxSortedCemerasPrice } from '../../store/cameras/cameras.selector';
+import { selectMinMaxFilteredCemerasPrice } from '../../store/cameras/cameras.selector';
 import { useIsFirstRender } from '../../hooks/use-is-first-render';
 
 export function CatalogFilterPrice() {
@@ -19,7 +19,7 @@ export function CatalogFilterPrice() {
   }, [urlParams]);
 
   const [minCatalogPrice, maxCatalogPrice] = useAppSelector((state) =>
-    selectMinMaxSortedCemerasPrice(state, memoUrlParams),
+    selectMinMaxFilteredCemerasPrice(state, memoUrlParams),
   );
 
   const changeInputNumber = (name: string, value: string) => {
