@@ -206,7 +206,7 @@ export function CatalogFilterPrice() {
               ref={inputMinRef}
               type="number"
               name={PriceUrlParam.Min}
-              placeholder={minCatalogPrice ? `от ${minCatalogPrice}` : ''}
+              placeholder={minCatalogPrice ? `${minCatalogPrice}` : ''}
               onBlur={handleInputBlur}
               onKeyDown={handleInputKeydown}
               disabled={!minCatalogPrice}
@@ -220,7 +220,7 @@ export function CatalogFilterPrice() {
               ref={inputMaxRef}
               type="number"
               name={PriceUrlParam.Max}
-              placeholder={maxCatalogPrice ? `до ${maxCatalogPrice}` : ''}
+              placeholder={maxCatalogPrice ? `${maxCatalogPrice}` : ''}
               onBlur={handleInputBlur}
               onKeyDown={handleInputKeydown}
               disabled={!maxCatalogPrice}
