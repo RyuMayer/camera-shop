@@ -173,7 +173,7 @@ export const getValidFilterUrlParams = (
       if (splitParam && !splitParam.includes(paramValue)) {
         urlParams.delete(paramName);
         const newParam = {
-          [paramName]: `${splitParam.join(FILTER_URL_PARAMS_SEPARATOR)},${paramValue}`,
+          [paramName]: `${splitParam.join(FILTER_URL_PARAMS_SEPARATOR)}${FILTER_URL_PARAMS_SEPARATOR}${paramValue}`,
         };
 
         params = { ...getAllSearchParams(urlParams), ...newParam };
