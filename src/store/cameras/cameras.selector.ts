@@ -12,6 +12,7 @@ import {
 } from '../../utils/filter';
 import { TUrlParams } from '../../types/url';
 import { SortUrlParam } from '../../components/catalog-sort/catalog-sort.const';
+import { MIN_LENGTH_FOR_SEARCH } from '../../components/search/search.const';
 
 type TCamerasState = Pick<TState, typeof NameSpace.Cameras>;
 
@@ -29,7 +30,7 @@ const selectSearchValue = (_state: TCamerasState, value: string) => value;
 export const selectFoundCameras = createSelector(
   [selectCameras, selectSearchValue],
   (cameras, searchValue) =>
-    searchValue.length >= 3
+    searchValue.length >= MIN_LENGTH_FOR_SEARCH
       ? cameras
           .filter((camera) => {
             const cameraNameWords = camera.name.toLowerCase().split(/\s+/);

@@ -12,6 +12,8 @@ export const SLIDER_AUTOPLAY_DELAY = 3000;
 
 export const PAGINATIONS_PER_PAGE = 3;
 
+export const FILTER_URL_PARAMS_SEPARATOR = ',';
+
 export const AppRoute = {
   Catalog: '/',
   Product: '/product',

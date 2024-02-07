@@ -9,6 +9,7 @@ import {
   TypeFilterLocalized,
   ValidFilter,
 } from '../components/catalog-filter/catalog-filter.const';
+import { FILTER_URL_PARAMS_SEPARATOR } from '../const';
 import { TCamera } from '../types/camera';
 import { TFilterUrlParams, TPriceUrlParams } from '../types/filter';
 import { TUrlParams } from '../types/url';
@@ -32,7 +33,7 @@ export const getFilteredCameras = (
       const filterValue = filterParams[key as keyof TFilterUrlParams];
       if (filterValue) {
         const validParams = [];
-        const currentValues = filterValue.split('-');
+        const currentValues = filterValue.split(FILTER_URL_PARAMS_SEPARATOR);
 
         for (let i = 0; i < currentValues.length; i++) {
           const isValidParam = ValidFilter[
@@ -126,13 +127,13 @@ export const isFilterUrlParamsValid = (sortValues: TUrlParams) => {
 
   const isValidType = Object.values(TypeFilter).some((value) =>
     sortValues[FilterUrlParam.Type]
-      ?.split('-')
+      ?.split(FILTER_URL_PARAMS_SEPARATOR)
       .some((paramValue) => paramValue === value),
   );
 
   const isValidLevel = Object.values(LevelFilter).some((value) =>
     sortValues[FilterUrlParam.Level]
-      ?.split('-')
+      ?.split(FILTER_URL_PARAMS_SEPARATOR)
       .some((paramValue) => paramValue === value),
   );
 
@@ -165,12 +166,14 @@ export const getValidFilterUrlParams = (
     }
     case FilterUrlParam.Level:
     case FilterUrlParam.Type: {
-      const splitParam = urlParams.get(paramName)?.split('-');
+      const splitParam = urlParams
+        .get(paramName)
+        ?.split(FILTER_URL_PARAMS_SEPARATOR);
 
       if (splitParam && !splitParam.includes(paramValue)) {
         urlParams.delete(paramName);
         const newParam = {
-          [paramName]: `${splitParam.join('-')}-${paramValue}`,
+          [paramName]: `${splitParam.join(FILTER_URL_PARAMS_SEPARATOR)},${paramValue}`,
         };
 
         params = { ...getAllSearchParams(urlParams), ...newParam };
@@ -178,7 +181,7 @@ export const getValidFilterUrlParams = (
         urlParams.delete(paramName);
         const newParam = splitParam
           .filter((param) => param !== paramValue)
-          .join('-');
+          .join(FILTER_URL_PARAMS_SEPARATOR);
 
         if (newParam) {
           params = {
@@ -203,13 +206,17 @@ export const getValidFilterUrlParams = (
     params[FilterUrlParam.Type] &&
     params[FilterUrlParam.Category] === CategoryFilter.Videocamera
   ) {
-    const filterParams = params[FilterUrlParam.Type]?.split('-');
+    const filterParams = params[FilterUrlParam.Type]?.split(
+      FILTER_URL_PARAMS_SEPARATOR,
+    );
     const updatedFilterParams = filterParams?.filter(
       (param) => param !== TypeFilter.Film && param !== TypeFilter.Instant,
     );
 
     if (updatedFilterParams?.length) {
-      params[FilterUrlParam.Type] = updatedFilterParams.join('-');
+      params[FilterUrlParam.Type] = updatedFilterParams.join(
+        FILTER_URL_PARAMS_SEPARATOR,
+      );
     } else {
       delete params[FilterUrlParam.Type];
     }
@@ -223,7 +230,7 @@ export const isInputFilterCheked = (
   name: string,
   value: string,
 ) => {
-  const splitParam = urlParam.get(name)?.split('-');
+  const splitParam = urlParam.get(name)?.split(FILTER_URL_PARAMS_SEPARATOR);
 
   if (
     (value === TypeFilter.Film || value === TypeFilter.Instant) &&
