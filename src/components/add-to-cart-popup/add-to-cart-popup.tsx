@@ -1,13 +1,18 @@
 import { useEffect, useRef } from 'react';
 
-import { TAddToCartPopup } from '../../types/card-popup';
 import { decapitalizeFirstCharacter, formatPrice } from '../../utils/card';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { addToCart } from '../../store/cart/cart';
+import { TCamera } from '../../types/camera';
 
 type TAddToCartPopupProps = {
-  data: TAddToCartPopup;
+  data: TCamera;
+  onAddedSuccess: () => void;
 };
 
-export function AddToCartPopup({ data }: TAddToCartPopupProps) {
+export function AddToCartPopup({ data, onAddedSuccess }: TAddToCartPopupProps) {
+  const dispatch = useAppDispatch();
+
   const {
     category,
     name,
@@ -22,6 +27,11 @@ export function AddToCartPopup({ data }: TAddToCartPopupProps) {
   } = data;
 
   const btnRef = useRef<HTMLButtonElement>(null);
+
+  const handleAddToCartBtn = () => {
+    dispatch(addToCart({ product: data }));
+    onAddedSuccess();
+  };
 
   useEffect(() => {
     let isMounted = true;
@@ -75,6 +85,7 @@ export function AddToCartPopup({ data }: TAddToCartPopupProps) {
       <div className="modal__buttons">
         <button
           ref={btnRef}
+          onClick={handleAddToCartBtn}
           className="btn btn--purple modal__btn modal__btn--fit-width"
           type="button"
         >

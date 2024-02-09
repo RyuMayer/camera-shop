@@ -10,6 +10,9 @@ import { formatPrice } from '../../utils/card';
 import { AddToCartPopup } from '../add-to-cart-popup/add-to-cart-popup';
 import { AppRoute } from '../../const';
 import { Modal } from '../modal/modal';
+import { AddToCartSuccessPopup } from '../add-to-cart-success-popup/add-to-cart-success-popup';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { selectIsCameraInCart } from '../../store/cart/cart.selector';
 
 type TCameraCardProps = {
   cameraData: TCamera;
@@ -17,9 +20,19 @@ type TCameraCardProps = {
 
 export function CameraCard({ cameraData }: TCameraCardProps) {
   const [isPopupOpened, setIsPopupOpened] = useState(false);
+  const [isAddedToCartSuccess, SetIsAddedToCartSuccess] = useState(false);
+
+  const isCameraInCart = useAppSelector((state) =>
+    selectIsCameraInCart(state, cameraData.id),
+  );
 
   const onClose = (state = false) => {
     setIsPopupOpened(state);
+    SetIsAddedToCartSuccess(false);
+  };
+
+  const onAddedSuccess = () => {
+    SetIsAddedToCartSuccess(true);
   };
 
   const {
@@ -67,13 +80,25 @@ export function CameraCard({ cameraData }: TCameraCardProps) {
           </p>
         </div>
         <div className="product-card__buttons">
-          <button
-            onClick={() => setIsPopupOpened(true)}
-            className="btn btn--purple product-card__btn"
-            type="button"
-          >
-            Купить
-          </button>
+          {isCameraInCart ? (
+            <Link
+              to={AppRoute.Cart}
+              className="btn btn--purple-border product-card__btn product-card__btn--in-cart"
+            >
+              <svg width="16" height="16" aria-hidden="true">
+                <use xlinkHref="#icon-basket"></use>
+              </svg>
+              В корзине
+            </Link>
+          ) : (
+            <button
+              onClick={() => setIsPopupOpened(true)}
+              className="btn btn--purple product-card__btn"
+              type="button"
+            >
+              Купить
+            </button>
+          )}
           <Link
             to={`${AppRoute.Product}/${id}`}
             className="btn btn--transparent"
@@ -82,8 +107,16 @@ export function CameraCard({ cameraData }: TCameraCardProps) {
           </Link>
         </div>
       </div>
-      <Modal onClose={onClose} isOpen={isPopupOpened}>
-        <AddToCartPopup data={cameraData} />
+      <Modal
+        onClose={onClose}
+        isOpen={isPopupOpened}
+        isNarrow={isAddedToCartSuccess}
+      >
+        {isAddedToCartSuccess ? (
+          <AddToCartSuccessPopup onClose={onClose} />
+        ) : (
+          <AddToCartPopup data={cameraData} onAddedSuccess={onAddedSuccess} />
+        )}
       </Modal>
     </>
   );

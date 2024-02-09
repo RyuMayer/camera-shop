@@ -2,8 +2,12 @@ import { Link } from 'react-router-dom';
 
 import { AppRoute } from '../../const';
 import { Search } from '../search/search';
+import { useAppSelector } from '../../hooks/use-app-selector';
+import { selectNumberItemsInCart } from '../../store/cart/cart.selector';
 
 export function Header() {
+  const cartCount = useAppSelector(selectNumberItemsInCart);
+
   return (
     <header className="header" id="header">
       <div className="container">
@@ -37,11 +41,14 @@ export function Header() {
           </ul>
         </nav>
         <Search />
-        <a className="header__basket-link" href="#">
+        <Link to={AppRoute.Cart} className="header__basket-link">
           <svg width={16} height={16} aria-hidden="true">
             <use xlinkHref="#icon-basket" />
           </svg>
-        </a>
+          {cartCount !== 0 && (
+            <span className="header__basket-count">{cartCount}</span>
+          )}
+        </Link>
       </div>
     </header>
   );

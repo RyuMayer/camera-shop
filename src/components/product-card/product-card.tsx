@@ -7,6 +7,7 @@ import { Rating } from '../rating/rating';
 import { AddToCartPopup } from '../add-to-cart-popup/add-to-cart-popup';
 import { TCamera } from '../../types/camera';
 import { Modal } from '../modal/modal';
+import { AddToCartSuccessPopup } from '../add-to-cart-success-popup/add-to-cart-success-popup';
 
 type TProductCardProps = {
   data: TCamera;
@@ -14,9 +15,15 @@ type TProductCardProps = {
 
 export function ProductCard({ data: camera }: TProductCardProps) {
   const [isPopupOpened, setIsPopupOpened] = useState(false);
+  const [isAddedToCartSuccess, SetIsAddedToCartSuccess] = useState(false);
 
   const onClose = (state = false) => {
     setIsPopupOpened(state);
+    SetIsAddedToCartSuccess(false);
+  };
+
+  const onAddedSuccess = () => {
+    SetIsAddedToCartSuccess(true);
   };
 
   return (
@@ -70,8 +77,16 @@ export function ProductCard({ data: camera }: TProductCardProps) {
           </div>
         </div>
       </section>
-      <Modal onClose={onClose} isOpen={isPopupOpened}>
-        <AddToCartPopup data={camera} />
+      <Modal
+        onClose={onClose}
+        isOpen={isPopupOpened}
+        isNarrow={isAddedToCartSuccess}
+      >
+        {isAddedToCartSuccess ? (
+          <AddToCartSuccessPopup onClose={onClose} />
+        ) : (
+          <AddToCartPopup data={camera} onAddedSuccess={onAddedSuccess} />
+        )}
       </Modal>
     </>
   );

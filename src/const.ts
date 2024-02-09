@@ -17,6 +17,7 @@ export const FILTER_URL_PARAMS_SEPARATOR = ',';
 export const AppRoute = {
   Catalog: '/',
   Product: '/product',
+  Cart: '/cart',
   NotFound: '/not-found',
 } as const;
 
@@ -31,6 +32,7 @@ export const NameSpace = {
   Camera: 'CAMERA',
   Promo: 'PROMO',
   Similar: 'SIMILAR',
+  Cart: 'CART',
   Review: 'REVIEW',
 } as const;
 

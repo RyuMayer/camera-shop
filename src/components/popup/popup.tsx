@@ -5,10 +5,10 @@ import FocusLock from 'react-focus-lock';
 type TPopupProps = {
   children: ReactNode;
   onClose: (state?: boolean) => void;
-  isNarrow?: boolean;
+  isNarrow: boolean;
 };
 
-export function Popup({ children, onClose, isNarrow = false }: TPopupProps) {
+export function Popup({ children, onClose, isNarrow }: TPopupProps) {
   const handleCloseBtnClick = useCallback(() => {
     onClose(false);
   }, [onClose]);

@@ -21,7 +21,7 @@ export function ProductReviewPopup() {
   };
 
   return (
-    <Modal onClose={onClose} isOpen={isPopupOpened}>
+    <Modal onClose={onClose} isOpen={isPopupOpened} isNarrow={isReviewPosted}>
       {isReviewPosted ? (
         <PopupSuccess onClose={onClose} />
       ) : (
