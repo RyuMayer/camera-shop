@@ -8,7 +8,11 @@ describe('Component: Popup', () => {
     const expectedText = 'Popup text';
     const mockHandle = vi.fn();
 
-    render(<Popup onClose={mockHandle}>{expectedText}</Popup>);
+    render(
+      <Popup isNarrow onClose={mockHandle}>
+        {expectedText}
+      </Popup>,
+    );
 
     expect(screen.getByText(expectedText)).toBeInTheDocument();
   });
@@ -17,7 +21,11 @@ describe('Component: Popup', () => {
     const expectedText = 'Popup text';
     const mockHandle = vi.fn();
 
-    render(<Popup onClose={mockHandle}>{expectedText}</Popup>);
+    render(
+      <Popup isNarrow onClose={mockHandle}>
+        {expectedText}
+      </Popup>,
+    );
     await userEvent.click(screen.getByRole('button'));
 
     expect(screen.getByText(expectedText)).toBeInTheDocument();
@@ -28,7 +36,11 @@ describe('Component: Popup', () => {
     const expectedText = 'Popup text';
     const mockHandle = vi.fn();
 
-    render(<Popup onClose={mockHandle}>{expectedText}</Popup>);
+    render(
+      <Popup isNarrow onClose={mockHandle}>
+        {expectedText}
+      </Popup>,
+    );
     await userEvent.click(screen.getByTestId('modal-overlay'));
 
     expect(screen.getByText(expectedText)).toBeInTheDocument();

@@ -8,7 +8,7 @@ describe('Component: Add to cart popup', () => {
   it('Should render correctly', () => {
     const mockData = makeFakeCameraData();
     const { withStoreComponent } = withStore(
-      <AddToCartPopup data={mockData} />,
+      <AddToCartPopup onAddedSuccess={() => null} data={mockData} />,
     );
 
     render(withStoreComponent);
