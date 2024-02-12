@@ -20,7 +20,7 @@ type TCameraCardProps = {
 
 export function CameraCard({ cameraData }: TCameraCardProps) {
   const [isPopupOpened, setIsPopupOpened] = useState(false);
-  const [isAddedToCartSuccess, SetIsAddedToCartSuccess] = useState(false);
+  const [isAddedToCartSuccess, setIsAddedToCartSuccess] = useState(false);
 
   const isCameraInCart = useAppSelector((state) =>
     selectIsCameraInCart(state, cameraData.id),
@@ -28,11 +28,11 @@ export function CameraCard({ cameraData }: TCameraCardProps) {
 
   const onClose = (state = false) => {
     setIsPopupOpened(state);
-    SetIsAddedToCartSuccess(false);
+    setIsAddedToCartSuccess(false);
   };
 
   const onAddedSuccess = () => {
-    SetIsAddedToCartSuccess(true);
+    setIsAddedToCartSuccess(true);
   };
 
   const {

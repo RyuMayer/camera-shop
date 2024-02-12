@@ -25,6 +25,8 @@ export const APIRoute = {
   Cameras: '/cameras',
   Promo: '/promo',
   Reviews: '/reviews',
+  Discount: '/coupons',
+  Orders: '/orders',
 } as const;
 
 export const NameSpace = {
