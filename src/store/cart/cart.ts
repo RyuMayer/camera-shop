@@ -90,6 +90,11 @@ export const cartSlice = createSlice({
       state.data = state.data.filter(
         (cartItem) => cartItem.product.id !== product.id,
       );
+
+      if (!state.data.length) {
+        state.discountPercent = 0;
+        state.discountСoupon = null;
+      }
     },
 
     changeItemNumberInCart(

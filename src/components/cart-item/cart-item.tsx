@@ -1,4 +1,10 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  MouseEvent,
+  useEffect,
+  useState,
+  KeyboardEvent,
+} from 'react';
 
 import { TCamera } from '../../types/camera';
 import { decapitalizeFirstCharacter, formatPrice } from '../../utils/card';
@@ -62,6 +68,14 @@ export function CartItem({ product, numberInCart }: TCartItemProps) {
     } else {
       dispatch(changeItemNumberInCart({ product, count: numberValue }));
       setValueInput(numberValue.toString());
+    }
+  };
+
+  const handleInputKeydown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+
+      handleInputBlur();
     }
   };
 
@@ -132,8 +146,7 @@ export function CartItem({ product, numberInCart }: TCartItemProps) {
             value={valueInput}
             onChange={handleInputChange}
             onBlur={handleInputBlur}
-            min={1}
-            max={99}
+            onKeyDown={handleInputKeydown}
             aria-label="количество товара"
           />
           <button

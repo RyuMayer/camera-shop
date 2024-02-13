@@ -45,7 +45,7 @@ export function Cart() {
               { id: 3, title: 'Корзина', href: null },
             ]}
           />
-          <section className="basket">
+          <section className="basket" data-testid="basket">
             <div className="container">
               <h1 className="title title--h2">Корзина</h1>
               {cartItems.length ? (

@@ -2,6 +2,7 @@ import { createSelector } from '@reduxjs/toolkit';
 
 import { NameSpace } from '../../const';
 import { TState } from '../../types/state';
+import { TOTAL_PERCENT } from './cart.const';
 
 type TCartState = Pick<TState, typeof NameSpace.Cart>;
 
@@ -20,7 +21,7 @@ export const selectDiscountAmount = createSelector(
   [selectTotalCartPrice, selectCartDiscount],
   (totalPrice, discountPercent) => {
     return discountPercent
-      ? Math.round((totalPrice * discountPercent) / 100)
+      ? Math.round((totalPrice * discountPercent) / TOTAL_PERCENT)
       : discountPercent;
   },
 );
