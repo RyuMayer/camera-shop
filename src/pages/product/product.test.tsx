@@ -8,6 +8,7 @@ import {
   makeFakeReviewData,
 } from '../../utils/mocks';
 import { Product } from './product';
+import { LoadingStatus } from '../../const';
 
 describe('Component: Product page', () => {
   it('Should first render correctly', () => {
@@ -17,6 +18,16 @@ describe('Component: Product page', () => {
         data: [makeFakeCameraData()],
         isLoaded: true,
         loadingStatus: 'idle',
+      },
+      CART: {
+        data: [],
+        discountPercent: 0,
+        discountСoupon: null,
+        discountLoadingStatus: LoadingStatus.Idle,
+        isDiscountLoaded: false,
+        cartPostingStatus: LoadingStatus.Idle,
+        isCartPosted: false,
+        isCartSummaryPopupOpened: false,
       },
       PROMO: {
         data: [makeFakePromoData()],

@@ -4,6 +4,7 @@ import { createApi } from '../services/api';
 import { rootReducer } from './root-reducer';
 import { saveStorage } from '../services/storage';
 import { TCartStorageData } from '../types/cart';
+import { CART_STORAGE_KEY } from './cart/cart.const';
 
 const api = createApi();
 
@@ -22,7 +23,8 @@ store.subscribe(() => {
     {
       items: store.getState().CART.data,
       discountPercent: store.getState().CART.discountPercent,
+      coupon: store.getState().CART.discountСoupon,
     },
-    'cart',
+    CART_STORAGE_KEY,
   );
 });

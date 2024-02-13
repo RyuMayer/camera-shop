@@ -31,7 +31,12 @@ export function CartSummaryPopup({ onClose }: TCartSummaryPopupProps) {
     <>
       <p className="title title--h4">{title}</p>
       <div className="modal__buttons">
-        <Link to={AppRoute.Catalog}>Продолжить покупки</Link>
+        <Link
+          to={AppRoute.Catalog}
+          className="btn btn--transparent modal__btn--fit-width"
+        >
+          Продолжить покупки
+        </Link>
         <a
           onClick={handleLinkClick}
           className="btn btn--purple modal__btn modal__btn--fit-width"

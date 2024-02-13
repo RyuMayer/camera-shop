@@ -1,9 +1,10 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { useAppSelector } from '../../hooks/use-app-selector';
 import {
   selectDiscountAmount,
+  selectDiscountCoupon,
   selectDiscountLoadedStatus,
   selectDiscountLoadingStatus,
   selectTotalCartPrice,
@@ -14,14 +15,17 @@ import { fetchPostDiscount } from '../../store/cart/cart.action';
 import { LoadingStatus } from '../../const';
 import { dropDiscountLoadingStatus } from '../../store/cart/cart';
 import { CartSummaryBtn } from '../cart-summary-btn/cart-summary-btn';
+import { useIsFirstRender } from '../../hooks/use-is-first-render';
 
 export function CartSummary() {
   const [promoInput, setPromoInput] = useState('');
+  const isFirstRender = useIsFirstRender();
 
   const dispatch = useAppDispatch();
 
   const totalCartPrice = useAppSelector(selectTotalCartPrice);
   const discountAmount = useAppSelector(selectDiscountAmount);
+  const discountCoupon = useAppSelector(selectDiscountCoupon);
 
   const discountLoadingStatus = useAppSelector(selectDiscountLoadingStatus);
   const isDiscountLoaded = useAppSelector(selectDiscountLoadedStatus);
@@ -45,6 +49,12 @@ export function CartSummary() {
     dispatch(fetchPostDiscount(promoInput));
   };
 
+  useEffect(() => {
+    if (isFirstRender) {
+      setPromoInput(discountCoupon ? discountCoupon : '');
+    }
+  }, [discountCoupon, isFirstRender]);
+
   return (
     <div className="basket__summary">
       <div className="basket__promo">
@@ -64,6 +74,7 @@ export function CartSummary() {
               <label>
                 <span className="custom-input__label">Промокод</span>
                 <input
+                  data-testid="promo"
                   type="text"
                   name="promo"
                   value={promoInput}

@@ -41,6 +41,16 @@ describe('Component: Product similar loader', () => {
         isLoaded: true,
         loadingStatus: 'idle',
       },
+      CART: {
+        data: [],
+        discountPercent: 0,
+        discountСoupon: null,
+        discountLoadingStatus: LoadingStatus.Idle,
+        isDiscountLoaded: false,
+        cartPostingStatus: LoadingStatus.Idle,
+        isCartPosted: false,
+        isCartSummaryPopupOpened: false,
+      },
     });
     const preparedComponent = withRouter(withStoreComponent);
 

@@ -2,24 +2,23 @@ import { render, screen } from '@testing-library/react';
 import { mockAllIsIntersecting } from 'react-intersection-observer/test-utils';
 
 import { withRouter, withStore } from '../../utils/mock-component';
-import { makeFakeCameraData, makeFakePromoData } from '../../utils/mocks';
-import { Catalog } from './catalog';
+import { makeFakeCameraData } from '../../utils/mocks';
 import { LoadingStatus } from '../../const';
+import { CartList } from './cart-list';
+import { TCartItem } from '../../types/cart';
 
-describe('Component: Catalog page', () => {
-  it('Should first render correctly', () => {
-    mockAllIsIntersecting(true);
-    const { withStoreComponent } = withStore(<Catalog />, {
-      CAMERAS: {
-        data: [makeFakeCameraData()],
-        isLoaded: true,
-        loadingStatus: 'idle',
-      },
-      PROMO: {
-        data: [makeFakePromoData()],
-        isLoaded: true,
-        loadingStatus: 'idle',
-      },
+describe('Component: Cart list', () => {
+  beforeAll(() => mockAllIsIntersecting(true));
+
+  const mockData: TCartItem[] = [
+    {
+      product: makeFakeCameraData(),
+      count: 1,
+    },
+  ];
+
+  it('Should render correctly', () => {
+    const { withStoreComponent } = withStore(<CartList items={mockData} />, {
       CART: {
         data: [],
         discountPercent: 0,
@@ -35,6 +34,6 @@ describe('Component: Catalog page', () => {
 
     render(preparedComponent);
 
-    expect(screen.getByTestId('main-catalog')).toBeInTheDocument();
+    expect(screen.getAllByTestId('basket-item').length).toBe(1);
   });
 });

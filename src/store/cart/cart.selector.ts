@@ -1,15 +1,19 @@
 import { createSelector } from '@reduxjs/toolkit';
+
 import { NameSpace } from '../../const';
 import { TState } from '../../types/state';
 
-export const selectCartItems = (state: TState) => state[NameSpace.Cart].data;
+type TCartState = Pick<TState, typeof NameSpace.Cart>;
 
-export const selectTotalCartPrice = (state: TState) =>
+export const selectCartItems = (state: TCartState) =>
+  state[NameSpace.Cart].data;
+
+export const selectTotalCartPrice = (state: TCartState) =>
   state[NameSpace.Cart].data.reduce((acc, cartItem) => {
     return acc + cartItem.count * cartItem.product.price;
   }, 0);
 
-export const selectCartDiscount = (state: TState) =>
+export const selectCartDiscount = (state: TCartState) =>
   state[NameSpace.Cart].discountPercent;
 
 export const selectDiscountAmount = createSelector(
@@ -21,26 +25,31 @@ export const selectDiscountAmount = createSelector(
   },
 );
 
-export const selectCartDiscountCoupon = (state: TState) =>
+export const selectCartDiscountCoupon = (state: TCartState) =>
   state[NameSpace.Cart].discountСoupon;
 
-export const selectNumberItemsInCart = (state: TState) =>
-  state[NameSpace.Cart].data.length;
+export const selectNumberItemsInCart = (state: TCartState) =>
+  state[NameSpace.Cart].data.reduce((acc, cartItem) => {
+    return acc + cartItem.count;
+  }, 0);
 
-export const selectIsCameraInCart = (state: TState, id: number) =>
+export const selectIsCameraInCart = (state: TCartState, id: number) =>
   state[NameSpace.Cart].data.find(({ product }) => product.id === id);
 
-export const selectDiscountLoadingStatus = (state: TState) =>
+export const selectDiscountLoadingStatus = (state: TCartState) =>
   state[NameSpace.Cart].discountLoadingStatus;
 
-export const selectDiscountLoadedStatus = (state: TState) =>
+export const selectDiscountLoadedStatus = (state: TCartState) =>
   state[NameSpace.Cart].isDiscountLoaded;
 
-export const selectCartPostingStatus = (state: TState) =>
+export const selectCartPostingStatus = (state: TCartState) =>
   state[NameSpace.Cart].cartPostingStatus;
 
-export const selectIsCartPosted = (state: TState) =>
+export const selectIsCartPosted = (state: TCartState) =>
   state[NameSpace.Cart].isCartPosted;
 
-export const selectIsSummaryPopupOpened = (state: TState) =>
+export const selectIsSummaryPopupOpened = (state: TCartState) =>
   state[NameSpace.Cart].isCartSummaryPopupOpened;
+
+export const selectDiscountCoupon = (state: TCartState) =>
+  state[NameSpace.Cart].discountСoupon;

@@ -16,6 +16,16 @@ describe('Component: Catalog list', () => {
         isLoaded: true,
         loadingStatus: LoadingStatus.Idle,
       },
+      CART: {
+        data: [],
+        discountPercent: 0,
+        discountСoupon: null,
+        discountLoadingStatus: LoadingStatus.Idle,
+        isDiscountLoaded: false,
+        cartPostingStatus: LoadingStatus.Idle,
+        isCartPosted: false,
+        isCartSummaryPopupOpened: false,
+      },
     });
     const preparedComponent = withRouter(withStoreComponent);
 
@@ -31,6 +41,16 @@ describe('Component: Catalog list', () => {
         data: Array.from({ length: 18 }, () => makeFakeCameraData()),
         isLoaded: true,
         loadingStatus: LoadingStatus.Idle,
+      },
+      CART: {
+        data: [],
+        discountPercent: 0,
+        discountСoupon: null,
+        discountLoadingStatus: LoadingStatus.Idle,
+        isDiscountLoaded: false,
+        cartPostingStatus: LoadingStatus.Idle,
+        isCartPosted: false,
+        isCartSummaryPopupOpened: false,
       },
     });
     const preparedComponent = withRouter(withStoreComponent);

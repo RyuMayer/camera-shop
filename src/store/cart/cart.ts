@@ -6,6 +6,11 @@ import { TCamera } from '../../types/camera';
 import { getStorage } from '../../services/storage';
 import { fetchPostCart, fetchPostDiscount } from './cart.action';
 import { TLoadingStatus } from '../../types/state';
+import { CART_STORAGE_KEY } from './cart.const';
+import {
+  MAX_NUMBER_PRODUCT_IN_CART,
+  MIN_NUMBER_PRODUCT_IN_CART,
+} from '../../components/cart-item/cart-item.const';
 
 type TInitialState = {
   data: TCartItem[];
@@ -19,15 +24,14 @@ type TInitialState = {
   isCartSummaryPopupOpened: boolean;
 };
 
-//FIXME: Перенести в константу
-const cartStorage = getStorage<TCartStorageData>('cart');
+const cartStorage = getStorage<TCartStorageData>(CART_STORAGE_KEY);
 
 const initialState: TInitialState = {
   data: cartStorage?.items ? cartStorage.items : [],
   discountPercent: cartStorage?.discountPercent
     ? cartStorage.discountPercent
     : 0,
-  discountСoupon: null,
+  discountСoupon: cartStorage?.coupon ? cartStorage.coupon : null,
   discountLoadingStatus: LoadingStatus.Idle,
   isDiscountLoaded: false,
   cartPostingStatus: LoadingStatus.Idle,
@@ -57,8 +61,7 @@ export const cartSlice = createSlice({
 
       state.data = state.data.map((cartItem) => {
         if (cartItem.product.id === product.id) {
-          //FIXME: В константу!
-          if (cartItem.count < 99) {
+          if (cartItem.count < MAX_NUMBER_PRODUCT_IN_CART) {
             cartItem.count += 1;
           }
         }
@@ -72,8 +75,7 @@ export const cartSlice = createSlice({
 
       state.data = state.data.map((cartItem) => {
         if (product.id === cartItem.product.id) {
-          //FIXME: В константу!
-          if (cartItem.count > 1) {
+          if (cartItem.count > MIN_NUMBER_PRODUCT_IN_CART) {
             cartItem.count -= 1;
           }
         }
@@ -96,10 +98,12 @@ export const cartSlice = createSlice({
     ) {
       const { product, count } = action.payload;
 
-      if (count >= 1 && count <= 99) {
+      if (
+        count >= MIN_NUMBER_PRODUCT_IN_CART &&
+        count <= MAX_NUMBER_PRODUCT_IN_CART
+      ) {
         state.data = state.data.map((cartItem) => {
           if (product.id === cartItem.product.id) {
-            //FIXME: В константу!
             cartItem.count = count;
           }
 

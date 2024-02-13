@@ -1,4 +1,3 @@
-import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoute } from '../../const';
@@ -10,9 +9,7 @@ type TAddToCartSuccessPopupProps = {
 export function AddToCartSuccessPopup({
   onClose,
 }: TAddToCartSuccessPopupProps) {
-  const handleLinkClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-
+  const handleLinkClick = () => {
     onClose();
   };
 
@@ -23,13 +20,13 @@ export function AddToCartSuccessPopup({
         <use xlinkHref="#icon-success" />
       </svg>
       <div className="modal__buttons">
-        <a
+        <Link
+          to={AppRoute.Catalog}
           onClick={handleLinkClick}
           className="btn btn--transparent modal__btn"
-          href="#"
         >
           Продолжить покупки
-        </a>
+        </Link>
         <Link
           to={AppRoute.Cart}
           className="btn btn--purple modal__btn modal__btn--fit-width"

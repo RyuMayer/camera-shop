@@ -8,6 +8,7 @@ export type TCartItem = {
 export type TCartStorageData = {
   items: TCartItem[];
   discountPercent: number;
+  coupon: string | null;
 };
 
 export type TCartData = {

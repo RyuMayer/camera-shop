@@ -1,0 +1,2 @@
+export const MIN_NUMBER_PRODUCT_IN_CART = 1;
+export const MAX_NUMBER_PRODUCT_IN_CART = 99;

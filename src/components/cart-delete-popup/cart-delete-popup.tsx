@@ -3,6 +3,7 @@ import { MouseEvent } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { deleteFromCart } from '../../store/cart/cart';
 import { TCamera } from '../../types/camera';
+import { decapitalizeFirstCharacter } from '../../utils/card';
 
 type TCartDeletePopupProps = {
   product: TCamera;
@@ -64,7 +65,7 @@ export function CartDeletePopup({ product, onClose }: TCartDeletePopupProps) {
               <span className="basket-item__number">{vendorCode}</span>
             </li>
             <li className="basket-item__list-item">
-              {type} {category}
+              {type} {decapitalizeFirstCharacter(category)}
             </li>
             <li className="basket-item__list-item">{level} уровень</li>
           </ul>

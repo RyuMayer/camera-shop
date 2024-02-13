@@ -1,6 +1,7 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
+
 import { TCamera } from '../../types/camera';
-import { formatPrice } from '../../utils/card';
+import { decapitalizeFirstCharacter, formatPrice } from '../../utils/card';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import {
   addToCart,
@@ -9,6 +10,10 @@ import {
 } from '../../store/cart/cart';
 import { Modal } from '../modal/modal';
 import { CartDeletePopup } from '../cart-delete-popup/cart-delete-popup';
+import {
+  MAX_NUMBER_PRODUCT_IN_CART,
+  MIN_NUMBER_PRODUCT_IN_CART,
+} from './cart-item.const';
 
 type TCartItemProps = {
   product: TCamera;
@@ -47,7 +52,11 @@ export function CartItem({ product, numberInCart }: TCartItemProps) {
   const handleInputBlur = () => {
     const numberValue = parseInt(valueInput, 10);
 
-    if (isNaN(numberValue) || numberValue < 1 || numberValue > 99) {
+    if (
+      isNaN(numberValue) ||
+      numberValue < MIN_NUMBER_PRODUCT_IN_CART ||
+      numberValue > MAX_NUMBER_PRODUCT_IN_CART
+    ) {
       dispatch(changeItemNumberInCart({ product, count: 1 }));
       setValueInput('1');
     } else {
@@ -72,7 +81,7 @@ export function CartItem({ product, numberInCart }: TCartItemProps) {
 
   return (
     <>
-      <li className="basket-item">
+      <li className="basket-item" data-testid="basket-item">
         <div className="basket-item__img">
           <picture>
             <source
@@ -96,7 +105,7 @@ export function CartItem({ product, numberInCart }: TCartItemProps) {
               <span className="basket-item__number">{vendorCode}</span>
             </li>
             <li className="basket-item__list-item">
-              {type} {category}
+              {type} {decapitalizeFirstCharacter(category)}
             </li>
             <li className="basket-item__list-item">{level} уровень</li>
           </ul>
@@ -110,7 +119,7 @@ export function CartItem({ product, numberInCart }: TCartItemProps) {
             onClick={handleDescreaseBtnClick}
             className="btn-icon btn-icon--prev"
             aria-label="уменьшить количество товара"
-            disabled={numberInCart <= 1}
+            disabled={numberInCart <= MIN_NUMBER_PRODUCT_IN_CART}
           >
             <svg width={7} height={12} aria-hidden="true">
               <use xlinkHref="#icon-arrow" />
@@ -131,8 +140,7 @@ export function CartItem({ product, numberInCart }: TCartItemProps) {
             onClick={handleIncreaseBtnClick}
             className="btn-icon btn-icon--next"
             aria-label="увеличить количество товара"
-            //FIXME: В константу!
-            disabled={numberInCart >= 99}
+            disabled={numberInCart >= MAX_NUMBER_PRODUCT_IN_CART}
           >
             <svg width={7} height={12} aria-hidden="true">
               <use xlinkHref="#icon-arrow" />

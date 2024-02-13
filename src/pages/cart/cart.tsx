@@ -10,7 +10,11 @@ import {
 import { Modal } from '../../components/modal/modal';
 import { CartSummaryPopup } from '../../components/cart-summary-popup/cart-summary-popup';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { closeSummaryPopup } from '../../store/cart/cart';
+import {
+  closeSummaryPopup,
+  dropDiscountLoadingStatus,
+} from '../../store/cart/cart';
+import { useEffect } from 'react';
 
 export function Cart() {
   const dispatch = useAppDispatch();
@@ -21,6 +25,14 @@ export function Cart() {
   const onClose = () => {
     dispatch(closeSummaryPopup());
   };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    return () => {
+      dispatch(dropDiscountLoadingStatus());
+    };
+  }, [dispatch]);
 
   return (
     <>
