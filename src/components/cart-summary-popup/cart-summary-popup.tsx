@@ -1,4 +1,3 @@
-import { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 
 import { AppRoute, LoadingStatus } from '../../const';
@@ -21,29 +20,27 @@ export function CartSummaryPopup({ onClose }: TCartSummaryPopupProps) {
       ? 'Спасибо за покупку'
       : 'Произошла ошибка при отправке данных';
 
-  const handleLinkClick = (e: MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-
+  const handleLinkClick = () => {
     onClose();
   };
 
   return (
     <>
       <p className="title title--h4">{title}</p>
+      {cartPostingStatus !== LoadingStatus.Rejected && (
+        <svg className="modal__icon" width="80" height="78" aria-hidden="true">
+          <use xlinkHref="#icon-review-success"></use>
+        </svg>
+      )}
       <div className="modal__buttons">
         <Link
           to={AppRoute.Catalog}
-          className="btn btn--transparent modal__btn--fit-width"
-        >
-          Продолжить покупки
-        </Link>
-        <a
           onClick={handleLinkClick}
           className="btn btn--purple modal__btn modal__btn--fit-width"
-          href="#"
+          type="button"
         >
-          Перейти в корзину
-        </a>
+          Вернуться к покупкам
+        </Link>
       </div>
     </>
   );

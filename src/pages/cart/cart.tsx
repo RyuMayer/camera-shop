@@ -60,7 +60,7 @@ export function Cart() {
           </section>
         </div>
       </main>
-      <Modal onClose={onClose} isOpen={isSummaryPopupOpened} isNarrow={false}>
+      <Modal onClose={onClose} isOpen={isSummaryPopupOpened} isNarrow>
         <CartSummaryPopup onClose={onClose} />
       </Modal>
     </>
